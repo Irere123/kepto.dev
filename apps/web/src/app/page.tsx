@@ -1,9 +1,7 @@
-function App() {
+export default function IndexPage() {
   return (
     <div>
       <p>Hello world</p>
     </div>
   );
 }
-
-export default App;
