@@ -13,7 +13,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }): JSX.Element {
   return (
-    <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`}>
+    <html className={`${GeistSans.variable} ${GeistMono.variable}`} lang="en">
       <body>{children}</body>
     </html>
   );
