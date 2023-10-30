@@ -1,0 +1,64 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Primary */
+
+  --primary-bg: #000;
+  --primary-fg: #fff;
+  --primary-accents-1: #111;
+  --primary-accents-2: #333;
+  --primary-accents-3: #444;
+  --primary-accents-4: #666;
+  --primary-accents-5: #888;
+  --primary-accents-6: #999;
+  --primary-accents-7: #eaeaea;
+  --primary-accents-8: #fafafa;
+
+  /* Error */
+
+  --error-lighter: #f7d4d6;
+  --error-light: #f33;
+  --error: red;
+  --error-dark: #e60000;
+
+  /* Success */
+
+  --success-lighter: #d3e5ff;
+  --success-light: #3291ff;
+  --sucess: #0070f3;
+  --success-dark: #0761d1;
+
+  /* Warning  */
+  --warning-lighter: #ffefcf;
+  --warning-light: #f7b955;
+  --warning: #f5a623;
+  --warning-dark: #ab570a;
+
+  /* Violet  */
+
+  --violet-lighter: #d8ccf1;
+  --violet-light: #8a63d2;
+  --violet: #7928ca;
+  --violet-dark: #4c2889;
+
+  /* Cyan  */
+
+  --cyan-lighter: #aaffe1;
+  --cyan-light: #79ffe1;
+  --cyan: #50e3c2;
+  --cyan-dark: #29bc9b;
+
+  /* Hightlight */
+
+  --highlight-purple: #f81ce5;
+  --highlight-magenta: #eb367f;
+  --highlight-pink: #ff0080;
+  --highlight-yellow: #fff500;
+}
+
+html,
+body {
+  background-color: var(--primary-bg);
+}
