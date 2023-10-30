@@ -9,7 +9,7 @@ const sizeClassNames = {
 const colorClassNames = {
   primary: "bg-primary-fg text-primary-bg",
   secondary:
-    "border border-primary-accents-5 bg-primary-accents-1 text-primary-fg",
+    "border-2 border-primary-accents-5 bg-primary-accents-1 text-primary-fg",
   error: "bg-error-light text-primary-bg",
   warning: "bg-warning text-primary-bg",
   tertiary: "bg-transparent text-primary-fg",
@@ -21,10 +21,7 @@ const shapeClassNames = {
   rounded: "rounded-lg",
 };
 
-export type ButtonProps = React.DetailedHTMLProps<
-  React.ButtonHTMLAttributes<HTMLButtonElement>,
-  HTMLButtonElement
-> & {
+export type ButtonProps = {
   children?: React.ReactNode;
   size?: keyof typeof sizeClassNames;
   color?: keyof typeof colorClassNames;
@@ -33,6 +30,7 @@ export type ButtonProps = React.DetailedHTMLProps<
   suffix?: React.ReactNode;
   svgOnly?: boolean;
   loading?: boolean;
+  disabled?: boolean;
 };
 
 export function Button({
@@ -46,10 +44,10 @@ export function Button({
   disabled,
   svgOnly = false,
   ...props
-}: ButtonProps): JSX.Element {
+}: ButtonProps) {
   return (
     <button
-      className={`flex items-center ${sizeClassNames[size]} ${colorClassNames[color]} ${shapeClassNames[shape]}`}
+      className={`flex items-center gap-4 ${sizeClassNames[size]} ${colorClassNames[color]} ${shapeClassNames[shape]}`}
       disabled={loading || disabled}
       type="button"
       {...props}
