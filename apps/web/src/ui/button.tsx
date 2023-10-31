@@ -7,9 +7,9 @@ const sizeClassNames = {
 };
 
 const colorClassNames = {
-  primary: "bg-primary-fg text-primary-bg",
+  primary: "bg-primary-accents-7 text-primary-bg",
   secondary:
-    "border-2 border-primary-accents-5 bg-primary-accents-1 text-primary-fg",
+    "border border-primary-accents-5 bg-primary-accents-1 text-primary-fg",
   error: "bg-error-light text-primary-bg",
   warning: "bg-warning text-primary-bg",
   tertiary: "bg-transparent text-primary-fg",

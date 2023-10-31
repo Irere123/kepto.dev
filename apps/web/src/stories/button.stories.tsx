@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { Button } from "../ui/button";
-import { Plus } from "../icons";
+import { Pin, Plus } from "../icons";
 
 const meta = {
   title: "Components/Button",
@@ -48,5 +48,6 @@ export const Warning: Story = {
     children: "Upload",
     color: "warning",
     prefix: <Plus />,
+    suffix: <Pin />,
   },
 };
