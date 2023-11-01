@@ -1,4 +1,4 @@
-import React from "react";
+import React, { CSSProperties } from "react";
 
 const sizeClassNames = {
   xs: "text-xs",
@@ -45,6 +45,9 @@ export interface TextProps {
   transform?: Transform;
   weight?: keyof typeof fontWeightMap;
   children: React.ReactNode;
+  truncate?: boolean | number;
+  style?: CSSProperties;
+  monospace?: boolean;
 }
 
 export const Text: React.FC<TextProps> = ({
@@ -53,12 +56,18 @@ export const Text: React.FC<TextProps> = ({
   as = "div",
   weight = "400",
   transform = "initial",
+  truncate = true,
+  style,
+  monospace,
 }) => {
   const Element = as;
 
   return (
     <Element
-      className={`text-primary-fg ${transform} ${sizeClassNames[size]} ${fontWeightMap[weight]}`}
+      style={style}
+      className={`text-primary-fg ${monospace && "font-mono"} ${
+        truncate && "truncate"
+      } ${transform} ${sizeClassNames[size]} ${fontWeightMap[weight]}`}
     >
       {children}
     </Element>

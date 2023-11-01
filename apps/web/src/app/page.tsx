@@ -1,16 +1,13 @@
-import { Text } from "@/ui/text";
+"use client";
+
+import { Bot, Github } from "@/icons";
+import { Avatar } from "@/ui/avatar";
+import { Input } from "@/ui/input";
 
 export default function Home() {
   return (
-    <main>
-      <h1> Hello world</h1>
-      <Text as="h1" size="4xl">
-        Hello world
-      </Text>
-      <Text as="h2">Hello world</Text>
-      <Text as="h3">Hello world</Text>
-      <Text as="h4">Hello world</Text>
-      <Text as="h5">Hello world</Text>
+    <main className="flex flex-col gap-3">
+      <h1>Hello world</h1>
     </main>
   );
 }
