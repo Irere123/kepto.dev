@@ -38,5 +38,18 @@ module.exports = {
   // add rules configurations here
   rules: {
     "import/no-default-export": "off",
+    "import/no-anonymous-default-export": [
+      "error",
+      {
+        allowArray: false,
+        allowArrowFunction: true,
+        allowAnonymousClass: false,
+        allowAnonymousFunction: true,
+        allowCallExpression: true, // The true value here is for backward compatibility
+        allowNew: false,
+        allowLiteral: false,
+        allowObject: false,
+      },
+    ],
   },
 };
