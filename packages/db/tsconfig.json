@@ -1,3 +1,21 @@
 {
-  "compilerOptions": {}
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "@kepto/tsconfig/base.json",
+  "exclude": ["dist"],
+  "compilerOptions": {
+    "outDir": "dist",
+    "target": "ES2021",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "allowJs": true,
+    "checkJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "ESNext",
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "noUncheckedIndexedAccess": true,
+    "moduleResolution": "Node"
+  }
 }
