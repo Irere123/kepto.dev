@@ -3,6 +3,8 @@ import cors from "cors";
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
 import { schema } from "./schema";
+import dev from "./routes/dev";
+import auth from "./routes/dev";
 
 const main = async () => {
   const app = express();
@@ -15,10 +17,12 @@ const main = async () => {
   await server.start();
 
   app.use("/graphql", cors(), json(), expressMiddleware(server));
+  app.use("/auth", auth);
+  app.use("/dev", auth);
 
   // start the Express server
-  app.listen(process.env.PORT, () => {
-    console.log(`Server is running on port: ${4000}`);
+  app.listen(4000 || process.env.PORT, () => {
+    console.log(`Server is running on port`);
   });
 };
 

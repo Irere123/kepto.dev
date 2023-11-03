@@ -6,7 +6,7 @@
   "scripts": {
     "watch": "tsc -w",
     "build": "tsc",
-    "dev": "node ./build/index.js -w",
+    "dev": "node --watch ./build/index.js",
     "start": "node ./build/index.js"
   },
   "keywords": [],
@@ -24,7 +24,8 @@
     "jsonwebtoken": "^9.0.2",
     "lodash": "^4.17.21",
     "passport": "^0.6.0",
-    "passport-github": "^1.1.0"
+    "passport-github": "^1.1.0",
+    "@kepto/db": "workspace:*"
   },
   "devDependencies": {
     "@types/cors": "^2.8.15",

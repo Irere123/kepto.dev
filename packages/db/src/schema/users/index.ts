@@ -1,23 +1,10 @@
-import { InferModel } from "drizzle-orm";
-import {
-  integer,
-  pgTable,
-  serial,
-  text,
-  timestamp,
-  varchar,
-} from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
 
-export const users = pgTable("users", {
-  id: serial("id").primaryKey(),
-  fullName: text("full_name").notNull(),
-  phone: varchar("phone", { length: 20 }).notNull(),
-  role: text("role", { enum: ["user", "admin"] })
-    .default("user")
-    .notNull(),
+export const user = pgTable("users", {
+  id: uuid("id").primaryKey(),
+  username: text("username").notNull(),
+  displayName: text("display_name").notNull(),
+  email: text("email"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
-
-export type User = InferModel<typeof users>;
-export type NewUser = InferModel<typeof users, "insert">;

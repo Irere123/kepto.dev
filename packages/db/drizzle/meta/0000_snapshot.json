@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "pg",
-  "id": "a4b40d0c-965b-44b6-a6cd-e842bbcfbcc5",
+  "id": "e7c0c857-1f15-4d5e-ae3a-2771e586a084",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "users": {
@@ -10,28 +10,27 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "serial",
+          "type": "uuid",
           "primaryKey": true,
           "notNull": true
         },
-        "full_name": {
-          "name": "full_name",
+        "username": {
+          "name": "username",
           "type": "text",
           "primaryKey": false,
           "notNull": true
         },
-        "phone": {
-          "name": "phone",
-          "type": "varchar(20)",
+        "display_name": {
+          "name": "display_name",
+          "type": "text",
           "primaryKey": false,
           "notNull": true
         },
-        "role": {
-          "name": "role",
+        "email": {
+          "name": "email",
           "type": "text",
           "primaryKey": false,
-          "notNull": true,
-          "default": "'user'"
+          "notNull": false
         },
         "created_at": {
           "name": "created_at",
