@@ -15,7 +15,7 @@
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8.48.0",
     "prettier": "^3.0.3",
-    "tsconfig": "workspace:*",
+    "@kepto/tsconfig": "workspace:*",
     "turbo": "latest"
   },
   "packageManager": "pnpm@8.6.10",
