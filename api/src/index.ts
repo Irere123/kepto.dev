@@ -4,6 +4,7 @@ import cors from "cors";
 import passport from "passport";
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
+import { Strategy as GithubStrategy } from "passport-github";
 import { schema } from "./schema";
 import dev from "./routes/dev";
 import auth from "./routes/dev";
@@ -14,7 +15,6 @@ const main = async () => {
   app.use(cors());
   app.use(express.json());
   app.use(passport.initialize());
-  app.use(passport.session());
 
   const server = new ApolloServer({ schema });
 

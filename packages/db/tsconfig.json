@@ -3,8 +3,8 @@
   "extends": "@kepto/tsconfig/node.json",
   "compilerOptions": {
     "outDir": "./build",
-    "declaration": false,
-    "declarationMap": false
+    "declaration": true,
+    "declarationMap": true
   },
   "include": ["src", "*.ts", "**/*.ts"]
 }

@@ -1,10 +1,10 @@
 import { Router } from "express";
-import { db, users } from "@kepto/db";
+import { db, user } from "@kepto/db";
 
 const router = Router();
 
 router.get("/test-user", async (_req, res) => {
-  const us = await db.select().from(users);
+  const us = await db.select().from(user);
 
   res.send({ users: us });
 });
