@@ -18,7 +18,7 @@ const main = async () => {
 
   app.use("/graphql", cors(), json(), expressMiddleware(server));
   app.use("/auth", auth);
-  app.use("/dev", auth);
+  app.use("/dev", dev);
 
   // start the Express server
   app.listen(4000 || process.env.PORT, () => {
