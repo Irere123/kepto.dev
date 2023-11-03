@@ -1,5 +1,7 @@
+import "dotenv/config";
 import express, { json } from "express";
 import cors from "cors";
+import passport from "passport";
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
 import { schema } from "./schema";
@@ -11,6 +13,8 @@ const main = async () => {
 
   app.use(cors());
   app.use(express.json());
+  app.use(passport.initialize());
+  app.use(passport.session());
 
   const server = new ApolloServer({ schema });
 
