@@ -1,3 +1,4 @@
+import { sql } from "drizzle-orm";
 import {
   integer,
   pgTable,
@@ -8,20 +9,22 @@ import {
 } from "drizzle-orm/pg-core";
 
 export const user = pgTable("users", {
-  id: uuid("id").primaryKey(),
+  id: uuid("id")
+    .primaryKey()
+    .default(sql`gen_random_uuid()`),
   username: text("username").notNull(),
   displayName: text("display_name").notNull(),
-  avatarUrl: text("display_name").notNull(),
+  avatarUrl: text("avatar_url").notNull(),
   email: text("email"),
   tokenVersion: integer("token_version").default(1),
-  githubAccessToken: integer("github_access_token"),
+  githubAccessToken: text("github_access_token"),
   location: text("location"),
-  bio: text("location"),
+  bio: text("bio"),
   ip: text("ip"),
   githubId: text("github_id"),
-  contributions: text("contributions"),
+  contributions: integer("contributions").default(0),
   online: boolean("online").default(false),
-  staff: boolean("online").default(false),
+  staff: boolean("staff").default(false),
   createdAt: timestamp("created_at", { withTimezone: true })
     .defaultNow()
     .notNull(),

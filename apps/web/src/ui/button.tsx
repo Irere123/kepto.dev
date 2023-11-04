@@ -9,7 +9,7 @@ const sizeClassNames = {
 const colorClassNames = {
   primary: "bg-primary-accents-7 text-primary-bg",
   secondary:
-    "border border-primary-accents-5 bg-primary-accents-1 text-primary-fg",
+    "border border-primary-accents-3 bg-primary-accents-1 text-primary-accents-7 hover:",
   error: "bg-error-light text-primary-bg",
   warning: "bg-warning text-primary-bg",
   tertiary: "bg-transparent text-primary-fg",
@@ -31,6 +31,7 @@ export type ButtonProps = {
   svgOnly?: boolean;
   loading?: boolean;
   disabled?: boolean;
+  className?: string;
 };
 
 export function Button({
@@ -43,14 +44,13 @@ export function Button({
   loading,
   disabled,
   svgOnly = false,
-  ...props
+  className,
 }: ButtonProps) {
   return (
     <button
-      className={`flex items-center gap-4 ${sizeClassNames[size]} ${colorClassNames[color]} ${shapeClassNames[shape]}`}
+      className={`flex items-center gap-4 ${className} ${sizeClassNames[size]} ${colorClassNames[color]} ${shapeClassNames[shape]} hover:translate-x-3 transition`}
       disabled={loading || disabled}
       type="button"
-      {...props}
     >
       {prefix && !svgOnly ? <span>{prefix}</span> : null}
       {children}

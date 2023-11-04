@@ -5,15 +5,8 @@
     {
       "idx": 0,
       "version": "5",
-      "when": 1699010739670,
-      "tag": "0000_high_groot",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1699026806053,
-      "tag": "0001_gigantic_bloodstorm",
+      "when": 1699085367078,
+      "tag": "0000_thin_korvac",
       "breakpoints": true
     }
   ]
