@@ -32,6 +32,7 @@ export type ButtonProps = {
   loading?: boolean;
   disabled?: boolean;
   className?: string;
+  onClick?: () => void;
 };
 
 export function Button({
@@ -45,12 +46,14 @@ export function Button({
   disabled,
   svgOnly = false,
   className,
+  onClick,
 }: ButtonProps) {
   return (
     <button
       className={`flex items-center gap-4 ${className} ${sizeClassNames[size]} ${colorClassNames[color]} ${shapeClassNames[shape]} hover:translate-x-3 transition`}
       disabled={loading || disabled}
       type="button"
+      onClick={onClick}
     >
       {prefix && !svgOnly ? <span>{prefix}</span> : null}
       {children}

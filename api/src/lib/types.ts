@@ -1,3 +1,4 @@
+import { User } from "@kepto/db";
 import { Profile } from "passport-github";
 
 export interface GithubProfile extends Profile {
@@ -5,3 +6,7 @@ export interface GithubProfile extends Profile {
     [key: string]: string;
   };
 }
+
+export type GQLContext = {
+  user: User;
+};
