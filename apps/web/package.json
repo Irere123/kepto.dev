@@ -24,6 +24,7 @@
   },
   "devDependencies": {
     "@kepto/tsconfig": "workspace:*",
+    "@kepto/db": "workspace:*",
     "@storybook/addon-essentials": "^7.5.2",
     "@storybook/addon-interactions": "^7.5.2",
     "@storybook/addon-links": "^7.5.2",

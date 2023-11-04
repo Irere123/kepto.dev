@@ -176,6 +176,9 @@ importers:
         specifier: ^4.4.6
         version: 4.4.6(@types/react@18.2.33)(react@18.2.0)
     devDependencies:
+      '@kepto/db':
+        specifier: workspace:*
+        version: link:../../packages/db
       '@kepto/tsconfig':
         specifier: workspace:*
         version: link:../../packages/tsconfig
