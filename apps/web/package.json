@@ -20,11 +20,12 @@
     "react": "^18",
     "react-dom": "^18",
     "react-query": "^3.39.3",
+    "react-responsive": "^9.0.2",
     "zustand": "^4.4.6"
   },
   "devDependencies": {
-    "@kepto/tsconfig": "workspace:*",
     "@kepto/db": "workspace:*",
+    "@kepto/tsconfig": "workspace:*",
     "@storybook/addon-essentials": "^7.5.2",
     "@storybook/addon-interactions": "^7.5.2",
     "@storybook/addon-links": "^7.5.2",

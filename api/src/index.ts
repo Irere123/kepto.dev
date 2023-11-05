@@ -3,6 +3,7 @@ import express, { json } from "express";
 import cors from "cors";
 import passport from "passport";
 import session from "express-session";
+import { GraphQLError } from "graphql";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
@@ -11,7 +12,7 @@ import { schema } from "./schema";
 import { baseUrl, webUrl } from "./lib/constants";
 import { db, eq, user as users } from "@kepto/db";
 import { GithubProfile } from "./lib/types";
-import { GraphQLError } from "graphql";
+import user from "./routes/user";
 
 const main = async () => {
   const app = express();
@@ -116,6 +117,8 @@ const main = async () => {
       res.redirect(`${webUrl}/?token=${token}`);
     }
   );
+
+  app.use("/user", user);
 
   // start the Express server
   app.listen(4000 || process.env.PORT, () => {
