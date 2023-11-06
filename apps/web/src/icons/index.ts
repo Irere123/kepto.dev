@@ -15,6 +15,7 @@ export { default as Home } from "./Home";
 export { default as Inbox } from "./Inbox";
 export { default as Link } from "./Link";
 export { default as Location } from "./Location";
+export { default as LogoLargeIcon } from "./LogoLargeIcon";
 export { default as Megaphone } from "./Megaphone";
 export { default as NotificationOff } from "./NotificationOff";
 export { default as Notification } from "./Notification";
