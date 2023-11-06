@@ -2,7 +2,7 @@
 
 import AuthContext from "@/contexts/AuthContext";
 import { useScreenSize } from "@/hooks/useScreenSize";
-import { At, Expand, LogoIcon, LogoLargeIcon, People, Search } from "@/icons";
+import { At, LogoLargeIcon, People, Search } from "@/icons";
 import { Avatar } from "@/ui/avatar";
 import Link from "next/link";
 import React, { useContext } from "react";
