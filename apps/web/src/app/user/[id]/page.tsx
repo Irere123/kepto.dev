@@ -1,5 +1,5 @@
 import { Metadata, ResolvingMetadata } from "next";
-import { Github, Link, Location, LogoLargeIcon, Plus } from "@/icons";
+import { Location, LogoLargeIcon, Plus, ThreeDots } from "@/icons";
 import { apiUrl } from "@/lib/constants";
 import { Avatar } from "@/ui/avatar";
 import { Button } from "@/ui/button";
@@ -87,7 +87,7 @@ export default async function UserProfilePage({ params }: Props) {
               Connect
             </Button>
             <Location />
-            <Link />
+            <ThreeDots />
           </div>
         </div>
       </Paper>
