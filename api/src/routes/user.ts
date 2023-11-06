@@ -9,7 +9,7 @@ router.get("/:id", async (req, res) => {
     0
   );
 
-  return res.json({ user: userOne });
+  return res.json({ user: userOne, ok: true });
 });
 
 export default router;

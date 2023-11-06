@@ -48,6 +48,7 @@ export interface TextProps {
   truncate?: boolean | number;
   style?: CSSProperties;
   monospace?: boolean;
+  className?: string;
 }
 
 export const Text: React.FC<TextProps> = ({
@@ -59,6 +60,7 @@ export const Text: React.FC<TextProps> = ({
   truncate = true,
   style,
   monospace,
+  className,
 }) => {
   const Element = as;
 
@@ -67,7 +69,9 @@ export const Text: React.FC<TextProps> = ({
       style={style}
       className={`text-primary-fg ${monospace && "font-mono"} ${
         truncate && "truncate"
-      } ${transform} ${sizeClassNames[size]} ${fontWeightMap[weight]}`}
+      } ${transform} ${sizeClassNames[size]} ${
+        fontWeightMap[weight]
+      }  ${className}`}
     >
       {children}
     </Element>
