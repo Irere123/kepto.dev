@@ -1,10 +1,11 @@
-import { getMe } from "@/graphql/user";
+import { gqlClient } from "@/graphql/gqlClient";
+import { ME_QUERY, getMe } from "@/graphql/user";
 import { User } from "@kepto/db";
-import React, { createContext } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import { useQuery } from "react-query";
 
 export type AuthContextType = {
-  user: User | null;
+  user: User | null | undefined;
   updateUser: (u: User) => void;
 };
 
@@ -25,11 +26,11 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
   const { data, isLoading } = useQuery("me", getMe);
 
   if (isLoading) {
-    return <div>loading...</div>;
+    return <div className="text-primary-fg">loading...</div>;
   }
 
   return (
-    <AuthContext.Provider value={{ user: data?.me!, updateUser(u) {} }}>
+    <AuthContext.Provider value={{ user: data?.me, updateUser(u) {} }}>
       {children}
     </AuthContext.Provider>
   );

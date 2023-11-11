@@ -1,6 +1,8 @@
 "use client";
 
 import AuthContext from "@/contexts/AuthContext";
+import { useVerifyLoggedIn } from "@/hooks/useVerifyLoggedIn";
+import { useTokenStore } from "@/stores/useTokenStore";
 import { useRouter } from "next/navigation";
 import React, { useContext, useEffect } from "react";
 
@@ -9,13 +11,9 @@ interface ProtectedPageProps {
 }
 
 export const ProtectedPage: React.FC<ProtectedPageProps> = ({ children }) => {
-  const { user } = useContext(AuthContext);
-  const { push } = useRouter();
+  if (!useVerifyLoggedIn()) {
+    return null;
+  }
 
-  useEffect(() => {
-    if(user){
-        push("/feed");
-    }
-  }, [push, user]);
   return <>{children}</>;
 };

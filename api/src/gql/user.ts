@@ -1,3 +1,4 @@
+import { db, ne, user } from "@kepto/db";
 import { GQLContext } from "../lib/types";
 
 export const typeDefs = /* GraphQL */ `
@@ -28,6 +29,10 @@ export const resolvers = {
     me: (_parent: unknown, _args: {}, ctx: GQLContext) => {
       return ctx.user;
     },
-    users: () => [],
+    users: async (_parent: unknown, _args: {}, ctx: GQLContext) => {
+      const users = await db.query.user.findMany();
+
+      return users;
+    },
   },
 };

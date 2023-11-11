@@ -14,5 +14,7 @@ CREATE TABLE IF NOT EXISTS "users" (
 	"online" boolean DEFAULT false,
 	"staff" boolean DEFAULT false,
 	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
-	"updated_at" timestamp with time zone DEFAULT now() NOT NULL
+	"updated_at" timestamp with time zone DEFAULT now() NOT NULL,
+	CONSTRAINT "users_username_unique" UNIQUE("username"),
+	CONSTRAINT "users_email_unique" UNIQUE("email")
 );

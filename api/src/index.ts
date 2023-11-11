@@ -13,6 +13,7 @@ import { baseUrl, webUrl } from "./lib/constants";
 import { db, eq, user as users } from "@kepto/db";
 import { GithubProfile } from "./lib/types";
 import user from "./routes/user";
+import dev from "./routes/dev";
 
 const main = async () => {
   const app = express();
@@ -39,12 +40,13 @@ const main = async () => {
       async (accessToken, _refreshToken, userProfile, done) => {
         const profile = userProfile as unknown as GithubProfile;
 
-        let user = await db
-          .select()
-          .from(users)
-          .where(eq(users.githubId, profile.id))
-          .limit(1);
-        if (!user[0]) {
+        let user: any = await db.query.user.findFirst({
+          where: eq(users.githubId, profile.id),
+        });
+
+        console.log(user);
+
+        if (!user) {
           user = await db
             .insert(users)
             .values({
@@ -73,7 +75,8 @@ const main = async () => {
     json(),
     expressMiddleware(server, {
       context: async ({ req }) => {
-        const token = req.headers["authorization"]!.split(" ")[1] || "";
+        const token = req.headers["authorization"]!.split(" ")[1] || "bearer";
+
         const { userId } = jwt.verify(
           token,
           process.env.ACCESS_TOKEN_SECRET!
@@ -82,18 +85,6 @@ const main = async () => {
         const user = (
           await db.select().from(users).where(eq(users.id, userId))
         ).at(0);
-
-        // optionally block the user
-        // we could also check user roles/permissions here
-        if (!user)
-          // throwing a `GraphQLError` here allows us to specify an HTTP status code,
-          // standard `Error`s will have a 500 status code by default
-          throw new GraphQLError("User is not authenticated", {
-            extensions: {
-              code: "UNAUTHENTICATED",
-              http: { status: 401 },
-            },
-          });
 
         // add the user to the context
         return { user };
@@ -119,6 +110,7 @@ const main = async () => {
   );
 
   app.use("/user", user);
+  app.use("/dev", dev);
 
   // start the Express server
   app.listen(4000 || process.env.PORT, () => {

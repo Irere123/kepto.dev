@@ -12,10 +12,10 @@ export const user = pgTable("users", {
   id: uuid("id")
     .primaryKey()
     .default(sql`gen_random_uuid()`),
-  username: text("username").notNull(),
+  username: text("username").notNull().unique(),
   displayName: text("display_name").notNull(),
   avatarUrl: text("avatar_url").notNull(),
-  email: text("email"),
+  email: text("email").unique(),
   tokenVersion: integer("token_version").default(1),
   githubAccessToken: text("github_access_token"),
   location: text("location"),
