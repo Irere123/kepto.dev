@@ -2,13 +2,10 @@ import "dotenv/config";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
 import * as schema from "./schema";
+import { isProd } from "./constants";
 
 const pool = new Pool({
-  user: "postgres",
-  password: "postgres",
-  port: 5432,
-  host: "localhost",
-  database: "kepto_dev",
+  connectionString: process.env.DATABASE_URL as string,
 });
 
-export const db = drizzle(pool, { schema });
+export const db = drizzle(pool, { schema, logger: !isProd });
