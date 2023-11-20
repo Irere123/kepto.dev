@@ -18,14 +18,9 @@ export const typeDefs = /* GraphQL */ `
     githubAccessToken: String
   }
 
-  type Connection {
-    id: ID!
-  }
-
   type Query {
     me: User
     users: [User]
-    connections: [Connection]
   }
 `;
 
@@ -41,14 +36,6 @@ export const resolvers = {
         .where(ne(user.id, ctx.user.id));
 
       return users;
-    },
-
-    connections: async () => {
-      return await db.query.connections
-        .findMany({
-          columns: { connecteeId: true, connectorId: true },
-        })
-        .execute();
     },
   },
 };

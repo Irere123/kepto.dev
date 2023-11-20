@@ -35,7 +35,7 @@ export default function Home() {
       >
         Login with Github
       </Button>
-      {prod ? (
+      {!prod ? (
         <Button
           prefix={<Clock />}
           onClick={async () => {
