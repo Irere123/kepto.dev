@@ -7,6 +7,7 @@ import {
   uuid,
   boolean,
 } from "drizzle-orm/pg-core";
+import { connections } from "../connections";
 
 export const user = pgTable("users", {
   id: uuid("id")
@@ -40,28 +41,3 @@ export const userRelations = relations(user, ({ many }) => ({
 
 export type User = typeof user.$inferSelect;
 export type NewUser = typeof user.$inferInsert;
-
-export const connections = pgTable("connections", {
-  id: uuid("id")
-    .primaryKey()
-    .default(sql`gen_random_uuid()`),
-  connectorId: uuid("connector").notNull(),
-  connecteeId: uuid("connectee").notNull(),
-  createdAt: timestamp("created_at", { withTimezone: true })
-    .defaultNow()
-    .notNull(),
-  updatedAt: timestamp("updated_at", { withTimezone: true })
-    .defaultNow()
-    .notNull(),
-});
-
-export const connectionRalations = relations(connections, ({ one }) => ({
-  connectee: one(user, {
-    fields: [connections.connecteeId],
-    references: [user.id],
-  }),
-  connector: one(user, {
-    fields: [connections.connectorId],
-    references: [user.id],
-  }),
-}));

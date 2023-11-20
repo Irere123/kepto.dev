@@ -15,6 +15,13 @@
       "when": 1700419751707,
       "tag": "0001_eminent_sentinel",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1700502310739,
+      "tag": "0002_smiling_enchantress",
+      "breakpoints": true
     }
   ]
 }
