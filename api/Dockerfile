@@ -8,10 +8,10 @@ WORKDIR /app
 # Install dependencies based on the preferred package manager
 COPY package.json  ./
 
-RUN pnpm install 
+RUN npm install 
 COPY . .
 
-RUN pnpm run build
+RUN npm run build
 
 ENV PORT=4000
 
