@@ -18,9 +18,14 @@ export const typeDefs = /* GraphQL */ `
     githubAccessToken: String
   }
 
+  type Connection {
+    id: ID!
+  }
+
   type Query {
     me: User
     users: [User]
+    connections: [Connection]
   }
 `;
 
@@ -30,9 +35,20 @@ export const resolvers = {
       return ctx.user;
     },
     users: async (_parent: unknown, _args: {}, ctx: GQLContext) => {
-      const users = await db.query.user.findMany();
+      const users = await db
+        .select()
+        .from(user)
+        .where(ne(user.id, ctx.user.id));
 
       return users;
+    },
+
+    connections: async () => {
+      return await db.query.connections
+        .findMany({
+          columns: { connecteeId: true, connectorId: true },
+        })
+        .execute();
     },
   },
 };

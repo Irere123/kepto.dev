@@ -3,7 +3,7 @@
 import { ProtectedPage } from "@/components/ProtectedPage";
 import { useSaveTokensFromQueryParams } from "@/hooks/useSaveTokenFromParams";
 import { Clock, Github } from "@/icons";
-import { apiUrl } from "@/lib/constants";
+import { apiUrl, prod } from "@/lib/constants";
 import { useTokenStore } from "@/stores/useTokenStore";
 import { Button } from "@/ui/button";
 import { useRouter } from "next/navigation";
@@ -35,24 +35,26 @@ export default function Home() {
       >
         Login with Github
       </Button>
-      <Button
-        prefix={<Clock />}
-        onClick={async () => {
-          const name = window.prompt("username");
-          if (!name) {
-            return;
-          }
-          const r = await fetch(`${apiUrl}/dev/test-user?username=` + name);
-          const d = await r.json();
-          useTokenStore.getState().setTokens({
-            accessToken: d.token,
-          });
-          push("/feed");
-        }}
-        color="secondary"
-      >
-        Create test a user
-      </Button>
+      {prod ? (
+        <Button
+          prefix={<Clock />}
+          onClick={async () => {
+            const name = window.prompt("username");
+            if (!name) {
+              return;
+            }
+            const r = await fetch(`${apiUrl}/dev/test-user?username=` + name);
+            const d = await r.json();
+            useTokenStore.getState().setTokens({
+              accessToken: d.token,
+            });
+            push("/feed");
+          }}
+          color="secondary"
+        >
+          Create test a user
+        </Button>
+      ) : null}
     </main>
   );
 }

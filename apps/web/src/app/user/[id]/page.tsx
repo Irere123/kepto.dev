@@ -5,6 +5,7 @@ import { Avatar } from "@/ui/avatar";
 import { Button } from "@/ui/button";
 import { Paper } from "@/ui/paper";
 import { Text } from "@/ui/text";
+import Link from "next/link";
 
 type Props = {
   params: { id: string };
@@ -56,7 +57,9 @@ export default async function UserProfilePage({ params }: Props) {
   return (
     <main className="flex flex-col w-[600px] justify-center m-auto">
       <div className="m-auto mb-6">
-        <LogoLargeIcon />
+        <Link href={`/feed`}>
+          <LogoLargeIcon />
+        </Link>
       </div>
       <Paper>
         <div className="flex gap-4 justify-between">
