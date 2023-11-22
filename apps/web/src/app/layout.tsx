@@ -3,7 +3,10 @@ import "./globals.css";
 import { Providers } from "./providers";
 
 export const metadata: Metadata = {
-  title: "Kepto",
+  title: {
+    template: "%s | Kepto",
+    default: "Kepto",
+  },
   description: "Designed for developers",
 };
 

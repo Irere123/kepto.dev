@@ -1,30 +1,8 @@
-"use client";
-import { MiddlePanel } from "@/components/GridPanels";
-import { MainLayout } from "@/components/MainLayout";
-import { ProtectedPage } from "@/components/ProtectedPage";
-import { UserCard } from "@/components/UserCard";
-import AuthContext from "@/contexts/AuthContext";
-import { getUsers } from "@/graphql/user";
-import { User } from "@kepto/db";
-import React, { useContext } from "react";
-import { useQuery } from "react-query";
+import { Metadata } from "next";
+import { FeedPage } from "./FeedPage";
 
-export default function DashBoardPage() {
-  const { data, isLoading } = useQuery("users", getUsers);
+export const metadata: Metadata = {
+  title: "Feed",
+};
 
-  if (isLoading) {
-    return null;
-  }
-
-  return (
-    <ProtectedPage>
-      <MainLayout>
-        <MiddlePanel>
-          <div className="flex flex-col gap-4 px-7 mt-7">
-            {data?.users.map((u) => <UserCard key={u.id} user={u} />)}
-          </div>
-        </MiddlePanel>
-      </MainLayout>
-    </ProtectedPage>
-  );
-}
+export default FeedPage;

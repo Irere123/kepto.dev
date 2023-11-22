@@ -13,7 +13,7 @@ type Props = {
 };
 
 export async function generateMetadata(
-  { params, searchParams }: Props,
+  { params }: Props,
   parent: ResolvingMetadata
 ): Promise<Metadata> {
   // read route params
@@ -26,7 +26,7 @@ export async function generateMetadata(
   const previousImages = (await parent).openGraph?.images || [];
 
   return {
-    title: `${res.user.displayName} | Kepto`,
+    title: `${res.user.displayName}`,
     description: res.user.bio,
     twitter: {
       images: [res.user.avatarUrl],
