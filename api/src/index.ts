@@ -3,7 +3,6 @@ import express, { json } from "express";
 import cors from "cors";
 import passport from "passport";
 import session from "express-session";
-import { GraphQLError } from "graphql";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
@@ -99,7 +98,10 @@ const main = async () => {
 
   app.get(
     "/auth/github/callback",
-    passport.authenticate("github", { failureRedirect: "/", session: false }),
+    passport.authenticate("github", {
+      failureRedirect: "/failed",
+      session: false,
+    }),
     (req: any, res) => {
       const token = jwt.sign(
         { userId: req.user[0].id },
