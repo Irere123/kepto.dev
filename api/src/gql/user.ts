@@ -1,4 +1,4 @@
-import { db, ne, user } from "@kepto/db";
+import { connections, db, eq, ne, user } from "@kepto/db";
 import { GQLContext } from "../lib/types";
 
 export const typeDefs = /* GraphQL */ `
@@ -15,7 +15,7 @@ export const typeDefs = /* GraphQL */ `
     contributions: String
     createdAt: DateTime
     updateAt: DateTime
-    githubAccessToken: String
+    youConnected: Boolean
   }
 
   type Query {
@@ -25,6 +25,22 @@ export const typeDefs = /* GraphQL */ `
 `;
 
 export const resolvers = {
+  User: {
+    youConnected: async ({ id }: { id: string }) => {
+      const conn = (
+        await db
+          .select()
+          .from(connections)
+          .where(eq(connections.connectorId, id))
+      ).at(0);
+
+      if (!conn) {
+        return false;
+      }
+
+      return true;
+    },
+  },
   Query: {
     me: (_parent: unknown, _args: {}, ctx: GQLContext) => {
       return ctx.user;

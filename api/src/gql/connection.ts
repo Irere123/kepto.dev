@@ -1,4 +1,4 @@
-import { AnyTable, connections, db } from "@kepto/db";
+import { AnyTable, connections, db, eq, user } from "@kepto/db";
 import { GQLContext } from "../lib/types";
 import { GraphQLError } from "graphql";
 
@@ -22,11 +22,23 @@ export const typeDefs = /* GraphQL */ `
   }
 
   type Query {
-    getConnections: GetConnection!
+    getConnections: [Connection!]
   }
 `;
 
 export const resolvers = {
+  Connection: {
+    connectee: async ({ connecteeId }: { connecteeId: string }) => {
+      return (await db.select().from(user).where(eq(user.id, connecteeId))).at(
+        0
+      );
+    },
+    connector: async ({ connectorId }: { connectorId: string }) => {
+      return (await db.select().from(user).where(eq(user.id, connectorId))).at(
+        0
+      );
+    },
+  },
   Mutation: {
     createConnection: async (
       _parent: unknown,
@@ -62,7 +74,10 @@ export const resolvers = {
         throw new GraphQLError("Not authonticated");
       }
 
-      return await db.select().from(connections);
+      return await db
+        .select()
+        .from(connections)
+        .where(eq(connections.connectorId, ctx.user.id));
     },
   },
 };
