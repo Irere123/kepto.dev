@@ -12,13 +12,13 @@ export const typeDefs = /* GraphQL */ `
     createdAt: DateTime
   }
 
-  type Mutation {
-    createConnection(connecteeId: ID!, connectorId: ID!): Connection
-  }
-
   type GetConnection {
     connection: Connection
-    errors: [Error]
+    errors: Error
+  }
+
+  type Mutation {
+    createConnection(connecteeId: ID!, connectorId: ID!): GetConnection!
   }
 
   type Query {
@@ -32,19 +32,27 @@ export const resolvers = {
       _parent: unknown,
       { connecteeId, connectorId }: { connectorId: string; connecteeId: string }
     ) => {
-      let conn;
+      let connection;
+
       try {
-        conn = await db
+        connection = await db
           .insert(connections)
           .values({ connecteeId, connectorId })
-          .returning()
-          .onConflictDoNothing();
-      } catch (err: any) {
-        return { errors: { message: err.message } };
+          .returning();
+      } catch (error: any) {
+        console.log(error);
+        if (error.detail.includes("already exists")) {
+          return {
+            errors: {
+              message: error.detail,
+              code: error.code,
+            },
+          };
+        }
       }
 
       return {
-        connection: conn,
+        connection,
       };
     },
   },

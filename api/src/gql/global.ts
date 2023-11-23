@@ -3,5 +3,6 @@ export const typeDefs = /* GraphQL */ `
 
   type Error {
     message: String
+    code: String
   }
 `;
