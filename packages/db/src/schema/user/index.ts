@@ -23,6 +23,7 @@ export const user = pgTable("users", {
   bio: text("bio"),
   ip: text("ip"),
   githubId: text("github_id"),
+  numConnections: integer("numConnections").default(0),
   contributions: integer("contributions").default(0),
   online: boolean("online").default(false),
   staff: boolean("staff").default(false),

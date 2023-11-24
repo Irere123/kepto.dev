@@ -1,52 +1,9 @@
 {
   "version": "5",
   "dialect": "pg",
-  "id": "b6d85d80-c05f-4ee9-b88b-2888e44d7433",
-  "prevId": "19c6d2bf-8181-4e7f-9d9d-01e64e3aee34",
+  "id": "e93358a2-7051-4d6a-855d-75f1f27c1b11",
+  "prevId": "565d8b1c-6ffe-46bc-bd10-0eff842723e0",
   "tables": {
-    "connections": {
-      "name": "connections",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true,
-          "default": "gen_random_uuid()"
-        },
-        "connector": {
-          "name": "connector",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "connectee": {
-          "name": "connectee",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp with time zone",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        },
-        "updated_at": {
-          "name": "updated_at",
-          "type": "timestamp with time zone",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
     "users": {
       "name": "users",
       "schema": "",
@@ -119,6 +76,13 @@
           "primaryKey": false,
           "notNull": false
         },
+        "numConnections": {
+          "name": "numConnections",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "default": 0
+        },
         "contributions": {
           "name": "contributions",
           "type": "integer",
@@ -174,6 +138,49 @@
           ]
         }
       }
+    },
+    "connections": {
+      "name": "connections",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "connectorId": {
+          "name": "connectorId",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "connecteeId": {
+          "name": "connecteeId",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
     }
   },
   "enums": {},

@@ -43,8 +43,6 @@ const main = async () => {
           where: eq(users.githubId, profile.id),
         });
 
-        console.log(user);
-
         if (!user) {
           user = await db
             .insert(users)

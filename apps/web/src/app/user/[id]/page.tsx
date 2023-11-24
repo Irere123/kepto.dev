@@ -26,7 +26,7 @@ export async function generateMetadata(
   const previousImages = (await parent).openGraph?.images || [];
 
   return {
-    title: `${res.user.displayName}`,
+    title: `${res.user.displayName} `,
     description: res.user.bio,
     twitter: {
       images: [res.user.avatarUrl],
@@ -84,11 +84,17 @@ export default async function UserProfilePage({ params }: Props) {
           </Text>
         </div>
         <div className="flex justify-between mt-4">
-          <Text as="h5">450 connections</Text>
+          <Text as="h5">{data.user.numConnections} connections</Text>
           <div className="flex gap-4 items-center text-primary-fg">
-            <Button prefix={<Plus />} size="small">
-              Connect
-            </Button>
+            {!data.youConnected ? (
+              <Button prefix={<Plus />} size="small">
+                Connect
+              </Button>
+            ) : (
+              <Button prefix={<Plus />} size="small" color="secondary">
+                Disconnect
+              </Button>
+            )}
             <Location />
             <ThreeDots />
           </div>

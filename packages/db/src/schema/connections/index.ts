@@ -6,8 +6,8 @@ export const connections = pgTable("connections", {
   id: uuid("id")
     .primaryKey()
     .default(sql`gen_random_uuid()`),
-  connectorId: uuid("connector").notNull().unique(),
-  connecteeId: uuid("connectee").notNull().unique(),
+  connectorId: uuid("connectorId").notNull(),
+  connecteeId: uuid("connecteeId").notNull(),
   createdAt: timestamp("created_at", { withTimezone: true })
     .defaultNow()
     .notNull(),

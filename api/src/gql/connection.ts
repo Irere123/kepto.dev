@@ -1,6 +1,7 @@
-import { AnyTable, connections, db, eq, user } from "@kepto/db";
+import { AnyTable, and, connections, db, eq, user } from "@kepto/db";
 import { GQLContext } from "../lib/types";
 import { GraphQLError } from "graphql";
+import { connect } from "../lib/connectLogic";
 
 export const typeDefs = /* GraphQL */ `
   type Connection {
@@ -18,7 +19,8 @@ export const typeDefs = /* GraphQL */ `
   }
 
   type Mutation {
-    createConnection(connecteeId: ID!, connectorId: ID!): GetConnection!
+    createConnection(connecteeId: ID!): Boolean!
+    removeConnection(connecteeId: ID!): Boolean!
   }
 
   type Query {
@@ -42,32 +44,33 @@ export const resolvers = {
   Mutation: {
     createConnection: async (
       _parent: unknown,
-      { connecteeId, connectorId }: { connectorId: string; connecteeId: string }
+      { connecteeId }: { connecteeId: string },
+      ctx: GQLContext
     ) => {
-      let connection;
-
-      try {
-        connection = await db
-          .insert(connections)
-          .values({ connecteeId, connectorId })
-          .returning();
-      } catch (error: any) {
-        console.log(error);
-        if (error.detail.includes("already exists")) {
-          return {
-            errors: {
-              message: error.detail,
-              code: error.code,
-            },
-          };
-        }
+      if (!ctx.user.id) {
+        throw new Error("Not authenticated");
       }
 
-      return {
-        connection,
-      };
+      await connect(ctx.user.id, connecteeId, true);
+
+      return true;
+    },
+
+    removeConnection: async (
+      _parent: unknown,
+      { connecteeId }: { connecteeId: string },
+      ctx: GQLContext
+    ) => {
+      if (!ctx.user) {
+        throw new GraphQLError("Not authenticated");
+      }
+
+      await connect(ctx.user.id, connecteeId, false);
+
+      return true;
     },
   },
+
   Query: {
     getConnections: async (_parent: unknown, _args: {}, ctx: GQLContext) => {
       if (!ctx.user) {

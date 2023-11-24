@@ -12,6 +12,7 @@ export const typeDefs = /* GraphQL */ `
     email: String
     online: String
     staff: String
+    numConnections: Int!
     contributions: String
     createdAt: DateTime
     updateAt: DateTime
@@ -21,6 +22,7 @@ export const typeDefs = /* GraphQL */ `
   type Query {
     me: User
     users: [User]
+    getUser(id: ID!): User
   }
 `;
 
@@ -52,6 +54,9 @@ export const resolvers = {
         .where(ne(user.id, ctx.user.id));
 
       return users;
+    },
+    getUser: async (_parent: unknown, { id }: { id: string }) => {
+      return (await db.select().from(user).where(eq(user.id, id))).at(0);
     },
   },
 };
