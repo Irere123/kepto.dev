@@ -1,4 +1,4 @@
-import { AnyTable, and, connections, db, eq, user } from "@kepto/db";
+import { connections, db, eq, user } from "@kepto/db";
 import { GQLContext } from "../lib/types";
 import { GraphQLError } from "graphql";
 import { connect } from "../lib/connectLogic";
@@ -8,14 +8,8 @@ export const typeDefs = /* GraphQL */ `
     id: ID
     connectorId: ID
     connecteeId: ID
-    connector: User
-    connectee: User
+    name: User
     createdAt: DateTime
-  }
-
-  type GetConnection {
-    connection: Connection
-    errors: Error
   }
 
   type Mutation {
@@ -30,15 +24,27 @@ export const typeDefs = /* GraphQL */ `
 
 export const resolvers = {
   Connection: {
-    connectee: async ({ connecteeId }: { connecteeId: string }) => {
-      return (await db.select().from(user).where(eq(user.id, connecteeId))).at(
-        0
-      );
-    },
-    connector: async ({ connectorId }: { connectorId: string }) => {
-      return (await db.select().from(user).where(eq(user.id, connectorId))).at(
-        0
-      );
+    name: async (
+      {
+        connecteeId,
+        connectorId,
+      }: { connecteeId: string; connectorId: string },
+      _args: {},
+      ctx: GQLContext
+    ) => {
+      let name;
+
+      if (connecteeId == ctx.user.id) {
+        name = await db
+          .select()
+          .from(user)
+          .where(eq(user.id, connectorId))
+          .limit(1);
+      } else {
+        name = await db.select().from(user).where(eq(user.id, connecteeId));
+      }
+
+      return name[0];
     },
   },
   Mutation: {

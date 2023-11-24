@@ -45,7 +45,7 @@ export const MiddlePanel: React.FC<Props> = ({ children }) => {
           </div>
           <div>
             <Link href={`/user/${user?.id}`}>
-              <Avatar src={user?.avatarUrl} size="36" username="irere" />
+              <Avatar src={user?.avatarUrl} size="48" username="irere" />
             </Link>
           </div>
         </div>

@@ -1,6 +1,35 @@
 import { gql } from "graphql-request";
 import { gqlClient } from "./gqlClient";
 
+export interface Connection {
+  id: string;
+  connectorId: string;
+  connecteeId: string;
+  name: {
+    id: string;
+    avatarUrl: string;
+    displayName: string;
+    online: string;
+  };
+}
+
+export const GET_CONNECTIONS_QUERY = gql`
+  query Conns {
+    getConnections {
+      id
+      connectorId
+      name {
+        id
+        username
+        avatarUrl
+        displayName
+        online
+      }
+      connecteeId
+    }
+  }
+`;
+
 export const REMOVE_CONNECTION_QUERY = gql`
   mutation RemoveConn($connecteeId: ID!) {
     removeConnection(connecteeId: $connecteeId)
@@ -33,4 +62,11 @@ export const removeConnection = async (
   );
 
   return res.data.removeConnection;
+};
+
+export const getConnections = async (): Promise<Connection[]> => {
+  const res = await gqlClient.rawRequest<{ getConnections: Connection[] }>(
+    GET_CONNECTIONS_QUERY
+  );
+  return res.data.getConnections;
 };
