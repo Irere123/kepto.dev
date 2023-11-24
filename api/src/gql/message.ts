@@ -16,6 +16,16 @@ export const typeDefs = /* GraphQL */ `
   type Query {
     getMessages(connectionId: ID!): [Message]
   }
+
+  input CreateMessageInput {
+    connectionId: ID!
+    receiverId: ID!
+    text: String!
+  }
+
+  type Mutation {
+    createMessage(data: CreateMessageInput!): Message!
+  }
 `;
 
 export const resolvers = {
@@ -43,7 +53,33 @@ export const resolvers = {
       return await db
         .select()
         .from(message)
-        .where(eq(message.connectionId, connectionId));
+        .where(eq(message.connectionId, connectionId))
+        .orderBy(message.createdAt);
+    },
+  },
+  Mutation: {
+    createMessage: async (
+      _parent: unknown,
+      {
+        data,
+      }: { data: { receiverId: string; text: string; connectionId: string } },
+      ctx: GQLContext
+    ) => {
+      if (!ctx.user) {
+        throw new GraphQLError("UNAUTHORIZED");
+      }
+
+      const msg = await db
+        .insert(message)
+        .values({
+          connectionId: data.connectionId,
+          receiverId: data.receiverId,
+          userId: ctx.user.id,
+          text: data.text,
+        })
+        .returning();
+
+      return msg[0];
     },
   },
 };
