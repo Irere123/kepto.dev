@@ -1,6 +1,7 @@
 import { sql } from "drizzle-orm";
 import { pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
 import { user } from "../user";
+import { connections } from "../connections";
 
 export const message = pgTable("messages", {
   id: uuid("id")
@@ -10,6 +11,9 @@ export const message = pgTable("messages", {
   userId: uuid("userId")
     .notNull()
     .references(() => user.id),
+  connectionId: uuid("connectionId")
+    .notNull()
+    .references(() => connections.id),
   receiverId: uuid("receiverId")
     .notNull()
     .references(() => user.id),

@@ -1,1 +1,0 @@
-ALTER TABLE "users" ADD COLUMN "numConnections" integer DEFAULT 0;

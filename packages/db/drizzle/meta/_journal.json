@@ -5,22 +5,8 @@
     {
       "idx": 0,
       "version": "5",
-      "when": 1700762235159,
-      "tag": "0000_nasty_genesis",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1700765696483,
-      "tag": "0001_previous_epoch",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "5",
-      "when": 1700828453139,
-      "tag": "0002_dashing_red_skull",
+      "when": 1700828907948,
+      "tag": "0000_light_expediter",
       "breakpoints": true
     }
   ]
