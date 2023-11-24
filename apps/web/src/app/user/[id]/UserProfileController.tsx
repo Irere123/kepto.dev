@@ -7,6 +7,7 @@ import { Button } from "@/ui/button";
 import { Paper } from "@/ui/paper";
 import { Text } from "@/ui/text";
 import { useQuery } from "react-query";
+import { ConnectButton } from "./Button";
 
 interface Props {
   userId: string;
@@ -47,15 +48,10 @@ export const UserProfileController: React.FC<Props> = ({ userId }) => {
       <div className="flex justify-between mt-4">
         <Text as="h5">{data?.numConnections} connections</Text>
         <div className="flex gap-4 items-center text-primary-fg">
-          {!data?.youConnected ? (
-            <Button prefix={<Plus />} size="small">
-              Connect
-            </Button>
-          ) : (
-            <Button prefix={<Plus />} size="small" color="secondary">
-              Disconnect
-            </Button>
-          )}
+          <ConnectButton
+            connected={data?.youConnected!}
+            connecteeId={data?.id!}
+          />
           <Location />
           <ThreeDots />
         </div>
