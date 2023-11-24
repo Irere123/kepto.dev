@@ -72,12 +72,16 @@ const main = async () => {
     json(),
     expressMiddleware(server, {
       context: async ({ req }) => {
-        const token = req.headers["authorization"]!.split(" ")[1] || "bearer";
+        const token = req.headers["authorization"]!.split(" ")[1] || "";
 
         const { userId } = jwt.verify(
           token,
           process.env.ACCESS_TOKEN_SECRET!
         ) as JwtPayload;
+
+        if (!userId) {
+          return { user: null };
+        }
 
         const user = (
           await db.select().from(users).where(eq(users.id, userId))

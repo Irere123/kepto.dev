@@ -3,6 +3,7 @@ import "./globals.css";
 import { Providers } from "./providers";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://kepto.dev"),
   title: {
     template: "%s | Kepto",
     default: "Kepto",

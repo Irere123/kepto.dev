@@ -1,11 +1,9 @@
 import { Metadata, ResolvingMetadata } from "next";
-import { Location, LogoLargeIcon, Plus, ThreeDots } from "@/icons";
+import { LogoLargeIcon } from "@/icons";
 import { apiUrl } from "@/lib/constants";
-import { Avatar } from "@/ui/avatar";
-import { Button } from "@/ui/button";
-import { Paper } from "@/ui/paper";
-import { Text } from "@/ui/text";
+
 import Link from "next/link";
+import { UserProfileController } from "./UserProfileController";
 
 type Props = {
   params: { id: string };
@@ -40,20 +38,7 @@ export async function generateMetadata(
   };
 }
 
-async function getData(id: string) {
-  const res = await fetch(`${apiUrl}/user/${id}`);
-
-  if (!res.ok) {
-    // This will activate the closest `error.js` Error Boundary
-    throw new Error("Failed to fetch data");
-  }
-
-  return res.json();
-}
-
 export default async function UserProfilePage({ params }: Props) {
-  const data = await getData(params.id);
-
   return (
     <main className="flex flex-col w-[600px] justify-center m-auto">
       <div className="m-auto mb-6">
@@ -61,45 +46,7 @@ export default async function UserProfilePage({ params }: Props) {
           <LogoLargeIcon />
         </Link>
       </div>
-      <Paper>
-        <div className="flex gap-4 justify-between">
-          <div>
-            <Text as="h3" weight="700">
-              {data.user.displayName}
-            </Text>
-            <Text as="p">@{data.user.username}</Text>
-          </div>
-          <div>
-            <Avatar
-              size="72"
-              isOnline={data.user.online}
-              src={data.user.avatarUrl}
-              username={data.user.username}
-            />
-          </div>
-        </div>
-        <div>
-          <Text as="p" className="text-primary-accents-6">
-            {data.user.bio}
-          </Text>
-        </div>
-        <div className="flex justify-between mt-4">
-          <Text as="h5">{data.user.numConnections} connections</Text>
-          <div className="flex gap-4 items-center text-primary-fg">
-            {!data.youConnected ? (
-              <Button prefix={<Plus />} size="small">
-                Connect
-              </Button>
-            ) : (
-              <Button prefix={<Plus />} size="small" color="secondary">
-                Disconnect
-              </Button>
-            )}
-            <Location />
-            <ThreeDots />
-          </div>
-        </div>
-      </Paper>
+      <UserProfileController userId={params.id} />
     </main>
   );
 }
