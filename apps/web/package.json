@@ -17,6 +17,7 @@
     "formik": "^2.4.5",
     "graphql": "^16.8.1",
     "graphql-request": "^6.1.0",
+    "graphql-ws": "^5.14.2",
     "next": "14.0.0",
     "react": "^18",
     "react-dom": "^18",

@@ -77,7 +77,15 @@ const main = async () => {
   });
 
   // WebSocketServer start listening.
-  const serverCleanup = useServer({ schema }, wsServer);
+  const serverCleanup = useServer(
+    {
+      schema,
+      context: (data) => {
+        console.log(data);
+      },
+    },
+    wsServer
+  );
 
   const server = new ApolloServer({
     schema,
