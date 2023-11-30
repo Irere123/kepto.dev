@@ -7,15 +7,23 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
 import { Strategy as GithubStrategy } from "passport-github";
+import { createServer } from "http";
+import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
+import { WebSocketServer } from "ws";
+import { useServer } from "graphql-ws/lib/use/ws";
+
 import { schema } from "./schema";
 import { baseUrl, webUrl } from "./lib/constants";
 import { db, eq, user as users } from "@kepto/db";
 import { GithubProfile } from "./lib/types";
+import { pubsub } from "./pubsub";
 import user from "./routes/user";
 import dev from "./routes/dev";
 
 const main = async () => {
   const app = express();
+
+  const httpServer = createServer(app);
 
   app.use(cors());
   app.use(express.json());
@@ -62,7 +70,33 @@ const main = async () => {
     )
   );
 
-  const server = new ApolloServer({ schema, introspection: true });
+  // Creating the WebSocket server
+  const wsServer = new WebSocketServer({
+    server: httpServer,
+    path: "/graphql",
+  });
+
+  // WebSocketServer start listening.
+  const serverCleanup = useServer({ schema }, wsServer);
+
+  const server = new ApolloServer({
+    schema,
+    plugins: [
+      // Proper shutdown for the HTTP server.
+      ApolloServerPluginDrainHttpServer({ httpServer }),
+
+      // Proper shutdown for the WebSocket server.
+      {
+        async serverWillStart() {
+          return {
+            async drainServer() {
+              await serverCleanup.dispose();
+            },
+          };
+        },
+      },
+    ],
+  });
 
   await server.start();
 
@@ -88,7 +122,7 @@ const main = async () => {
         ).at(0);
 
         // add the user to the context
-        return { user };
+        return { user, pubsub };
       },
     })
   );
@@ -117,7 +151,7 @@ const main = async () => {
   app.use("/dev", dev);
 
   // start the Express server
-  app.listen(4000 || process.env.PORT, () => {
+  httpServer.listen(4000 || process.env.PORT, () => {
     console.log(`Server is running on port`);
   });
 };

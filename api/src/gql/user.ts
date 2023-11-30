@@ -24,6 +24,10 @@ export const typeDefs = /* GraphQL */ `
     users: [User]
     getUser(id: ID!): User
   }
+
+  type Subscription {
+    hello: String
+  }
 `;
 
 export const resolvers = {
@@ -64,6 +68,16 @@ export const resolvers = {
     },
     getUser: async (_parent: unknown, { id }: { id: string }) => {
       return (await db.select().from(user).where(eq(user.id, id))).at(0);
+    },
+  },
+  Subscription: {
+    hello: {
+      // Example using an async generator
+      subscribe: async function* () {
+        for await (const word of ["Hello", "Bonjour", "Ciao"]) {
+          yield { hello: word };
+        }
+      },
     },
   },
 };
