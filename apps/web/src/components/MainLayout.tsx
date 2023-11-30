@@ -3,6 +3,7 @@
 import { useScreenSize } from "@/hooks/useScreenSize";
 import React from "react";
 import { MainInnerGrid } from "./MainGrid";
+import { LeftPanel } from "./GridPanels";
 
 interface MainLayoutProps {
   children: React.ReactNode;
@@ -14,51 +15,55 @@ interface MainLayoutProps {
 export const MainLayout: React.FC<MainLayoutProps> = ({
   children,
   leftPanel = <div />,
-  rightPanel = <div />,
   tabletSidebar = <div />,
 }) => {
   const screenSize = useScreenSize();
 
   let middle = null;
+  let prepend = null;
 
   switch (screenSize) {
     case "3-cols":
       middle = (
         <>
-          {leftPanel}
+          <LeftPanel>{leftPanel}</LeftPanel>
           {children}
-          {rightPanel}
         </>
       );
       break;
     case "2-cols":
       middle = (
         <>
-          {tabletSidebar}
+          <LeftPanel>{tabletSidebar}</LeftPanel>
           {children}
-          {rightPanel}
         </>
       );
       break;
     case "1-cols":
       middle = (
         <>
-          {tabletSidebar}
+          <LeftPanel>{tabletSidebar}</LeftPanel>
           {children}
         </>
       );
       break;
     case "fullscreen":
+      prepend = <></>;
       middle = <>{children}</>;
-      break;
-    default:
-      break;
   }
+
   return (
-    <div
-      className={`flex flex-col items-center w-full scrollbar-thin scrollbar-thumb-primary-accents-2`}
-    >
-      <MainInnerGrid>{middle}</MainInnerGrid>
-    </div>
+    <>
+      <div className={`fixed left-0 w-full z-10`} style={{ top: 0 }}>
+        {prepend}
+      </div>
+      <div
+        className={`flex flex-col items-center w-full scrollbar-thin scrollbar-thumb-primary-2 ${
+          prepend ? "mt-8 mb-7" : ""
+        }`}
+      >
+        <MainInnerGrid>{middle}</MainInnerGrid>
+      </div>
+    </>
   );
 };

@@ -11,6 +11,29 @@ interface Props {
   children: React.ReactNode;
 }
 
+const HeaderWrapper: React.FC<Props> = ({ children }) => (
+  <div className={`flex mb-7 h-6 items-center`}>{children}</div>
+);
+
+export const FixedGridPanel: React.FC<Props> = ({ children }) => {
+  return (
+    <div className={`flex pt-5 flex-col flex-1 sticky top-0 h-screen`}>
+      {children}
+    </div>
+  );
+};
+
+export const LeftPanel: React.FC<Props> = ({ children }) => {
+  return (
+    <FixedGridPanel>
+      <HeaderWrapper>
+        <p>KPD</p>
+      </HeaderWrapper>
+      {children}
+    </FixedGridPanel>
+  );
+};
+
 export const GridPanel: React.FC<Props> = ({ children }) => {
   return <div className={`flex flex-col flex-1 w-full`}>{children}</div>;
 };

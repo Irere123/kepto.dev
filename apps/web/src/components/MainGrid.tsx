@@ -9,7 +9,7 @@ export type MainGridProps = {
 
 export const MainInnerGrid: React.FC<MainGridProps> = ({
   children,
-  className,
+  className = "",
 }) => {
   const screenSize = useScreenSize();
 
@@ -24,6 +24,7 @@ export const MainInnerGrid: React.FC<MainGridProps> = ({
     myClassName = "w-full px-3";
     gridTemplateColumns = "1fr";
   }
+
   return (
     <div
       id="main"
@@ -41,7 +42,7 @@ export const MainInnerGrid: React.FC<MainGridProps> = ({
 
 export const MainGrid: React.FC<MainGridProps> = ({ children }) => {
   return (
-    <div className={`flex justify-center w-full min-h-screen bg-primary-900`}>
+    <div className={`flex justify-center w-full min-h-screen bg-primary-fg`}>
       <MainInnerGrid>{children}</MainInnerGrid>
     </div>
   );
