@@ -19,6 +19,7 @@ export const typeDefs = /* GraphQL */ `
 
   type Query {
     getConnections: [Connection!]
+    connection(id: ID!): Connection
   }
 `;
 
@@ -87,6 +88,22 @@ export const resolvers = {
         .select()
         .from(connections)
         .where(eq(connections.connectorId, ctx.user.id));
+    },
+    connection: async (
+      _parent: unknown,
+      { id }: { id: string },
+      ctx: GQLContext
+    ) => {
+      if (!ctx.user) {
+        throw new GraphQLError("Not authonticated");
+      }
+
+      const conn = await await db
+        .select()
+        .from(connections)
+        .where(eq(connections.id, id));
+
+      return conn[0];
     },
   },
 };

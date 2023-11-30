@@ -1,4 +1,3 @@
-import { User } from "@kepto/db";
 import { gql } from "graphql-request";
 import { gqlClient } from "./gqlClient";
 

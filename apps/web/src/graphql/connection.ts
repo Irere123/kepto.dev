@@ -1,5 +1,6 @@
 import { gql } from "graphql-request";
 import { gqlClient } from "./gqlClient";
+import { graphqlUrl } from "@/lib/constants";
 
 export interface Connection {
   id: string;
