@@ -4,12 +4,16 @@ import React from "react";
 import { ChatInput } from "./chat/ChatInput";
 import { ChatMessages } from "./chat/ChatMessages";
 
-interface ConnPageControllerProps {}
+interface ConnPageControllerProps {
+  connectionId: string;
+}
 
-export const ConnPageController: React.FC<ConnPageControllerProps> = () => {
+export const ConnPageController: React.FC<ConnPageControllerProps> = ({
+  connectionId,
+}) => {
   return (
     <div className="flex flex-1 flex-col h-full w-full">
-      <ChatMessages />
+      <ChatMessages connectionId={connectionId} />
       <ChatInput />
     </div>
   );
