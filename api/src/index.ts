@@ -16,7 +16,6 @@ import { schema } from "./schema";
 import { baseUrl, webUrl } from "./lib/constants";
 import { db, eq, user as users } from "@kepto/db";
 import { GithubProfile } from "./lib/types";
-import { pubsub } from "./pubsub";
 import user from "./routes/user";
 import dev from "./routes/dev";
 
@@ -80,9 +79,6 @@ const main = async () => {
   const serverCleanup = useServer(
     {
       schema,
-      context: (data) => {
-        console.log(data);
-      },
     },
     wsServer
   );
@@ -127,7 +123,7 @@ const main = async () => {
 
         const user = await db.select().from(users).where(eq(users.id, userId));
         // add the user to the context
-        return { user: user[0], pubsub };
+        return { user: user[0] };
       },
     })
   );

@@ -1,10 +1,13 @@
 import { GraphQLError } from "graphql";
+import { withFilter } from "graphql-subscriptions";
 import { GQLContext } from "../lib/types";
 import { db, eq, message, user } from "@kepto/db";
+import { pubsub } from "../pubsub";
 
 export const typeDefs = /* GraphQL */ `
   type Message {
     id: ID!
+    connectionId: ID!
     text: String!
     userId: ID!
     receiverId: ID!
@@ -25,6 +28,10 @@ export const typeDefs = /* GraphQL */ `
 
   type Mutation {
     createMessage(data: CreateMessageInput!): Message!
+  }
+
+  type Subscription {
+    newConnMessage(connectionId: ID!): Message!
   }
 `;
 
@@ -79,7 +86,21 @@ export const resolvers = {
         })
         .returning();
 
+      pubsub.publish("NEW_MESSAGE", {
+        newConnMessage: msg[0],
+      });
+
       return msg[0];
+    },
+  },
+  Subscription: {
+    newConnMessage: {
+      subscribe: withFilter(
+        () => pubsub.asyncIterator("NEW_MESSAGE"),
+        (payload, variables) => {
+          return payload.newConnMessage.connectionId === variables.connectionId;
+        }
+      ),
     },
   },
 };
