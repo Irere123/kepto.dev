@@ -13,7 +13,7 @@ export const message = pgTable("messages", {
     .references(() => user.id),
   connectionId: uuid("connectionId")
     .notNull()
-    .references(() => connections.id),
+    .references(() => connections.id, { onDelete: "cascade" }),
   receiverId: uuid("receiverId")
     .notNull()
     .references(() => user.id),

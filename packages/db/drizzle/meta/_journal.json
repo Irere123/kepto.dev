@@ -8,6 +8,13 @@
       "when": 1700828907948,
       "tag": "0000_light_expediter",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1701421722618,
+      "tag": "0001_sudden_namora",
+      "breakpoints": true
     }
   ]
 }
