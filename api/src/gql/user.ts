@@ -67,7 +67,9 @@ export const resolvers = {
       return users;
     },
     getUser: async (_parent: unknown, { id }: { id: string }) => {
-      return (await db.select().from(user).where(eq(user.id, id))).at(0);
+      const u = await db.select().from(user).where(eq(user.id, id));
+
+      return u[0];
     },
   },
   Subscription: {

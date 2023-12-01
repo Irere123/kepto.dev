@@ -1,19 +1,21 @@
 "use client";
 
 import { getUserProfile } from "@/graphql/user";
-import { Location, Plus, ThreeDots } from "@/icons";
+import { Location, ThreeDots } from "@/icons";
 import { Avatar } from "@/ui/avatar";
-import { Button } from "@/ui/button";
 import { Paper } from "@/ui/paper";
 import { Text } from "@/ui/text";
 import { useQuery } from "react-query";
 import { ConnectButton } from "./Button";
+import { useContext } from "react";
+import AuthContext from "@/contexts/AuthContext";
 
 interface Props {
   userId: string;
 }
 
 export const UserProfileController: React.FC<Props> = ({ userId }) => {
+  const { user } = useContext(AuthContext);
   const { data, isLoading } = useQuery("getUserProfile", () =>
     getUserProfile(userId)
   );
@@ -21,6 +23,8 @@ export const UserProfileController: React.FC<Props> = ({ userId }) => {
   if (isLoading) {
     return <Text>Loading..</Text>;
   }
+
+  console.log(data);
 
   return (
     <Paper>
@@ -48,10 +52,12 @@ export const UserProfileController: React.FC<Props> = ({ userId }) => {
       <div className="flex justify-between mt-4">
         <Text as="h5">{data?.numConnections} connections</Text>
         <div className="flex gap-4 items-center text-primary-fg">
-          <ConnectButton
-            connected={data?.youConnected!}
-            connecteeId={data?.id!}
-          />
+          {data?.id == user?.id ? null : (
+            <ConnectButton
+              connected={data?.youConnected!}
+              connecteeId={data?.id!}
+            />
+          )}
           <Location />
           <ThreeDots />
         </div>

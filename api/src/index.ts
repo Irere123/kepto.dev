@@ -115,22 +115,19 @@ const main = async () => {
     expressMiddleware(server, {
       context: async ({ req }) => {
         const token = req.headers["authorization"]!.split(" ")[1] || "";
+        let userId;
 
-        const { userId } = jwt.verify(
-          token,
-          process.env.ACCESS_TOKEN_SECRET!
-        ) as JwtPayload;
+        try {
+          const jwtToken = jwt.verify(
+            token,
+            process.env.ACCESS_TOKEN_SECRET!
+          ) as JwtPayload;
+          userId = jwtToken.userId;
+        } catch (error) {}
 
-        if (!userId) {
-          return { user: null };
-        }
-
-        const user = (
-          await db.select().from(users).where(eq(users.id, userId))
-        ).at(0);
-
+        const user = await db.select().from(users).where(eq(users.id, userId));
         // add the user to the context
-        return { user, pubsub };
+        return { user: user[0], pubsub };
       },
     })
   );

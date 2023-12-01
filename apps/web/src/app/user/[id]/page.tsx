@@ -4,6 +4,7 @@ import { apiUrl } from "@/lib/constants";
 
 import Link from "next/link";
 import { UserProfileController } from "./UserProfileController";
+import { ProtectedPage } from "@/components/ProtectedPage";
 
 type Props = {
   params: { id: string };
@@ -40,13 +41,15 @@ export async function generateMetadata(
 
 export default async function UserProfilePage({ params }: Props) {
   return (
-    <main className="flex flex-col w-[600px] justify-center m-auto">
-      <div className="m-auto mb-6">
-        <Link href={`/feed`}>
-          <LogoLargeIcon />
-        </Link>
-      </div>
-      <UserProfileController userId={params.id} />
-    </main>
+    <ProtectedPage>
+      <main className="flex flex-col w-[600px] justify-center m-auto">
+        <div className="m-auto mb-6">
+          <Link href={`/feed`}>
+            <LogoLargeIcon />
+          </Link>
+        </div>
+        <UserProfileController userId={params.id} />
+      </main>
+    </ProtectedPage>
   );
 }

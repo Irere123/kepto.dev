@@ -18,6 +18,26 @@ export interface UserProfile {
   youConnected: boolean;
 }
 
+export const USER_BY_ID_STATIC_FIELDS_QUERY = `
+  query User($id: ID!) {
+    getUser(id: $id) {
+      id
+      username
+      avatarUrl
+      bio
+      contributions
+      createdAt
+      updatedAt
+      displayName
+      email
+      location
+      numConnections
+      staff
+      online
+      youConnected
+  }
+`;
+
 export const USER_INFO_FRAGMENT = gql`
   fragment UserInfo on User {
     id
