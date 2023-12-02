@@ -31,6 +31,23 @@ export const GET_CONNECTIONS_QUERY = gql`
   }
 `;
 
+export const GET_CONNECTION_QUERY = gql`
+  query Connection($connectionId: ID!) {
+    connection(id: $connectionId) {
+      connectorId
+      connecteeId
+      name {
+        id
+        bio
+        avatarUrl
+        displayName
+        username
+      }
+      createdAt
+    }
+  }
+`;
+
 export const REMOVE_CONNECTION_QUERY = gql`
   mutation RemoveConn($connecteeId: ID!) {
     removeConnection(connecteeId: $connecteeId)
@@ -63,6 +80,17 @@ export const removeConnection = async (
   );
 
   return res.data.removeConnection;
+};
+
+export const getConnection = async (
+  connectionId: string
+): Promise<Connection> => {
+  const res = await gqlClient.rawRequest<{ connection: Connection }>(
+    GET_CONNECTION_QUERY,
+    { connectionId }
+  );
+
+  return res.data.connection;
 };
 
 export const getConnections = async (): Promise<Connection[]> => {

@@ -1,21 +1,28 @@
 "use client";
 
+import { createMessage } from "@/graphql/message";
 import { Input } from "@/ui/input";
-import { Form, Formik } from "formik";
 import React, { FormEvent, useState } from "react";
+import { useMutation } from "react-query";
 
-interface ChatInputProps {}
+interface ChatInputProps {
+  connectionId: string;
+  receiver: any;
+}
 
-type InitialValues = {
-  message: string;
-};
-
-export const ChatInput: React.FC<ChatInputProps> = () => {
+export const ChatInput: React.FC<ChatInputProps> = ({
+  connectionId,
+  receiver,
+}) => {
   const [message, setMessage] = useState("");
+  const { mutateAsync } = useMutation("createMessage", createMessage);
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(message);
+
+    const data = { text: message, connectionId, receiverId: receiver.id };
+
+    await mutateAsync(data);
 
     setMessage("");
   };
