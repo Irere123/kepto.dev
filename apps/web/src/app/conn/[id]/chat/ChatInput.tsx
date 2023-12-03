@@ -7,20 +7,16 @@ import { useMutation } from "react-query";
 
 interface ChatInputProps {
   connectionId: string;
-  receiver: any;
 }
 
-export const ChatInput: React.FC<ChatInputProps> = ({
-  connectionId,
-  receiver,
-}) => {
+export const ChatInput: React.FC<ChatInputProps> = ({ connectionId }) => {
   const [message, setMessage] = useState("");
   const { mutateAsync } = useMutation("createMessage", createMessage);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const data = { text: message, connectionId, receiverId: receiver.id };
+    const data = { text: message, connectionId };
 
     await mutateAsync(data);
 

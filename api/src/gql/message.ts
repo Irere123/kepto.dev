@@ -1,16 +1,15 @@
 import { GraphQLError } from "graphql";
 import { withFilter } from "graphql-subscriptions";
 import { GQLContext } from "../lib/types";
-import { db, eq, message, user } from "@kepto/db";
+import { db, eq, connMessage, user, and, or } from "@kepto/db";
 import { pubsub } from "../pubsub";
 
 export const typeDefs = /* GraphQL */ `
   type Message {
     id: ID!
+    senderId: ID!
     connectionId: ID!
     text: String!
-    userId: ID!
-    receiverId: ID!
     user: User!
     createdAt: DateTime!
     updatedAt: DateTime!
@@ -21,8 +20,8 @@ export const typeDefs = /* GraphQL */ `
   }
 
   input CreateMessageInput {
+    userId: ID!
     connectionId: ID!
-    receiverId: ID!
     text: String!
   }
 
@@ -37,11 +36,11 @@ export const typeDefs = /* GraphQL */ `
 
 export const resolvers = {
   Message: {
-    user: async ({ userId }: { userId: string }) => {
+    user: async ({ senderId }: { senderId: string }) => {
       const users = await db
         .select()
         .from(user)
-        .where(eq(user.id, userId))
+        .where(eq(user.id, senderId))
         .limit(1);
 
       return users[0];
@@ -50,7 +49,7 @@ export const resolvers = {
   Query: {
     getMessages: async (
       _parent: unknown,
-      { connectionId }: { connectionId: string },
+      { userId }: { userId: string },
       ctx: GQLContext
     ) => {
       if (!ctx.user) {
@@ -59,9 +58,20 @@ export const resolvers = {
 
       return await db
         .select()
-        .from(message)
-        .where(eq(message.connectionId, connectionId))
-        .orderBy(message.createdAt);
+        .from(connMessage)
+        .where(
+          or(
+            and(
+              eq(connMessage.recipientId, ctx.user.id),
+              eq(connMessage.senderId, userId)
+            ),
+            and(
+              eq(connMessage.senderId, ctx.user.id),
+              eq(connMessage.recipientId, userId)
+            )
+          )
+        )
+        .orderBy(connMessage.createdAt);
     },
   },
   Mutation: {
@@ -69,7 +79,7 @@ export const resolvers = {
       _parent: unknown,
       {
         data,
-      }: { data: { receiverId: string; text: string; connectionId: string } },
+      }: { data: { text: string; userId: string; connectionId: string } },
       ctx: GQLContext
     ) => {
       if (!ctx.user) {
@@ -77,11 +87,11 @@ export const resolvers = {
       }
 
       const msg = await db
-        .insert(message)
+        .insert(connMessage)
         .values({
           connectionId: data.connectionId,
-          receiverId: data.receiverId,
-          userId: ctx.user.id,
+          senderId: ctx.user.id,
+          recipientId: data.userId,
           text: data.text,
         })
         .returning();

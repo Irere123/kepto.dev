@@ -43,7 +43,7 @@ export const resolvers = {
         .where(
           and(
             eq(connections.connectorId, ctx.user.id),
-            eq(connections.connecteeId, id)
+            eq(connections.userId, id)
           )
         );
 

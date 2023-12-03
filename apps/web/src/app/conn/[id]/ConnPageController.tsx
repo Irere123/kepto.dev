@@ -14,18 +14,10 @@ interface ConnPageControllerProps {
 export const ConnPageController: React.FC<ConnPageControllerProps> = ({
   connectionId,
 }) => {
-  const { data, isLoading } = useQuery("getCOnnection", () =>
-    getConnection(connectionId)
-  );
-
-  if (isLoading) {
-    return <Text>loading....</Text>;
-  }
-
   return (
     <div className="flex flex-1 flex-col h-full w-full">
       <ChatMessages connectionId={connectionId} />
-      <ChatInput connectionId={connectionId} receiver={data?.name} />
+      <ChatInput connectionId={connectionId} />
     </div>
   );
 };

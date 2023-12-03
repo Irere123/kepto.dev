@@ -1,8 +1,8 @@
 {
   "version": "5",
   "dialect": "pg",
-  "id": "94ad106b-22b6-4cc5-a6c1-77217083c4f8",
-  "prevId": "1ebeb808-66df-44e0-8c13-7c86b947b32d",
+  "id": "67032ac4-8570-4724-87b4-380cad9c3673",
+  "prevId": "32429ca7-838d-4bca-9575-8ccddeabb867",
   "tables": {
     "users": {
       "name": "users",
@@ -83,6 +83,13 @@
           "notNull": false,
           "default": 0
         },
+        "numConnectors": {
+          "name": "numConnectors",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "default": 0
+        },
         "contributions": {
           "name": "contributions",
           "type": "integer",
@@ -150,14 +157,14 @@
           "notNull": true,
           "default": "gen_random_uuid()"
         },
-        "connectorId": {
-          "name": "connectorId",
+        "userId": {
+          "name": "userId",
           "type": "uuid",
           "primaryKey": false,
           "notNull": true
         },
-        "connecteeId": {
-          "name": "connecteeId",
+        "connectorId": {
+          "name": "connectorId",
           "type": "uuid",
           "primaryKey": false,
           "notNull": true
@@ -178,12 +185,39 @@
         }
       },
       "indexes": {},
-      "foreignKeys": {},
+      "foreignKeys": {
+        "connections_userId_users_id_fk": {
+          "name": "connections_userId_users_id_fk",
+          "tableFrom": "connections",
+          "tableTo": "users",
+          "columnsFrom": [
+            "userId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "connections_connectorId_users_id_fk": {
+          "name": "connections_connectorId_users_id_fk",
+          "tableFrom": "connections",
+          "tableTo": "users",
+          "columnsFrom": [
+            "connectorId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "messages": {
-      "name": "messages",
+    "conn_messages": {
+      "name": "conn_messages",
       "schema": "",
       "columns": {
         "id": {
@@ -199,20 +233,20 @@
           "primaryKey": false,
           "notNull": false
         },
-        "userId": {
-          "name": "userId",
+        "senderId": {
+          "name": "senderId",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "recipientId": {
+          "name": "recipientId",
           "type": "uuid",
           "primaryKey": false,
           "notNull": true
         },
         "connectionId": {
           "name": "connectionId",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "receiverId": {
-          "name": "receiverId",
           "type": "uuid",
           "primaryKey": false,
           "notNull": true
@@ -234,22 +268,35 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "messages_userId_users_id_fk": {
-          "name": "messages_userId_users_id_fk",
-          "tableFrom": "messages",
+        "conn_messages_senderId_users_id_fk": {
+          "name": "conn_messages_senderId_users_id_fk",
+          "tableFrom": "conn_messages",
           "tableTo": "users",
           "columnsFrom": [
-            "userId"
+            "senderId"
           ],
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
+          "onDelete": "cascade",
           "onUpdate": "no action"
         },
-        "messages_connectionId_connections_id_fk": {
-          "name": "messages_connectionId_connections_id_fk",
-          "tableFrom": "messages",
+        "conn_messages_recipientId_users_id_fk": {
+          "name": "conn_messages_recipientId_users_id_fk",
+          "tableFrom": "conn_messages",
+          "tableTo": "users",
+          "columnsFrom": [
+            "recipientId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "conn_messages_connectionId_connections_id_fk": {
+          "name": "conn_messages_connectionId_connections_id_fk",
+          "tableFrom": "conn_messages",
           "tableTo": "connections",
           "columnsFrom": [
             "connectionId"
@@ -258,19 +305,6 @@
             "id"
           ],
           "onDelete": "cascade",
-          "onUpdate": "no action"
-        },
-        "messages_receiverId_users_id_fk": {
-          "name": "messages_receiverId_users_id_fk",
-          "tableFrom": "messages",
-          "tableTo": "users",
-          "columnsFrom": [
-            "receiverId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
           "onUpdate": "no action"
         }
       },

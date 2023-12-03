@@ -7,12 +7,12 @@ import { useMutation, useQueryClient } from "react-query";
 
 interface ConnectButtonProps {
   connected: boolean;
-  connecteeId: string;
+  userId: string;
 }
 
 export const ConnectButton: React.FC<ConnectButtonProps> = ({
   connected,
-  connecteeId,
+  userId,
 }) => {
   const queryClient = useQueryClient();
   const { mutateAsync: createConn, isLoading: createConnLoading } = useMutation(
@@ -55,7 +55,7 @@ export const ConnectButton: React.FC<ConnectButtonProps> = ({
           prefix={<Plus />}
           size="small"
           loading={createConnLoading}
-          onClick={() => createConn(connecteeId)}
+          onClick={() => createConn(userId)}
         >
           Connect
         </Button>
@@ -65,7 +65,7 @@ export const ConnectButton: React.FC<ConnectButtonProps> = ({
           size="small"
           color="secondary"
           loading={removeConnLoading}
-          onClick={() => removeConn(connecteeId)}
+          onClick={() => removeConn(userId)}
         >
           Disconnect
         </Button>

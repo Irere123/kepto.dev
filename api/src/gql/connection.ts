@@ -1,109 +1,42 @@
-import { connections, db, eq, user } from "@kepto/db";
 import { GQLContext } from "../lib/types";
 import { GraphQLError } from "graphql";
 import { connect } from "../lib/connectLogic";
 
 export const typeDefs = /* GraphQL */ `
-  type Connection {
-    id: ID
-    connectorId: ID
-    connecteeId: ID
-    name: User
-    createdAt: DateTime
-  }
-
   type Mutation {
-    createConnection(connecteeId: ID!): Boolean!
-    removeConnection(connecteeId: ID!): Boolean!
-  }
-
-  type Query {
-    getConnections: [Connection!]
-    connection(id: ID!): Connection
+    createConnection(userId: ID!): Boolean!
+    removeConnection(userId: ID!): Boolean!
   }
 `;
 
 export const resolvers = {
-  Connection: {
-    name: async (
-      {
-        connecteeId,
-        connectorId,
-      }: { connecteeId: string; connectorId: string },
-      _args: {},
-      ctx: GQLContext
-    ) => {
-      let name;
-
-      if (connecteeId == ctx.user.id) {
-        name = await db
-          .select()
-          .from(user)
-          .where(eq(user.id, connectorId))
-          .limit(1);
-      } else {
-        name = await db.select().from(user).where(eq(user.id, connecteeId));
-      }
-
-      return name[0];
-    },
-  },
   Mutation: {
     createConnection: async (
       _parent: unknown,
-      { connecteeId }: { connecteeId: string },
+      { userId }: { userId: string },
       ctx: GQLContext
     ) => {
       if (!ctx.user.id) {
         throw new Error("Not authenticated");
       }
 
-      await connect(ctx.user.id, connecteeId, true);
+      await connect(userId, ctx.user.id, true);
 
       return true;
     },
 
     removeConnection: async (
       _parent: unknown,
-      { connecteeId }: { connecteeId: string },
+      { userId }: { userId: string },
       ctx: GQLContext
     ) => {
       if (!ctx.user) {
         throw new GraphQLError("Not authenticated");
       }
 
-      await connect(ctx.user.id, connecteeId, false);
+      await connect(userId, ctx.user.id, false);
 
       return true;
-    },
-  },
-
-  Query: {
-    getConnections: async (_parent: unknown, _args: {}, ctx: GQLContext) => {
-      if (!ctx.user) {
-        throw new GraphQLError("Not authonticated");
-      }
-
-      return await db
-        .select()
-        .from(connections)
-        .where(eq(connections.connectorId, ctx.user.id));
-    },
-    connection: async (
-      _parent: unknown,
-      { id }: { id: string },
-      ctx: GQLContext
-    ) => {
-      if (!ctx.user) {
-        throw new GraphQLError("Not authonticated");
-      }
-
-      const conn = await await db
-        .select()
-        .from(connections)
-        .where(eq(connections.id, id));
-
-      return conn[0];
     },
   },
 };

@@ -24,8 +24,6 @@ export const UserProfileController: React.FC<Props> = ({ userId }) => {
     return <Text>Loading..</Text>;
   }
 
-  console.log(data);
-
   return (
     <Paper>
       <div className="flex gap-4 justify-between">
@@ -53,10 +51,7 @@ export const UserProfileController: React.FC<Props> = ({ userId }) => {
         <Text as="h5">{data?.numConnections} connections</Text>
         <div className="flex gap-4 items-center text-primary-fg">
           {data?.id == user?.id ? null : (
-            <ConnectButton
-              connected={data?.youConnected!}
-              connecteeId={data?.id!}
-            />
+            <ConnectButton connected={data?.youConnected!} userId={data?.id!} />
           )}
           <Location />
           <ThreeDots />

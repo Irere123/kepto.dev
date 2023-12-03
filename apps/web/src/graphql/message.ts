@@ -17,7 +17,6 @@ export const NEW_MESSAGE_SUBSCRIPTION_QUERY = gql`
   subscription ($connectionId: ID!) {
     newConnMessage(connectionId: $connectionId) {
       id
-      receiverId
       text
       user {
         id
@@ -34,7 +33,6 @@ export const MESSAGES_QUERY = gql`
   query GetMessages($connectionId: ID!) {
     getMessages(connectionId: $connectionId) {
       id
-      receiverId
       text
       user {
         id
@@ -75,7 +73,6 @@ export const getMessages = async (
 
 export const createMessage = async (data: {
   connectionId: string;
-  receiverId: string;
   text: string;
 }): Promise<ConnMessage> => {
   const res = await gqlClient.rawRequest<{ createMessage: ConnMessage }>(
