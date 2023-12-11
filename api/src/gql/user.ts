@@ -1,4 +1,4 @@
-import { and, connections, db, eq, ne, user } from "@kepto/db";
+import { and, db, eq, follows, ne, or, user } from "@kepto/db";
 import { GQLContext } from "../lib/types";
 
 export const typeDefs = /* GraphQL */ `
@@ -12,17 +12,23 @@ export const typeDefs = /* GraphQL */ `
     email: String
     online: String!
     staff: String
-    numConnections: Int!
-    contributions: String
+    contributions: Int!
+    numFollowers: Int!
+    numFollowing: Int!
     updatedAt: DateTime!
     createdAt: DateTime!
-    youConnected: Boolean!
+    followInfo: FollowInfo!
+  }
+
+  type FollowInfo {
+    youAreFollowing: Boolean
+    followsYou: Boolean
   }
 
   type Query {
     me: User
     users: [User]
-    getUser(id: ID!): User
+    user(id: ID!): User
   }
 
   type Subscription {
@@ -32,26 +38,26 @@ export const typeDefs = /* GraphQL */ `
 
 export const resolvers = {
   User: {
-    youConnected: async (
-      { id }: { id: string },
-      _args: {},
-      ctx: GQLContext
-    ) => {
-      const conn = await db
+    followInfo: async ({ id }: { id: string }, _args: {}, ctx: GQLContext) => {
+      const follow = await db
         .select()
-        .from(connections)
+        .from(follows)
         .where(
-          and(
-            eq(connections.connectorId, ctx.user.id),
-            eq(connections.userId, id)
+          or(
+            and(eq(follows.followerId, ctx.user.id), eq(follows.userId, id)),
+            and(eq(follows.userId, id), eq(follows.followerId, ctx.user.id))
           )
         );
-
-      if (!conn[0]) {
-        return false;
+      console.log(follow);
+      console.log("The folllow is %o", follow);
+      if (!follow.length) {
+        return {
+          youAreFollowing: false,
+          followsYou: false,
+        };
       }
 
-      return true;
+      return { youAreFollowing: true, followsYou: false };
     },
   },
   Query: {
@@ -66,7 +72,7 @@ export const resolvers = {
 
       return users;
     },
-    getUser: async (_parent: unknown, { id }: { id: string }) => {
+    user: async (_parent: unknown, { id }: { id: string }) => {
       const u = await db.select().from(user).where(eq(user.id, id));
 
       return u[0];

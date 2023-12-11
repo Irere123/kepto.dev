@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "pg",
-  "id": "32429ca7-838d-4bca-9575-8ccddeabb867",
+  "id": "9916df30-6c9c-42b3-a6fb-aba99430a76e",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "users": {
@@ -21,14 +21,14 @@
           "primaryKey": false,
           "notNull": true
         },
-        "display_name": {
-          "name": "display_name",
+        "displayName": {
+          "name": "displayName",
           "type": "text",
           "primaryKey": false,
           "notNull": true
         },
-        "avatar_url": {
-          "name": "avatar_url",
+        "avatarUrl": {
+          "name": "avatarUrl",
           "type": "text",
           "primaryKey": false,
           "notNull": true
@@ -39,15 +39,15 @@
           "primaryKey": false,
           "notNull": false
         },
-        "token_version": {
-          "name": "token_version",
+        "tokenVersion": {
+          "name": "tokenVersion",
           "type": "integer",
           "primaryKey": false,
           "notNull": false,
           "default": 1
         },
-        "github_access_token": {
-          "name": "github_access_token",
+        "githubAccessToken": {
+          "name": "githubAccessToken",
           "type": "text",
           "primaryKey": false,
           "notNull": false
@@ -70,14 +70,21 @@
           "primaryKey": false,
           "notNull": false
         },
-        "github_id": {
-          "name": "github_id",
+        "githubId": {
+          "name": "githubId",
           "type": "text",
           "primaryKey": false,
           "notNull": false
         },
-        "numConnections": {
-          "name": "numConnections",
+        "numFollowing": {
+          "name": "numFollowing",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "default": 0
+        },
+        "numFollowers": {
+          "name": "numFollowers",
           "type": "integer",
           "primaryKey": false,
           "notNull": false,
@@ -104,15 +111,15 @@
           "notNull": false,
           "default": false
         },
-        "created_at": {
-          "name": "created_at",
+        "createdAt": {
+          "name": "createdAt",
           "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": true,
           "default": "now()"
         },
-        "updated_at": {
-          "name": "updated_at",
+        "updatedAt": {
+          "name": "updatedAt",
           "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": true,
@@ -139,8 +146,8 @@
         }
       }
     },
-    "connections": {
-      "name": "connections",
+    "follows": {
+      "name": "follows",
       "schema": "",
       "columns": {
         "id": {
@@ -156,21 +163,21 @@
           "primaryKey": false,
           "notNull": true
         },
-        "connectorId": {
-          "name": "connectorId",
+        "followerId": {
+          "name": "followerId",
           "type": "uuid",
           "primaryKey": false,
           "notNull": true
         },
-        "created_at": {
-          "name": "created_at",
+        "createdAt": {
+          "name": "createdAt",
           "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": true,
           "default": "now()"
         },
-        "updated_at": {
-          "name": "updated_at",
+        "updatedAt": {
+          "name": "updatedAt",
           "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": true,
@@ -179,9 +186,9 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "connections_userId_users_id_fk": {
-          "name": "connections_userId_users_id_fk",
-          "tableFrom": "connections",
+        "follows_userId_users_id_fk": {
+          "name": "follows_userId_users_id_fk",
+          "tableFrom": "follows",
           "tableTo": "users",
           "columnsFrom": [
             "userId"
@@ -192,12 +199,12 @@
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
-        "connections_connectorId_users_id_fk": {
-          "name": "connections_connectorId_users_id_fk",
-          "tableFrom": "connections",
+        "follows_followerId_users_id_fk": {
+          "name": "follows_followerId_users_id_fk",
+          "tableFrom": "follows",
           "tableTo": "users",
           "columnsFrom": [
-            "connectorId"
+            "followerId"
           ],
           "columnsTo": [
             "id"
@@ -287,10 +294,10 @@
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
-        "conn_messages_connectionId_connections_id_fk": {
-          "name": "conn_messages_connectionId_connections_id_fk",
+        "conn_messages_connectionId_follows_id_fk": {
+          "name": "conn_messages_connectionId_follows_id_fk",
           "tableFrom": "conn_messages",
-          "tableTo": "connections",
+          "tableTo": "follows",
           "columnsFrom": [
             "connectionId"
           ],

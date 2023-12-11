@@ -11,32 +11,13 @@ export interface UserProfile {
   createdAt: string;
   email: string;
   location: string;
-  numConnections: number;
+  numFollowers: number;
+  numFollowing: number;
   staff: boolean;
   updatedAt: string;
   online: boolean;
-  youConnected: boolean;
+  followInfo: { youAreFollowing: boolean; followsYou: boolean };
 }
-
-export const USER_BY_ID_STATIC_FIELDS_QUERY = `
-  query User($id: ID!) {
-    getUser(id: $id) {
-      id
-      username
-      avatarUrl
-      bio
-      contributions
-      createdAt
-      updatedAt
-      displayName
-      email
-      location
-      numConnections
-      staff
-      online
-      youConnected
-  }
-`;
 
 export const USER_INFO_FRAGMENT = gql`
   fragment UserInfo on User {
@@ -50,10 +31,14 @@ export const USER_INFO_FRAGMENT = gql`
     displayName
     email
     location
-    numConnections
     staff
     online
-    youConnected
+    followInfo {
+      youAreFollowing
+      followsYou
+    }
+    numFollowing
+    numFollowers
   }
 `;
 
@@ -61,7 +46,7 @@ export const USER_PROFILE_QUERY = gql`
   ${USER_INFO_FRAGMENT}
 
   query GetUserProfile($id: ID!) {
-    getUser(id: $id) {
+    user(id: $id) {
       ...UserInfo
     }
   }
@@ -93,12 +78,12 @@ export const getUsers = async (): Promise<{ users: UserProfile[] }> => {
 };
 
 export const getUserProfile = async (id: string): Promise<UserProfile> => {
-  const res = await gqlClient.rawRequest<{ getUser: UserProfile }>(
+  const res = await gqlClient.rawRequest<{ user: UserProfile }>(
     USER_PROFILE_QUERY,
     { id }
   );
 
-  return res.data.getUser;
+  return res.data.user;
 };
 
 export const getMe = async (): Promise<{ me: UserProfile }> => {

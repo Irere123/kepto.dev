@@ -3,15 +3,10 @@ import { merge } from "lodash";
 
 import * as global from "./gql/global";
 import * as user from "./gql/user";
-import * as connection from "./gql/connection";
+import * as follow from "./gql/follow";
 import * as message from "./gql/message";
 
 export const schema = makeExecutableSchema({
-  typeDefs: [
-    user.typeDefs,
-    global.typeDefs,
-    connection.typeDefs,
-    message.typeDefs,
-  ],
-  resolvers: merge(user.resolvers, connection.resolvers, message.resolvers),
+  typeDefs: [user.typeDefs, global.typeDefs, follow.typeDefs, message.typeDefs],
+  resolvers: merge(user.resolvers, follow.resolvers, message.resolvers),
 });

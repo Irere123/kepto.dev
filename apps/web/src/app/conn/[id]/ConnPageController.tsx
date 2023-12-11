@@ -3,9 +3,6 @@
 import React from "react";
 import { ChatInput } from "./chat/ChatInput";
 import { ChatMessages } from "./chat/ChatMessages";
-import { useQuery } from "react-query";
-import { getConnection } from "@/graphql/connection";
-import { Text } from "@/ui/text";
 
 interface ConnPageControllerProps {
   connectionId: string;

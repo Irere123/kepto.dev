@@ -1,6 +1,6 @@
 "use client";
 
-import { createConnection, removeConnection } from "@/graphql/connection";
+import { follow, unfollow } from "@/graphql/follow";
 import { Close, Plus } from "@/icons";
 import { Button } from "@/ui/button";
 import { useMutation, useQueryClient } from "react-query";
@@ -15,38 +15,35 @@ export const ConnectButton: React.FC<ConnectButtonProps> = ({
   userId,
 }) => {
   const queryClient = useQueryClient();
-  const { mutateAsync: createConn, isLoading: createConnLoading } = useMutation(
-    "createConnection",
-    createConnection,
+  const { mutateAsync: followMutate, isLoading: followLoading } = useMutation(
+    "follow",
+    follow,
     {
       onSuccess: () => {
         queryClient.setQueryData("getUserProfile", (oldData: any) =>
           oldData
             ? {
                 ...oldData,
-                youConnected: true,
+                youAreFollowing: true,
               }
             : oldData
         );
       },
     }
   );
-  const { mutateAsync: removeConn, isLoading: removeConnLoading } = useMutation(
-    "removeConnection",
-    removeConnection,
-    {
+  const { mutateAsync: unfollowMutate, isLoading: unfollowLoading } =
+    useMutation("unfollow", unfollow, {
       onSuccess: () => {
         queryClient.setQueryData("getUserProfile", (oldData: any) =>
           oldData
             ? {
                 ...oldData,
-                youConnected: false,
+                youAreFollowing: false,
               }
             : oldData
         );
       },
-    }
-  );
+    });
 
   return (
     <>
@@ -54,8 +51,8 @@ export const ConnectButton: React.FC<ConnectButtonProps> = ({
         <Button
           prefix={<Plus />}
           size="small"
-          loading={createConnLoading}
-          onClick={() => createConn(userId)}
+          loading={followLoading}
+          onClick={() => followMutate(userId)}
         >
           Connect
         </Button>
@@ -64,8 +61,8 @@ export const ConnectButton: React.FC<ConnectButtonProps> = ({
           prefix={<Close />}
           size="small"
           color="secondary"
-          loading={removeConnLoading}
-          onClick={() => removeConn(userId)}
+          loading={unfollowLoading}
+          onClick={() => unfollowMutate(userId)}
         >
           Disconnect
         </Button>

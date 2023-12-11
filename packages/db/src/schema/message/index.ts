@@ -1,7 +1,7 @@
 import { sql } from "drizzle-orm";
 import { pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
 import { user } from "../user";
-import { connections } from "../connections";
+import { follows } from "../follows";
 
 export const connMessage = pgTable("conn_messages", {
   id: uuid("id")
@@ -16,7 +16,7 @@ export const connMessage = pgTable("conn_messages", {
     .references(() => user.id, { onDelete: "cascade" }),
   connectionId: uuid("connectionId")
     .notNull()
-    .references(() => connections.id, { onDelete: "cascade" }),
+    .references(() => follows.id, { onDelete: "cascade" }),
   createdAt: timestamp("createdAt", { withTimezone: true })
     .notNull()
     .defaultNow(),
