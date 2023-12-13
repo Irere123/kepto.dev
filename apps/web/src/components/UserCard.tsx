@@ -1,13 +1,13 @@
+import { UserProfile } from "@/graphql/user";
 import { Plus } from "@/icons";
 import { Avatar } from "@/ui/avatar";
 import { Button } from "@/ui/button";
 import { Paper } from "@/ui/paper";
-import { User } from "@kepto/db";
 import Link from "next/link";
 import React from "react";
 
 export interface UserCardProps {
-  user: User;
+  user: UserProfile;
 }
 
 export const UserCard: React.FC<UserCardProps> = ({ user }) => {

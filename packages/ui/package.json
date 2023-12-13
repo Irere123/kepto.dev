@@ -1,0 +1,36 @@
+{
+  "name": "@kepto/ui",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist/**"
+  ],
+  "scripts": {
+    "dev": "tsup --watch",
+    "build": "tsup",
+    "lint": "eslint src/"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@kepto/tsconfig": "workspace:*",
+    "tailwind-config": "workspace:*",
+    "@types/react": "^18.2.45",
+    "autoprefixer": "^10",
+    "next": "^14.0.4",
+    "postcss": "^8",
+    "react": "^18.2.0",
+    "tailwindcss": "^3",
+    "tsup": "^8.0.1",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "clsx": "^2.0.0",
+    "tailwind-merge": "^2.1.0",
+    "vaul": "^0.7.9"
+  }
+}

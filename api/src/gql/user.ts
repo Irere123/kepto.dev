@@ -48,8 +48,7 @@ export const resolvers = {
             and(eq(follows.userId, id), eq(follows.followerId, ctx.user.id))
           )
         );
-      console.log(follow);
-      console.log("The folllow is %o", follow);
+
       if (!follow.length) {
         return {
           youAreFollowing: false,
