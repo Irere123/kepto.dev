@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { Button } from "../ui/button";
+import { Button } from "@kepto/ui";
 import { Pin, Plus } from "../icons";
 
 const meta = {
@@ -18,36 +18,13 @@ type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
   args: {
-    children: "Upload",
+    text: "Upload",
   },
 };
 
 export const Secondary: Story = {
   args: {
-    children: "Upload",
-    color: "secondary",
-  },
-};
-
-export const Tertiary: Story = {
-  args: {
-    children: "Upload",
-    color: "tertiary",
-  },
-};
-
-export const Error: Story = {
-  args: {
-    children: "Upload",
-    color: "error",
-  },
-};
-
-export const Warning: Story = {
-  args: {
-    children: "Upload",
-    color: "warning",
-    prefix: <Plus />,
-    suffix: <Pin />,
+    text: "Upload",
+    variant: "secondary",
   },
 };
