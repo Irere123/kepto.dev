@@ -1,0 +1,19 @@
+version: "3"
+
+services:
+  api:
+    container_name: api
+    build:
+      context: .
+      dockerfile: ./api
+    restart: always
+    ports:
+      - 4000:4000
+    networks:
+      - app_network
+
+# A network which allows container to communicate
+# with each other, by using their container name as a hostname
+networks:
+  app_network:
+    external: true
