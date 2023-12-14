@@ -36,7 +36,7 @@ RUN pnpm install
 
 # Build the project
 COPY --from=builder /app/out/full/ .
-RUN pnpm turbo run build --filter=api...
+RUN pnpm build --filter api...
  
 FROM base AS runner
 WORKDIR /app
