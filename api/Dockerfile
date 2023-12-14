@@ -13,7 +13,7 @@ RUN apk update
 WORKDIR /app
 RUN npm install -g pnpm
 
-RUN pnpm -g add turbo
+RUN pnpm add -g turbo
 RUN turbo prune api --docker 
 
 # Add lockfile and package.json's of isolated subworkspace
