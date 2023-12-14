@@ -19,7 +19,9 @@ RUN npm i -g npm@latest; \
  pnpm setup; \
  mkdir -p /usr/local/share/pnpm &&\
  export PNPM_HOME="/usr/local/share/pnpm" &&\
- export PATH="$PNPM_HOME:$PATH"; 
+ export PATH="$PNPM_HOME:$PATH"; \
+ pnpm bin -g;
+
 
 RUN pnpm add -g turbo
 RUN turbo prune api --docker 
