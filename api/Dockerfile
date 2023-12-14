@@ -33,13 +33,14 @@ COPY --from=builder /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
 COPY --from=builder /app/out/pnpm-workspace.yaml ./pnpm-workspace.yaml
 RUN pnpm install
 
-# Build project and its dependencies
-COPY --from=builder /app/out/full .
-COPY turbo.json turbo.json
 
-RUN pnpm build --filter api
-FROM base as runner 
+# Build the project
+COPY --from=builder /app/out/full/ .
+RUN pnpm turbo run build --filter=api...
+ 
+FROM base AS runner
 WORKDIR /app
+ 
 
 # Don't run production as root
 RUN addgroup --system --gid 1001 expressjs
