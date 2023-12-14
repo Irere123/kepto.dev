@@ -11,8 +11,9 @@ ENV PATH=$PNPM_HOME:$PATH
 WORKDIR /app
 
 RUN pnpm install turbo --global
-RUN turbo prune api --docker 
 COPY . .
+RUN turbo prune api --docker 
+
 
 
 # Add lockfile and package.json's of isolated subworkspace
