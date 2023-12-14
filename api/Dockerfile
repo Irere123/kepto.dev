@@ -13,6 +13,8 @@ RUN apk update
 WORKDIR /app
 RUN npm install -g pnpm
 
+RUN pnpm setup
+
 RUN pnpm add -g turbo
 RUN turbo prune api --docker 
 
