@@ -16,9 +16,12 @@ RUN turbo prune api --docker
 
 # Add lockfile and package.json's of isolated subworkspace
 FROM base AS installer
+RUN npm install -g pnpm
 RUN apk add --no-cache libc6-compat
 RUN apk update
-WORKDIR /app
+
+ENV PNPM_HOME=/app/.pnpm
+ENV PATH=$PNPM_HOME:$PATH
 
 
 # First install dependencies 
