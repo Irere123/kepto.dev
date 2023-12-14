@@ -1,14 +1,19 @@
-FROM node:18-alpine AS base
-
+FROM node:20-alpine AS base
 
 FROM base AS builder
+RUN npm install -g pnpm
 RUN apk add --no-cache libc6-compat
 RUN apk update
-# Set working directory
+
+ENV PNPM_HOME=/app/.pnpm
+ENV PATH=$PNPM_HOME:$PATH
+
 WORKDIR /app
-RUN yarn global add turbo
-COPY . .
-RUN turbo prune api --docker
+
+RUN pnpm install turbo --global
+
+
+RUN turbo prune api --docker 
 
 # Add lockfile and package.json's of isolated subworkspace
 FROM base AS installer
@@ -16,19 +21,20 @@ RUN apk add --no-cache libc6-compat
 RUN apk update
 WORKDIR /app
 
-# First install dependencies (as they change less often)
+
+# First install dependencies 
+
 COPY .gitignore .gitignore
 COPY --from=builder /app/out/json/ .
-# COPY --from=builder /app/out/yarn.lock ./yarn.lock
-RUN yarn install
+COPY --from=builder /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
+RUN pnpm install
 
-# Build the project and its dependencies
-COPY --from=builder /app/out/full/ .
+# Build project and its dependencies
+COPY --from=builder /app/out/full .
 COPY turbo.json turbo.json
 
-RUN yarn turbo build --filter=api...
-
-FROM base AS runner
+RUN pnpm build --filter api 
+FROM base as runner 
 WORKDIR /app
 
 # Don't run production as root
