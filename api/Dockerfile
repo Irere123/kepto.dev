@@ -35,7 +35,7 @@ RUN pnpm install
 COPY --from=builder /app/out/full .
 COPY turbo.json turbo.json
 
-RUN pnpm build --filter=api --filter=@kepto/db
+RUN pnpm build --filter=api
 FROM base as runner 
 WORKDIR /app
 
@@ -45,4 +45,4 @@ RUN adduser --system --uid 1001 expressjs
 USER expressjs
 COPY --from=installer /app .
 
-CMD node api/build/index.js
+CMD node build/index.js

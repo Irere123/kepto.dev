@@ -7,7 +7,7 @@
     "watch": "tsc -w",
     "build": "tsc",
     "dev": "node --watch build/index.js",
-    "start": "node ./build/index.js"
+    "start": "node build/index.js"
   },
   "keywords": [],
   "author": "",
