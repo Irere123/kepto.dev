@@ -35,7 +35,7 @@ RUN pnpm install
 COPY --from=builder /app/out/full .
 COPY turbo.json turbo.json
 
-RUN pnpm build --filter api 
+RUN pnpm build --filter api @kepto/db
 FROM base as runner 
 WORKDIR /app
 
