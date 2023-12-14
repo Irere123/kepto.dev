@@ -16,11 +16,12 @@ RUN npm install -g pnpm
 RUN pnpm -g add turbo
 RUN turbo prune api --docker 
 
-# Add lockfile and package.json of isolated subworkspace
-FROM base as installer
-RUN apk add add --no-cache libc6-compat
+# Add lockfile and package.json's of isolated subworkspace
+FROM base AS installer
+RUN apk add --no-cache libc6-compat
 RUN apk update
 WORKDIR /app
+
 
 # First install dependencies 
 
