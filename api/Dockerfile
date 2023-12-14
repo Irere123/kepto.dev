@@ -37,9 +37,9 @@ RUN pnpm build --filter api
 FROM base as runner 
 WORKDIR /app
 
-# Don't run production ad root 
-RUN addgroup --sytem -gid 1001 expressjs
-RUN adduser --sytem -uid 1001 expressjs
+# Don't run production as root
+RUN addgroup --system --gid 1001 expressjs
+RUN adduser --system --uid 1001 expressjs
 USER expressjs
 COPY --from=installer /app .
 
