@@ -47,4 +47,4 @@ RUN adduser --system --uid 1001 expressjs
 USER expressjs
 COPY --from=installer /app .
 
-CMD pnpm start
+CMD node api/build/src/index.js
