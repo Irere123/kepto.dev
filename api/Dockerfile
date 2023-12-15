@@ -36,8 +36,7 @@ RUN pnpm install
 
 # Build the project
 COPY --from=builder /app/out/full/ .
-RUN pnpm turbo build
- 
+
 FROM base AS runner
 WORKDIR /app
  
@@ -48,4 +47,4 @@ RUN adduser --system --uid 1001 expressjs
 USER expressjs
 COPY --from=installer /app .
 
-CMD node build/index.js
+CMD pnpm start
