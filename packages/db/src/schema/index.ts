@@ -1,3 +1,3 @@
 export * from "./user";
-export * from "./follows";
+export * from "./connection";
 export * from "./message";

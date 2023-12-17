@@ -1,7 +1,7 @@
 import { sql } from "drizzle-orm";
 import { pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
 import { user } from "../user";
-import { follows } from "../follows";
+import { follows } from "../connection";
 
 export const connMessage = pgTable("conn_messages", {
   id: uuid("id")

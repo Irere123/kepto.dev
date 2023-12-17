@@ -2,14 +2,14 @@ import { sql } from "drizzle-orm";
 import { pgTable, timestamp, uuid } from "drizzle-orm/pg-core";
 import { user } from "../user";
 
-export const follows = pgTable("follows", {
+export const connections = pgTable("follows", {
   id: uuid("id")
     .primaryKey()
     .default(sql`gen_random_uuid()`),
   userId: uuid("userId")
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
-  followerId: uuid("followerId")
+  connectoId: uuid("connectorId")
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
   createdAt: timestamp("createdAt", { withTimezone: true })
@@ -20,5 +20,5 @@ export const follows = pgTable("follows", {
     .notNull(),
 });
 
-export type Follow = typeof follows.$inferSelect;
-export type NewFollow = typeof follows.$inferInsert;
+export type Connection = typeof connections.$inferSelect;
+export type NewConnection = typeof connections.$inferInsert;
