@@ -1,10 +1,10 @@
 "use client";
 
-import { MiddlePanel } from "@/components/GridPanels";
-import { MainLayout } from "@/components/MainLayout";
-import { ProtectedPage } from "@/components/ProtectedPage";
-import { UserCard } from "@/components/UserCard";
-import { getUsers } from "@/graphql/user";
+import { MiddlePanel } from "~/ui/layouts/GridPanels";
+import { MainLayout } from "~/ui/layouts/MainLayout";
+import { ProtectedPage } from "~/ui/layouts/ProtectedPage";
+import { UserCard } from "~/ui/UserCard";
+import { getUsers } from "~/graphql/user";
 import { useQuery } from "react-query";
 
 export const FeedPage: React.FC = () => {

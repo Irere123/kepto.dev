@@ -1,14 +1,14 @@
 "use client";
 
-import { getUserProfile } from "@/graphql/user";
-import { Location, ThreeDots } from "@/icons";
-import { Avatar } from "@/ui/avatar";
-import { Paper } from "@/ui/paper";
-import { Text } from "@/ui/text";
-import { useQuery } from "react-query";
-import { ConnectButton } from "./Button";
 import { useContext } from "react";
-import AuthContext from "@/contexts/AuthContext";
+import { useQuery } from "react-query";
+import { getUserProfile } from "~/graphql/user";
+import { Location, ThreeDots } from "@kepto/ui";
+import { Avatar } from "~/ui/avatar";
+import { Paper } from "~/ui/paper";
+import { Text } from "~/ui/text";
+import { ConnectButton } from "./Button";
+import AuthContext from "~/contexts/AuthContext";
 
 interface Props {
   userId: string;

@@ -1,11 +1,10 @@
 "use client";
 
-import { ProtectedPage } from "@/components/ProtectedPage";
-import { useSaveTokensFromQueryParams } from "@/hooks/useSaveTokenFromParams";
-import { Clock, Github } from "@/icons";
-import { apiUrl, prod } from "@/lib/constants";
-import { useTokenStore } from "@/stores/useTokenStore";
-import { Button } from "@/ui/button";
+import { useSaveTokensFromQueryParams } from "~/hooks/useSaveTokenFromParams";
+import { Clock, Github } from "@kepto/ui";
+import { apiUrl, prod } from "~/lib/constants";
+import { useTokenStore } from "~/stores/useTokenStore";
+import { Button } from "~/ui/button";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 

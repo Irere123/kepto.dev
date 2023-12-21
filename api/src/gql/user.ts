@@ -1,4 +1,4 @@
-import { and, connections, db, eq, ne, or, user } from "@kepto/db";
+import { and, connections, db, eq, ne, user } from "@kepto/db";
 import { GQLContext } from "../lib/types";
 
 export const typeDefs = /* GraphQL */ `
@@ -13,7 +13,7 @@ export const typeDefs = /* GraphQL */ `
     online: String!
     staff: String
     contributions: Int!
-    numConnections: Int!
+    numConnections: Int!or,
     numConnectors: Int!
     youAreConnected: Boolean!
     updatedAt: DateTime!

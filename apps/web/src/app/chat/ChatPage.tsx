@@ -1,12 +1,8 @@
 "use client";
-
-import { MiddlePanel } from "@/components/GridPanels";
-import { MainLayout } from "@/components/MainLayout";
-import { ProtectedPage } from "@/components/ProtectedPage";
-import { Avatar } from "@/ui/avatar";
-import { Text } from "@/ui/text";
-import Link from "next/link";
-import { useQuery } from "react-query";
+import { Button } from "@kepto/ui";
+import { MiddlePanel } from "~/ui/layouts/GridPanels";
+import { MainLayout } from "~/ui/layouts/MainLayout";
+import { ProtectedPage } from "~/ui/layouts/ProtectedPage";
 
 interface Props {}
 
@@ -16,14 +12,7 @@ export const ChatPage: React.FC<Props> = () => {
       <MainLayout>
         <MiddlePanel>
           <div className="mt-4">
-            {/* {data?.map((c) => (
-              <Link href={`/conn/${c.id}`} key={c.id}>
-                <div className="flex gap-4 mb-4">
-                  <Avatar src={c.name.avatarUrl} size="40" />
-                  <Text as="p">{c.name.displayName}</Text>
-                </div>
-              </Link>
-            ))} */}
+            <Button text="Create" variant="danger" />
           </div>
         </MiddlePanel>
       </MainLayout>

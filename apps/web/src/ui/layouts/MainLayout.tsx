@@ -1,6 +1,6 @@
 "use client";
 
-import { useScreenSize } from "@/hooks/useScreenSize";
+import { useScreenSize } from "~/hooks/useScreenSize";
 import React from "react";
 import { MainInnerGrid } from "./MainGrid";
 import { LeftPanel } from "./GridPanels";

@@ -31,7 +31,7 @@ export function Button({
                 variant === "secondary",
               "border-blue-500 bg-success text-white hover:bg-white hover:text-blue-500":
                 variant === "success",
-              "border-red-500 bg-error text- hover:bg-white hover:text-red-500":
+              "border-error bg-error text-primary-accents-8 hover:bg-white hover:text-red-500":
                 variant === "danger",
             },
         props.className
