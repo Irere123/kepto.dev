@@ -1,11 +1,12 @@
 "use client";
 
+import { useQuery } from "react-query";
+
 import { MiddlePanel } from "~/ui/layouts/GridPanels";
 import { MainLayout } from "~/ui/layouts/MainLayout";
 import { ProtectedPage } from "~/ui/layouts/ProtectedPage";
 import { UserCard } from "~/ui/UserCard";
 import { getUsers } from "~/graphql/user";
-import { useQuery } from "react-query";
 
 export const FeedPage: React.FC = () => {
   const { data, isLoading } = useQuery("users", getUsers);

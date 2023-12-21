@@ -1,4 +1,4 @@
-import { Close } from "../icons";
+import { Close } from "@kepto/ui";
 import React, { useEffect, useRef } from "react";
 
 export type ToastDurations = "default" | "sticky";

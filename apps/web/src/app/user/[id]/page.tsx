@@ -1,10 +1,10 @@
 import { Metadata, ResolvingMetadata } from "next";
 import { LogoLargeIcon } from "@kepto/ui";
-import { apiUrl } from "~/lib/constants";
-
 import Link from "next/link";
-import { UserProfileController } from "./UserProfileController";
+
+import { apiUrl } from "~/lib/constants";
 import { ProtectedPage } from "~/ui/layouts/ProtectedPage";
+import { UserProfileController } from "./UserProfileController";
 
 type Props = {
   params: { id: string };

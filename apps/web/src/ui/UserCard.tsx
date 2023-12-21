@@ -1,10 +1,11 @@
-import { UserProfile } from "@/graphql/user";
-import { Plus } from "@/icons";
-import { Avatar } from "@/ui/avatar";
-import { Button } from "@/ui/button";
-import { Paper } from "@/ui/paper";
 import Link from "next/link";
 import React from "react";
+import { Plus } from "@kepto/ui";
+
+import { UserProfile } from "~/graphql/user";
+import { Avatar } from "~/ui/avatar";
+import { Button } from "~/ui/button";
+import { Paper } from "~/ui/paper";
 
 export interface UserCardProps {
   user: UserProfile;

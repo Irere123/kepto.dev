@@ -13,7 +13,7 @@ export const typeDefs = /* GraphQL */ `
     online: String!
     staff: String
     contributions: Int!
-    numConnections: Int!or,
+    numConnections: Int!
     numConnectors: Int!
     youAreConnected: Boolean!
     updatedAt: DateTime!

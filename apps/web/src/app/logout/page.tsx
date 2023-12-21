@@ -1,5 +1,5 @@
 "use client";
-import { useTokenStore } from "@/stores/useTokenStore";
+import { useTokenStore } from "~/stores/useTokenStore";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 

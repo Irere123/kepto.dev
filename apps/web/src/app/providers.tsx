@@ -1,9 +1,10 @@
 "use client";
 
-import { AuthContextProvider } from "@/contexts/AuthContext";
-import { SubscriptionContextProvider } from "@/contexts/SubscriptionContext";
 import React from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
+
+import { AuthContextProvider } from "~/contexts/AuthContext";
+import { SubscriptionContextProvider } from "~/contexts/SubscriptionContext";
 
 interface ProvidersProps {
   children: React.ReactNode;

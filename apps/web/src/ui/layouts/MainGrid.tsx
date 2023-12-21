@@ -1,5 +1,5 @@
 "use client";
-import { useScreenSize } from "@/hooks/useScreenSize";
+import { useScreenSize } from "~/hooks/useScreenSize";
 import React from "react";
 
 export type MainGridProps = {
