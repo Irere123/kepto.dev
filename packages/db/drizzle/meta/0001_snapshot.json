@@ -1,8 +1,8 @@
 {
   "version": "5",
   "dialect": "pg",
-  "id": "641d4ea8-0e14-452d-aaf5-d0c644019458",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "5a960197-ed9a-4f67-8e52-1747045f797e",
+  "prevId": "641d4ea8-0e14-452d-aaf5-d0c644019458",
   "tables": {
     "users": {
       "name": "users",
@@ -76,15 +76,15 @@
           "primaryKey": false,
           "notNull": false
         },
-        "numFollowing": {
-          "name": "numFollowing",
+        "numConnections": {
+          "name": "numConnections",
           "type": "integer",
           "primaryKey": false,
           "notNull": false,
           "default": 0
         },
-        "numFollowers": {
-          "name": "numFollowers",
+        "numConnectors": {
+          "name": "numConnectors",
           "type": "integer",
           "primaryKey": false,
           "notNull": false,
@@ -445,6 +445,9 @@
   "_meta": {
     "schemas": {},
     "tables": {},
-    "columns": {}
+    "columns": {
+      "\"users\".\"numFollowing\"": "\"users\".\"numConnections\"",
+      "\"users\".\"numFollowers\"": "\"users\".\"numConnectors\""
+    }
   }
 }

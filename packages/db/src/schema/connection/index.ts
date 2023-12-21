@@ -1,15 +1,16 @@
 import { sql } from "drizzle-orm";
-import { pgTable, timestamp, uuid } from "drizzle-orm/pg-core";
+import { boolean, pgTable, timestamp, uuid } from "drizzle-orm/pg-core";
 import { user } from "../user";
 
-export const connections = pgTable("follows", {
+export const connections = pgTable("connections", {
   id: uuid("id")
     .primaryKey()
     .default(sql`gen_random_uuid()`),
   userId: uuid("userId")
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
-  connectoId: uuid("connectorId")
+  accepted: boolean("accepted").default(false),
+  connectorId: uuid("connectorId")
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
   createdAt: timestamp("createdAt", { withTimezone: true })

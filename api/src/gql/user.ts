@@ -1,4 +1,4 @@
-import { and, db, eq, follows, ne, or, user } from "@kepto/db";
+import { and, connections, db, eq, ne, or, user } from "@kepto/db";
 import { GQLContext } from "../lib/types";
 
 export const typeDefs = /* GraphQL */ `
@@ -13,16 +13,11 @@ export const typeDefs = /* GraphQL */ `
     online: String!
     staff: String
     contributions: Int!
-    numFollowers: Int!
-    numFollowing: Int!
+    numConnections: Int!
+    numConnectors: Int!
+    youAreConnected: Boolean!
     updatedAt: DateTime!
     createdAt: DateTime!
-    followInfo: FollowInfo!
-  }
-
-  type FollowInfo {
-    youAreFollowing: Boolean
-    followsYou: Boolean
   }
 
   type Query {
@@ -38,25 +33,29 @@ export const typeDefs = /* GraphQL */ `
 
 export const resolvers = {
   User: {
-    followInfo: async ({ id }: { id: string }, _args: {}, ctx: GQLContext) => {
-      const follow = await db
-        .select()
-        .from(follows)
-        .where(
-          or(
-            and(eq(follows.followerId, ctx.user.id), eq(follows.userId, id)),
-            and(eq(follows.userId, id), eq(follows.followerId, ctx.user.id))
-          )
-        );
-
-      if (!follow.length) {
-        return {
-          youAreFollowing: false,
-          followsYou: false,
-        };
+    youAreConnected: async (
+      { id }: { id: string },
+      _args: {},
+      ctx: GQLContext
+    ) => {
+      if (!ctx.user) {
+        return false;
       }
 
-      return { youAreFollowing: true, followsYou: false };
+      const us = await db
+        .select()
+        .from(connections)
+        .where(
+          and(
+            eq(connections.userId, id),
+            eq(connections.connectorId, ctx.user.id)
+          )
+        );
+      if (!us[0]) {
+        return false;
+      }
+
+      return true;
     },
   },
   Query: {

@@ -11,12 +11,12 @@ export interface UserProfile {
   createdAt: string;
   email: string;
   location: string;
-  numFollowers: number;
-  numFollowing: number;
+  numConnectors: number;
+  numConnections: number;
+  youAreConnected: boolean;
   staff: boolean;
   updatedAt: string;
   online: boolean;
-  followInfo: { youAreFollowing: boolean; followsYou: boolean };
 }
 
 export const USER_INFO_FRAGMENT = gql`
@@ -33,12 +33,9 @@ export const USER_INFO_FRAGMENT = gql`
     location
     staff
     online
-    followInfo {
-      youAreFollowing
-      followsYou
-    }
-    numFollowing
-    numFollowers
+    youAreConnected
+    numConnections
+    numConnectors
   }
 `;
 

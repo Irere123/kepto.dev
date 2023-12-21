@@ -1,9 +1,9 @@
 import { sql } from "drizzle-orm";
 import { pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
 import { user } from "../user";
-import { follows } from "../connection";
+import { conversation } from "../conversation";
 
-export const connMessage = pgTable("conn_messages", {
+export const convMessage = pgTable("conv_messages", {
   id: uuid("id")
     .primaryKey()
     .default(sql`gen_random_uuid()`),
@@ -14,9 +14,9 @@ export const connMessage = pgTable("conn_messages", {
   recipientId: uuid("recipientId")
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
-  connectionId: uuid("connectionId")
+  conversationId: uuid("conversationId")
     .notNull()
-    .references(() => follows.id, { onDelete: "cascade" }),
+    .references(() => conversation.id, { onDelete: "cascade" }),
   createdAt: timestamp("createdAt", { withTimezone: true })
     .notNull()
     .defaultNow(),
@@ -25,4 +25,4 @@ export const connMessage = pgTable("conn_messages", {
     .defaultNow(),
 });
 
-export const Message = connMessage.$inferSelect;
+export const Message = convMessage.$inferSelect;

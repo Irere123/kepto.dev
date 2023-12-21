@@ -48,12 +48,11 @@ export const UserProfileController: React.FC<Props> = ({ userId }) => {
         </Text>
       </div>
       <div className="flex justify-between mt-4">
-        <Text as="h5">{data?.numFollowers} followers</Text>
-        <Text as="h5">{data?.numFollowing} following</Text>
+        <Text as="h5">{data?.numConnections} connections</Text>
         <div className="flex gap-4 items-center text-primary-fg">
           {data?.id == user?.id ? null : (
             <ConnectButton
-              connected={data?.followInfo.youAreFollowing!}
+              connected={data?.youAreConnected!}
               userId={data?.id!}
             />
           )}

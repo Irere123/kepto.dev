@@ -14,8 +14,8 @@ interface ConnMessage {
 }
 
 export const NEW_MESSAGE_SUBSCRIPTION_QUERY = gql`
-  subscription ($connectionId: ID!) {
-    newConnMessage(connectionId: $connectionId) {
+  subscription ($conversationId: ID!) {
+    newConvMessage(conversationId: $conversationId) {
       id
       text
       user {
@@ -30,8 +30,8 @@ export const NEW_MESSAGE_SUBSCRIPTION_QUERY = gql`
 `;
 
 export const MESSAGES_QUERY = gql`
-  query GetMessages($connectionId: ID!) {
-    getMessages(connectionId: $connectionId) {
+  query GetMessages($conversationId: ID!) {
+    conversationMessages(conversationId: $conversationId) {
       id
       text
       user {
@@ -46,8 +46,8 @@ export const MESSAGES_QUERY = gql`
 `;
 
 export const CREATE_MESSAGE_MUTATION = gql`
-  mutation CreateMessage($data: CreateMessageInput!) {
-    createMessage(data: $data) {
+  mutation CreateConvMessage($data: CreateMessageInput!) {
+    createConvMessage(data: $data) {
       id
       text
       user {

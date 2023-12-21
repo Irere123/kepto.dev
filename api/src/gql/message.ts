@@ -1,14 +1,14 @@
 import { GraphQLError } from "graphql";
 import { withFilter } from "graphql-subscriptions";
 import { GQLContext } from "../lib/types";
-import { db, eq, connMessage, user, and, or } from "@kepto/db";
+import { db, eq, convMessage, user, and, or } from "@kepto/db";
 import { pubsub } from "../pubsub";
 
 export const typeDefs = /* GraphQL */ `
-  type Message {
+  type ConversationMessage {
     id: ID!
     senderId: ID!
-    connectionId: ID!
+    conversationId: ID!
     text: String!
     user: User!
     createdAt: DateTime!
@@ -16,26 +16,26 @@ export const typeDefs = /* GraphQL */ `
   }
 
   type Query {
-    getMessages(connectionId: ID!): [Message]
+    conversationMessages(conversationId: ID!): [ConversationMessage]
   }
 
-  input CreateMessageInput {
+  input CreateConvMessageInput {
     userId: ID!
-    connectionId: ID!
+    conversationId: ID!
     text: String!
   }
 
   type Mutation {
-    createMessage(data: CreateMessageInput!): Message!
+    createConvMessage(data: CreateConvMessageInput!): ConversationMessage!
   }
 
   type Subscription {
-    newConnMessage(connectionId: ID!): Message!
+    newConvMessage(conversationId: ID!): ConversationMessage!
   }
 `;
 
 export const resolvers = {
-  Message: {
+  ConversationMessage: {
     user: async ({ senderId }: { senderId: string }) => {
       const users = await db
         .select()
@@ -47,7 +47,7 @@ export const resolvers = {
     },
   },
   Query: {
-    getMessages: async (
+    conversationMessages: async (
       _parent: unknown,
       { userId }: { userId: string },
       ctx: GQLContext
@@ -58,28 +58,28 @@ export const resolvers = {
 
       return await db
         .select()
-        .from(connMessage)
+        .from(convMessage)
         .where(
           or(
             and(
-              eq(connMessage.recipientId, ctx.user.id),
-              eq(connMessage.senderId, userId)
+              eq(convMessage.recipientId, ctx.user.id),
+              eq(convMessage.senderId, userId)
             ),
             and(
-              eq(connMessage.senderId, ctx.user.id),
-              eq(connMessage.recipientId, userId)
+              eq(convMessage.senderId, ctx.user.id),
+              eq(convMessage.recipientId, userId)
             )
           )
         )
-        .orderBy(connMessage.createdAt);
+        .orderBy(convMessage.createdAt);
     },
   },
   Mutation: {
-    createMessage: async (
+    createConvMessage: async (
       _parent: unknown,
       {
         data,
-      }: { data: { text: string; userId: string; connectionId: string } },
+      }: { data: { text: string; userId: string; conversationId: string } },
       ctx: GQLContext
     ) => {
       if (!ctx.user) {
@@ -87,9 +87,9 @@ export const resolvers = {
       }
 
       const msg = await db
-        .insert(connMessage)
+        .insert(convMessage)
         .values({
-          connectionId: data.connectionId,
+          conversationId: data.conversationId,
           senderId: ctx.user.id,
           recipientId: data.userId,
           text: data.text,
@@ -97,18 +97,20 @@ export const resolvers = {
         .returning();
 
       pubsub.publish("NEW_MESSAGE", {
-        newConnMessage: msg[0],
+        newConvMessage: msg[0],
       });
 
       return msg[0];
     },
   },
   Subscription: {
-    newConnMessage: {
+    newConvMessage: {
       subscribe: withFilter(
         () => pubsub.asyncIterator("NEW_MESSAGE"),
         (payload, variables) => {
-          return payload.newConnMessage.connectionId === variables.connectionId;
+          return (
+            payload.newConvMessage.conversationId === variables.conversationId
+          );
         }
       ),
     },

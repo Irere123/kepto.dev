@@ -1,17 +1,17 @@
 import { GQLContext } from "../lib/types";
 import { GraphQLError } from "graphql";
-import { follow } from "../lib/followLogic";
+import { connect } from "../lib/connectLogic";
 
 export const typeDefs = /* GraphQL */ `
   type Mutation {
-    unfollow(userId: ID!): Boolean!
-    follow(userId: ID!): Boolean!
+    unconnect(userId: ID!): Boolean!
+    connect(userId: ID!): Boolean!
   }
 `;
 
 export const resolvers = {
   Mutation: {
-    follow: async (
+    connect: async (
       _parent: unknown,
       { userId }: { userId: string },
       ctx: GQLContext
@@ -20,12 +20,12 @@ export const resolvers = {
         throw new Error("Not authenticated");
       }
 
-      await follow(userId, ctx.user.id, true);
+      await connect(userId, ctx.user.id, true);
 
       return true;
     },
 
-    unfollow: async (
+    unconnect: async (
       _parent: unknown,
       { userId }: { userId: string },
       ctx: GQLContext
@@ -34,7 +34,7 @@ export const resolvers = {
         throw new GraphQLError("Not authenticated");
       }
 
-      await follow(userId, ctx.user.id, false);
+      await connect(userId, ctx.user.id, false);
 
       return true;
     },

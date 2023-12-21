@@ -1,6 +1,6 @@
 "use client";
 
-import { follow, unfollow } from "@/graphql/follow";
+import { connect, unconnect } from "@/graphql/connect";
 import { Close, Plus } from "@/icons";
 import { Button } from "@/ui/button";
 import { useMutation, useQueryClient } from "react-query";
@@ -15,30 +15,30 @@ export const ConnectButton: React.FC<ConnectButtonProps> = ({
   userId,
 }) => {
   const queryClient = useQueryClient();
-  const { mutateAsync: followMutate, isLoading: followLoading } = useMutation(
-    "follow",
-    follow,
+  const { mutateAsync: connectMutate, isLoading: connectLoading } = useMutation(
+    "connect",
+    connect,
     {
       onSuccess: () => {
         queryClient.setQueryData("getUserProfile", (oldData: any) =>
           oldData
             ? {
                 ...oldData,
-                youAreFollowing: true,
+                youAreConnected: true,
               }
             : oldData
         );
       },
     }
   );
-  const { mutateAsync: unfollowMutate, isLoading: unfollowLoading } =
-    useMutation("unfollow", unfollow, {
+  const { mutateAsync: unconnectMutate, isLoading: unconnectLoading } =
+    useMutation("unconnect", unconnect, {
       onSuccess: () => {
         queryClient.setQueryData("getUserProfile", (oldData: any) =>
           oldData
             ? {
                 ...oldData,
-                youAreFollowing: false,
+                youAreConnected: false,
               }
             : oldData
         );
@@ -51,8 +51,8 @@ export const ConnectButton: React.FC<ConnectButtonProps> = ({
         <Button
           prefix={<Plus />}
           size="small"
-          loading={followLoading}
-          onClick={() => followMutate(userId)}
+          loading={connectLoading}
+          onClick={() => connectMutate(userId)}
         >
           Connect
         </Button>
@@ -61,8 +61,8 @@ export const ConnectButton: React.FC<ConnectButtonProps> = ({
           prefix={<Close />}
           size="small"
           color="secondary"
-          loading={unfollowLoading}
-          onClick={() => unfollowMutate(userId)}
+          loading={unconnectLoading}
+          onClick={() => unconnectMutate(userId)}
         >
           Disconnect
         </Button>
