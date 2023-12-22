@@ -1,5 +1,6 @@
 import { and, connections, db, eq, ne, user } from "@kepto/db";
 import { GQLContext } from "../lib/types";
+import { GraphQLError } from "graphql";
 
 export const typeDefs = /* GraphQL */ `
   type User {
@@ -24,6 +25,7 @@ export const typeDefs = /* GraphQL */ `
     me: User
     users: [User]
     user(id: ID!): User
+    searchUser(usernameOrEmail: String): [User]
   }
 
   type Subscription {
@@ -74,6 +76,34 @@ export const resolvers = {
       const u = await db.select().from(user).where(eq(user.id, id));
 
       return u[0];
+    },
+    searchUser: async (
+      _parent: unknown,
+      { usernameOrEmail }: { usernameOrEmail: string },
+      ctx: GQLContext
+    ) => {
+      if (!ctx.user) {
+        throw new GraphQLError("Not authenticated");
+      }
+
+      const emailPattern = /^\S+@\S+\.\S+$/;
+      let res;
+
+      if (emailPattern.test(usernameOrEmail)) {
+        res = await db
+          .select()
+          .from(user)
+          .where(eq(user.email, usernameOrEmail))
+          .limit(10);
+      }
+
+      res = await db
+        .select()
+        .from(user)
+        .where(eq(user.username, usernameOrEmail))
+        .limit(10);
+
+      return res;
     },
   },
   Subscription: {

@@ -11,14 +11,11 @@ import {
 import Downshift from "downshift";
 
 import { Input } from "../input";
-
-const items = [
-  { value: "apple" },
-  { value: "pear" },
-  { value: "orange" },
-  { value: "grape" },
-  { value: "banana" },
-];
+import { useDebounce } from "use-debounce";
+import { useQuery } from "react-query";
+import { searchUser } from "~/graphql/user";
+import usePageVisibility from "~/hooks/usePageVisibility";
+import { Text } from "../text";
 
 function CreateConvModalHelper({
   setShowCreateConvModal,
@@ -28,6 +25,25 @@ function CreateConvModalHelper({
   setShowCreateConvModal: Dispatch<SetStateAction<boolean>>;
 }) {
   const [rawText, setRawText] = useState("");
+  const [selectedItem, setSelectedItem] = useState("");
+  const visible = usePageVisibility();
+  const [text] = useDebounce(rawText, 200);
+  let enabled = false;
+
+  const isUsernameSearch = text.startsWith("@");
+
+  if (text && isUsernameSearch && text.trim().length > 2) {
+    enabled = true;
+  }
+  if (text && !isUsernameSearch && text.trim().length > 1) {
+    enabled = true;
+  }
+
+  const { data } = useQuery("searchUser", () => searchUser(text), {
+    enabled,
+  });
+
+  const results = data ? [...data] : [];
 
   return (
     <Modal
@@ -45,14 +61,28 @@ function CreateConvModalHelper({
       </div>
       <div className="flex flex-col gap-2 p-5">
         <Downshift
-          onChange={(selection) =>
-            alert(
-              selection
-                ? `You selected ${selection.value}`
-                : "Selection Cleared"
-            )
-          }
-          itemToString={(item) => (item ? item.value : "")}
+          onChange={(selection) => {
+            if (!selection) {
+              return;
+            }
+
+            if ("username" in selection) {
+              setSelectedItem(selection);
+            }
+
+            console.log(selectedItem);
+          }}
+          onInputValueChange={(v) => {
+            if (visible) {
+              setRawText(v);
+            }
+          }}
+          itemToString={(item) => {
+            if (!item) {
+              return "";
+            }
+            return item.username;
+          }}
         >
           {({
             getInputProps,
@@ -68,14 +98,20 @@ function CreateConvModalHelper({
               <div {...getRootProps({}, { suppressRefError: true })}>
                 <Input
                   {...getInputProps()}
+                  value={rawText}
                   placeholder="somebody@mail.com or @somebody"
                 />
               </div>
               <ul {...getMenuProps()}>
+                {(data?.length === 0 && data?.length === 0) || !data
+                  ? null
+                  : null}
+
                 {isOpen
-                  ? items
+                  ? results
                       .filter(
-                        (item) => !inputValue || item.value.includes(inputValue)
+                        (item) =>
+                          !inputValue || item.username.includes(inputValue)
                       )
                       .map((item, index) => (
                         <li
@@ -93,7 +129,7 @@ function CreateConvModalHelper({
                             },
                           })}
                         >
-                          {item.value}
+                          {item.username}
                         </li>
                       ))
                   : null}

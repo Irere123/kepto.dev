@@ -69,6 +69,16 @@ export const USERS_QUERY = gql`
   ${USER_INFO_FRAGMENT}
 `;
 
+export const SEARCH_USER_QUERY = gql`
+  query SearchUser($usernameOrEmail: String!) {
+    searchUser(usernameOrEmail: $usernameOrEmail) {
+      id
+      username
+      email
+    }
+  }
+`;
+
 export const getUsers = async (): Promise<{ users: UserProfile[] }> => {
   const res = await gqlClient.rawRequest<{ users: UserProfile[] }>(USERS_QUERY);
   return res.data;
@@ -86,4 +96,15 @@ export const getUserProfile = async (id: string): Promise<UserProfile> => {
 export const getMe = async (): Promise<{ me: UserProfile }> => {
   const res = await gqlClient.rawRequest<{ me: UserProfile }>(ME_QUERY);
   return res.data;
+};
+
+export const searchUser = async (
+  usernameOrEmail: string
+): Promise<UserProfile[]> => {
+  const res = await gqlClient.rawRequest<{ searchUser: UserProfile[] }>(
+    SEARCH_USER_QUERY,
+    { usernameOrEmail }
+  );
+
+  return res.data.searchUser;
 };

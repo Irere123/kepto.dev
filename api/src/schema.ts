@@ -5,6 +5,7 @@ import * as global from "./gql/global";
 import * as user from "./gql/user";
 import * as connection from "./gql/connect";
 import * as message from "./gql/message";
+import * as conversation from "./gql/conversation";
 
 export const schema = makeExecutableSchema({
   typeDefs: [
@@ -12,6 +13,12 @@ export const schema = makeExecutableSchema({
     global.typeDefs,
     connection.typeDefs,
     message.typeDefs,
+    conversation.typeDefs,
   ],
-  resolvers: merge(user.resolvers, connection.resolvers, message.resolvers),
+  resolvers: merge(
+    user.resolvers,
+    connection.resolvers,
+    message.resolvers,
+    conversation.resolvers
+  ),
 });

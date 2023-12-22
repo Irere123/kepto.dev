@@ -8,7 +8,7 @@ export const conversationMember = pgTable("conversation_members", {
     .primaryKey()
     .default(sql`gen_random_uuid()`),
 
-  userId: uuid("userId1")
+  userId: uuid("userId")
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
   conversationId: uuid("conversationId")

@@ -1,6 +1,7 @@
 {
   "extends": "@kepto/tsconfig/node.json",
   "compilerOptions": {
+    "noUnusedLocals": true,
     "outDir": "./build",
     "declaration": false,
     "declarationMap": false

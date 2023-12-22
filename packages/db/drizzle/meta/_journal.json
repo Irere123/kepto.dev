@@ -15,6 +15,13 @@
       "when": 1702917655984,
       "tag": "0001_lethal_maestro",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1703232408140,
+      "tag": "0002_wandering_ghost_rider",
+      "breakpoints": true
     }
   ]
 }
