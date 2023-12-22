@@ -1,6 +1,7 @@
-import { graphqlUrl } from "@/lib/constants";
-import { useTokenStore } from "@/stores/useTokenStore";
 import { GraphQLClient } from "graphql-request";
+
+import { graphqlUrl } from "~/lib/constants";
+import { useTokenStore } from "~/stores/useTokenStore";
 
 const token = useTokenStore.getState().accessToken;
 

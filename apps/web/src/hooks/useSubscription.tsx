@@ -1,7 +1,7 @@
 "use client";
 
 import { DependencyList, useContext, useEffect, useRef } from "react";
-import SubscriptionContext from "@/contexts/SubscriptionContext";
+import SubscriptionContext from "~/contexts/SubscriptionContext";
 
 export interface SubscriptionCallbacks<T> {
   next?: (value: T) => unknown;

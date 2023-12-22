@@ -1,8 +1,9 @@
 "use client";
 
-import { useTokenStore } from "@/stores/useTokenStore";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useEffect } from "react";
+
+import { useTokenStore } from "~/stores/useTokenStore";
 
 export const useSaveTokensFromQueryParams = () => {
   const searchParams = useSearchParams();

@@ -1,8 +1,9 @@
 "use client";
 
-import { isServer } from "@/lib/constants";
 import { create } from "zustand";
 import { combine } from "zustand/middleware";
+
+import { isServer } from "~/lib/constants";
 
 const accessTokenKey = "@kepto/token";
 

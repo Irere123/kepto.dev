@@ -51,11 +51,14 @@ export function Modal({
       <Dialog.Portal>
         <Dialog.Overlay
           id="modal-backdrop"
-          className="animate-fade-in fixed inset-0 z-40 px-4 bg-opacity-50 backdrop-blur-md"
+          className="animate-fade-in fixed inset-0 z-40 backdrop-blur-md"
         >
           <Dialog.Content
+            onOpenAutoFocus={(e) => e.preventDefault()}
+            onCloseAutoFocus={(e) => e.preventDefault()}
             className={cn(
-              "animate-scale-in fixed inset-0 z-40 max-h-fit w-full max-w-md  overflow-hidden border border-primary-accents-5 bg-white p-0 shadow-xl md:rounded-2xl"
+              "animate-scale-in fixed inset-0 z-40 m-auto max-h-fit w-full max-w-md overflow-hidden border border-primary-accents-3 bg-primary-bg p-0 shadow-xl md:rounded-2xl",
+              className
             )}
           >
             {children}
