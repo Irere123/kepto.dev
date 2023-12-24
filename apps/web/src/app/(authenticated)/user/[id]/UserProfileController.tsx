@@ -3,10 +3,15 @@
 import { useContext } from "react";
 import { useQuery } from "react-query";
 import { getUserProfile } from "~/graphql/user";
-import { Location, ThreeDots } from "@kepto/ui";
-import { Avatar } from "~/ui/avatar";
-import { Paper } from "~/ui/paper";
-import { Text } from "~/ui/text";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  Location,
+  ThreeDots,
+  Avatar,
+  CardHeader,
+} from "@kepto/ui";
 import { ConnectButton } from "./Button";
 import AuthContext from "~/contexts/AuthContext";
 
@@ -21,45 +26,47 @@ export const UserProfileController: React.FC<Props> = ({ userId }) => {
   );
 
   if (isLoading) {
-    return <Text>Loading..</Text>;
+    return <p>Loading..</p>;
   }
 
   return (
-    <Paper>
-      <div className="flex gap-4 justify-between">
-        <div>
-          <Text as="h3" weight="700">
-            {data?.displayName}
-          </Text>
-          <Text as="p">@{data?.username}</Text>
-        </div>
-        <div>
-          <Avatar
-            size="72"
-            isOnline={data?.online as boolean}
-            src={data?.avatarUrl}
-            username={data?.username}
-          />
-        </div>
-      </div>
-      <div>
-        <Text as="p" className="text-primary-accents-6">
-          {data?.bio}
-        </Text>
-      </div>
-      <div className="flex justify-between mt-4">
-        <Text as="h5">{data?.numConnections} connections</Text>
-        <div className="flex gap-4 items-center text-primary-fg">
-          {data?.id == user?.id ? null : (
-            <ConnectButton
-              connected={data?.youAreConnected!}
-              userId={data?.id!}
+    <Card>
+      <CardHeader>
+        <div className="flex gap-4 justify-between">
+          <div>
+            <p>{data?.displayName}</p>
+            <p>@{data?.username}</p>
+          </div>
+          <div>
+            <Avatar
+              size="72"
+              isOnline={data?.online as boolean}
+              src={data?.avatarUrl}
+              username={data?.username}
             />
-          )}
-          <Location />
-          <ThreeDots />
+          </div>
         </div>
-      </div>
-    </Paper>
+      </CardHeader>
+      <CardContent>
+        <div>
+          <p className="text-primary-accents-6">{data?.bio}</p>
+        </div>
+      </CardContent>
+      <CardFooter>
+        <div className="flex flex-1 justify-between mt-4">
+          <p>{data?.numConnections} connections</p>
+          <div className="flex gap-4 items-center text-primary-fg">
+            {data?.id == user?.id ? null : (
+              <ConnectButton
+                connected={data?.youAreConnected!}
+                userId={data?.id!}
+              />
+            )}
+            <Location />
+            <ThreeDots />
+          </div>
+        </div>
+      </CardFooter>
+    </Card>
   );
 };

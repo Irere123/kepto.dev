@@ -10,7 +10,7 @@ import {
 } from "react";
 import Downshift from "downshift";
 
-import { Input } from "../input";
+import { Input } from "@kepto/ui";
 import { useDebounce } from "use-debounce";
 import { useMutation, useQuery } from "react-query";
 import { searchUser } from "~/graphql/user";

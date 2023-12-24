@@ -8,6 +8,7 @@ const config: Config = {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
       },
       colors: {
+        transparent: "transparent",
         primary: {
           bg: "var(--primary-bg)",
           fg: "var(--primary-fg)",

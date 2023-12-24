@@ -3,7 +3,7 @@
 import AuthContext from "~/contexts/AuthContext";
 import { useScreenSize } from "~/hooks/useScreenSize";
 import { At, LogoLargeIcon, People, Search } from "@kepto/ui";
-import { Avatar } from "~/ui/avatar";
+import { Avatar } from "@kepto/ui";
 import Link from "next/link";
 import React, { useContext } from "react";
 

@@ -1,7 +1,6 @@
 import { Metadata } from "next";
 
 import "./globals.css";
-import Background from "./_components/background";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://kepto.dev"),
@@ -20,9 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Background>
-          <div id="app">{children}</div>
-        </Background>
+        <div id="app">{children}</div>
       </body>
     </html>
   );

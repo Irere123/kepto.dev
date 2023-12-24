@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from "react-query";
 import { Close, Plus } from "@kepto/ui";
 
 import { connect, unconnect } from "~/graphql/connect";
-import { Button } from "~/ui/button";
+import { Button } from "@kepto/ui";
 
 interface ConnectButtonProps {
   connected: boolean;
@@ -50,7 +50,6 @@ export const ConnectButton: React.FC<ConnectButtonProps> = ({
     <>
       {!connected ? (
         <Button
-          prefix={<Plus />}
           size="small"
           loading={connectLoading}
           onClick={() => connectMutate(userId)}
@@ -59,7 +58,6 @@ export const ConnectButton: React.FC<ConnectButtonProps> = ({
         </Button>
       ) : (
         <Button
-          prefix={<Close />}
           size="small"
           color="secondary"
           loading={unconnectLoading}

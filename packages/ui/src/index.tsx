@@ -8,6 +8,7 @@ export * from "./badge";
 export * from "./input";
 export * from "./label";
 export * from "./card";
+export * from "./avatar";
 
 // icons
 export * from "./icons";
