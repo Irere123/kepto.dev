@@ -4,6 +4,7 @@ import "./styles.css";
 // components
 export * from "./button";
 export * from "./modal";
+export * from "./badge";
 
 // icons
 export * from "./icons";
@@ -13,3 +14,4 @@ export * from "./icons";
 // content
 
 // misc
+export * from "./utils/cn";

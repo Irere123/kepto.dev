@@ -1,46 +1,59 @@
+import * as React from "react";
+import { Slot } from "@radix-ui/react-slot";
+import { cva } from "class-variance-authority";
+import type { VariantProps } from "class-variance-authority";
+
 import { cn } from "./utils/cn";
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  text: string;
-  variant?: "primary" | "secondary" | "success" | "danger";
-  loading?: boolean;
-  icon?: React.ReactNode;
-  disabledTooltip?: string | React.ReactNode;
+const buttonVariants = cva(
+  "inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
+  {
+    variants: {
+      variant: {
+        default:
+          "bg-primary-accents-8 text-primary-accents-1 shadow hover:bg-primary/90",
+        destructive:
+          "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
+        outline:
+          "border text-primary-accents-6 border-primary-accents-2 bg-primary-accents-1 shadow-sm hover:bg-accent hover:text-accent-foreground",
+        secondary:
+          "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
+        ghost: "hover:bg-accent hover:text-accent-foreground",
+        link: "text-primary-accents-7 underline-offset-4 hover:underline",
+      },
+      size: {
+        default: "h-9 px-4 py-2",
+        sm: "h-8 rounded-md px-3 text-xs",
+        lg: "h-10 rounded-md px-8",
+        icon: "h-9 w-9",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      size: "default",
+    },
+  }
+);
+
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof buttonVariants> {
+  asChild?: boolean;
 }
 
-export function Button({
-  text,
-  variant = "primary",
-  loading,
-  icon,
-  disabledTooltip,
-  ...props
-}: ButtonProps) {
-  return (
-    <button
-      // if onClick is passed, it's a "button" type, otherwise it's being used in a form, hence "submit"
-      type={props.onClick ? "button" : "submit"}
-      className={cn(
-        "flex h-10 w-full items-center justify-center space-x-2 rounded-md border px-4 text-sm transition-all focus:outline-none",
-        props.disabled || loading
-          ? "cursor-not-allowed border-gray-200 bg-gray-100 text-gray-400"
-          : {
-              "border-primary-fg bg-primary-accents-8 text-white hover:bg-white hover:text-black":
-                variant === "primary",
-              "border-primary-accents-2 bg-primary-accents-1 text-primary-accents-8 focus:border-primary-accents-2 hover:border-black hover:text-black":
-                variant === "secondary",
-              "border-blue-500 bg-success text-white hover:bg-white hover:text-blue-500":
-                variant === "success",
-              "border-error bg-error text-primary-accents-8 hover:bg-white hover:text-red-500":
-                variant === "danger",
-            },
-        props.className
-      )}
-      disabled={props.disabled || loading}
-      {...props}
-    >
-      {loading ? <p>loading..</p> : icon ? icon : null}
-      <p>{text}</p>
-    </button>
-  );
-}
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ className, variant, size, asChild = false, disabled, ...props }, ref) => {
+    const Comp: any = asChild ? Slot : "button";
+    return (
+      <Comp
+        className={cn(buttonVariants({ variant, size, className }))}
+        ref={ref}
+        disabled={disabled}
+        {...props}
+      />
+    );
+  }
+);
+Button.displayName = "Button";
+
+export { Button, buttonVariants };

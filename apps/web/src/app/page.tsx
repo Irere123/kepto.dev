@@ -1,6 +1,11 @@
 import { MarketingLayout } from "~/ui/layouts/MarketingLayout";
 import { CheckAuth } from "./_components/CheckAuth";
 import { Hero } from "~/ui/marketing/hero";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Kepto | Designed for developers",
+};
 
 function LandingPage() {
   return (
