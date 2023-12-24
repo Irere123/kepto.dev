@@ -5,6 +5,9 @@ import "./styles.css";
 export * from "./button";
 export * from "./modal";
 export * from "./badge";
+export * from "./input";
+export * from "./label";
+export * from "./card";
 
 // icons
 export * from "./icons";
