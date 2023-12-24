@@ -1,7 +1,9 @@
 "use client";
-import { useTokenStore } from "~/stores/useTokenStore";
+
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+
+import { useTokenStore } from "~/stores/useTokenStore";
 
 export default function Logout() {
   const router = useRouter();
