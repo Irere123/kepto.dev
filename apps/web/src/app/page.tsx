@@ -1,11 +1,15 @@
+import { MarketingLayout } from "~/ui/layouts/MarketingLayout";
 import { CheckAuth } from "./_components/CheckAuth";
+import { Hero } from "~/ui/marketing/hero";
 
 function LandingPage() {
   return (
     <CheckAuth>
-      <div>
-        <p>Hello world</p>
-      </div>
+      <MarketingLayout>
+        <div className="grid gap-8">
+          <Hero />
+        </div>
+      </MarketingLayout>
     </CheckAuth>
   );
 }
