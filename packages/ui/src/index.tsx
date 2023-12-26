@@ -10,6 +10,7 @@ export * from "./label";
 export * from "./card";
 export * from "./avatar";
 export * from "./tabs";
+export * from "./dropdown-menu";
 
 // icons
 export * from "./icons";

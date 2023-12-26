@@ -4,7 +4,7 @@ import { useSaveTokensFromQueryParams } from "~/hooks/useSaveTokenFromParams";
 import { Clock, Github } from "@kepto/ui";
 import { apiUrl, prod } from "~/lib/constants";
 import { useTokenStore } from "~/stores/useTokenStore";
-import { Button } from "~/ui/button";
+import { Button } from "@kepto/ui";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -27,16 +27,16 @@ export default function Home() {
   return (
     <main className="flex w-96 justify-center m-auto items-center flex-col gap-3">
       <Button
-        prefix={<Github width={16} height={16} />}
         onClick={() => {
           window.location.href = `${apiUrl}/auth/github`;
         }}
       >
+        <Github width={16} height={16} className="mr-2" />
         Login with Github
       </Button>
       {!prod ? (
         <Button
-          prefix={<Clock />}
+          variant="secondary"
           onClick={async () => {
             const name = window.prompt("username");
             if (!name) {
@@ -49,8 +49,8 @@ export default function Home() {
             });
             push("/feed");
           }}
-          color="secondary"
         >
+          <Clock />
           Create test a user
         </Button>
       ) : null}

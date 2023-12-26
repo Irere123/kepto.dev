@@ -2,7 +2,18 @@
 
 import AuthContext from "~/contexts/AuthContext";
 import { useScreenSize } from "~/hooks/useScreenSize";
-import { At, LogoLargeIcon, People, Search } from "@kepto/ui";
+import {
+  At,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+  LogoLargeIcon,
+  People,
+  Search,
+} from "@kepto/ui";
 import { Avatar } from "@kepto/ui";
 import Link from "next/link";
 import React, { useContext } from "react";
@@ -27,7 +38,7 @@ export const LeftPanel: React.FC<Props> = ({ children }) => {
   return (
     <FixedGridPanel>
       <HeaderWrapper>
-        <p>KPD</p>
+        <LogoLargeIcon />
       </HeaderWrapper>
       {children}
     </FixedGridPanel>
@@ -52,9 +63,6 @@ export const MiddlePanel: React.FC<Props> = ({ children }) => {
         }
       >
         <div className="flex w-full items-center text-primary-fg justify-between mb-4">
-          <div>
-            <LogoLargeIcon />
-          </div>
           <div className="flex gap-8">
             <Link href={`/feed`}>
               <People />
@@ -66,11 +74,26 @@ export const MiddlePanel: React.FC<Props> = ({ children }) => {
               <Search />
             </Link>
           </div>
-          <div>
-            <Link href={`/user/${user?.id}`}>
+
+          <DropdownMenu>
+            <DropdownMenuTrigger>
               <Avatar src={user?.avatarUrl} size="48" username="irere" />
-            </Link>
-          </div>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-[200px]">
+              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <Link href={`/user/${user?.id}`}>
+                <DropdownMenuItem>Profile</DropdownMenuItem>
+              </Link>
+              <DropdownMenuItem>Create community</DropdownMenuItem>
+              <DropdownMenuItem>Settings</DropdownMenuItem>
+              <DropdownMenuItem>API</DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <Link href={`/auth/logout`}>
+                <DropdownMenuItem>Logout</DropdownMenuItem>
+              </Link>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
       {children}

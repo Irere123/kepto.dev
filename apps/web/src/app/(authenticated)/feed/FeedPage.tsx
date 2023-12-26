@@ -6,7 +6,7 @@ import { MiddlePanel } from "~/ui/layouts/GridPanels";
 import { MainLayout } from "~/ui/layouts/MainLayout";
 import { ProtectedPage } from "~/ui/layouts/ProtectedPage";
 import { getUsers } from "~/graphql/user";
-import { Card, CardContent, CardHeader, CardTitle } from "@kepto/ui";
+import { Card, CardContent, CardHeader, CardTitle, Input } from "@kepto/ui";
 
 export const FeedPage: React.FC = () => {
   const { data, isLoading } = useQuery("users", getUsers);
@@ -30,6 +30,7 @@ export const FeedPage: React.FC = () => {
                 </CardContent>
               </Card>
             ))}
+            <Input placeholder="Send message" />
           </div>
         </MiddlePanel>
       </MainLayout>
