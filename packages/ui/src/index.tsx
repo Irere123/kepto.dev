@@ -9,6 +9,7 @@ export * from "./input";
 export * from "./label";
 export * from "./card";
 export * from "./avatar";
+export * from "./tabs";
 
 // icons
 export * from "./icons";
