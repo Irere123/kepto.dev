@@ -42,7 +42,6 @@ export const resolvers = {
         );
 
       if (match[0]) {
-        console.log(match);
         return match[0];
       }
 

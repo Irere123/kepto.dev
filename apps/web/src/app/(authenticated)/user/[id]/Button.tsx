@@ -1,7 +1,6 @@
 "use client";
 
 import { useMutation, useQueryClient } from "react-query";
-import { Close, Plus } from "@kepto/ui";
 
 import { connect, unconnect } from "~/graphql/connect";
 import { Button } from "@kepto/ui";
