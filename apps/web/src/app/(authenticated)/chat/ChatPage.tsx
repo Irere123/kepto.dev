@@ -18,11 +18,7 @@ export const ChatPage: React.FC<Props> = () => {
       <MainLayout>
         <MiddlePanel>
           <div className="mt-4">
-            <Button
-              text="Create"
-              variant="success"
-              onClick={() => setShowCreateConvModal(true)}
-            />
+            <Button onClick={() => setShowCreateConvModal(true)}>Create</Button>
             <CreateConvModal />
           </div>
         </MiddlePanel>

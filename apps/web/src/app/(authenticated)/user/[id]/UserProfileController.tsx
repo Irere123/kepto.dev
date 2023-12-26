@@ -89,25 +89,25 @@ export const UserProfileController: React.FC<Props> = ({ userId }) => {
       <Tabs defaultValue="overview">
         <TabsList className="h-9 w-full justify-around rounded-none">
           <TabsTrigger
-            className="text-muted-foreground data-[state=active]:border-b-success-lighter data-[state=active]:text-success relative h-9 rounded-none border-b-2 border-b-transparent bg-transparent px-4 pb-3 pt-2 font-semibold shadow-none transition-none data-[state=active]:shadow-none"
+            className="text-muted-foreground data-[state=active]:border-b-primary data-[state=active]:text-foreground relative h-9 rounded-none border-b-2 border-b-transparent bg-transparent px-4 pb-3 pt-2 font-semibold shadow-none transition-none data-[state=active]:shadow-none"
             value="overview"
           >
             Overview
           </TabsTrigger>
           <TabsTrigger
-            className="text-muted-foreground data-[state=active]:border-b-success-lighter data-[state=active]:text-foreground relative h-9 rounded-none border-b-2 border-b-transparent bg-transparent px-4 pb-3 pt-2 font-semibold shadow-none transition-none data-[state=active]:shadow-none"
+            className="text-muted-foreground data-[state=active]:border-b-primary data-[state=active]:text-foreground relative h-9 rounded-none border-b-2 border-b-transparent bg-transparent px-4 pb-3 pt-2 font-semibold shadow-none transition-none data-[state=active]:shadow-none"
             value="people"
           >
             People
           </TabsTrigger>
           <TabsTrigger
-            className="text-muted-foreground data-[state=active]:border-b-success-lighter data-[state=active]:text-foreground relative h-9 rounded-none border-b-2 border-b-transparent bg-transparent px-4 pb-3 pt-2 font-semibold shadow-none transition-none data-[state=active]:shadow-none"
+            className="text-muted-foreground data-[state=active]:border-b-primary data-[state=active]:text-foreground relative h-9 rounded-none border-b-2 border-b-transparent bg-transparent px-4 pb-3 pt-2 font-semibold shadow-none transition-none data-[state=active]:shadow-none"
             value="activity"
           >
             Activity
           </TabsTrigger>
           <TabsTrigger
-            className="text-muted-foreground data-[state=active]:border-b-success-lighter data-[state=active]:text-foreground relative h-9 rounded-none border-b-2 border-b-transparent bg-transparent px-4 pb-3 pt-2 font-semibold shadow-none transition-none data-[state=active]:shadow-none"
+            className="text-muted-foreground data-[state=active]:border-b-primary data-[state=active]:text-foreground relative h-9 rounded-none border-b-2 border-b-transparent bg-transparent px-4 pb-3 pt-2 font-semibold shadow-none transition-none data-[state=active]:shadow-none"
             value="stack"
           >
             Stack
@@ -117,6 +117,9 @@ export const UserProfileController: React.FC<Props> = ({ userId }) => {
           <p className="text-primary-fg">{data?.bio}</p>
         </TabsContent>
         <TabsContent value="people" className="pt-3">
+          <p className="text-primary-fg">Hello people</p>
+        </TabsContent>
+        <TabsContent value="activity" className="pt-3">
           <p className="text-primary-fg">Hello people</p>
         </TabsContent>
         <TabsContent value="stack" className="pt-3">
