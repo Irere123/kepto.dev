@@ -38,7 +38,9 @@ export const LeftPanel: React.FC<Props> = ({ children }) => {
   return (
     <FixedGridPanel>
       <HeaderWrapper>
-        <LogoLargeIcon />
+        <Link href={`/feed`} className="mt-5">
+          <LogoLargeIcon />
+        </Link>
       </HeaderWrapper>
       {children}
     </FixedGridPanel>
