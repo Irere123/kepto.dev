@@ -6,7 +6,7 @@ import { MiddlePanel } from "~/ui/layouts/GridPanels";
 import { MainLayout } from "~/ui/layouts/MainLayout";
 import { ProtectedPage } from "~/ui/layouts/ProtectedPage";
 import { getUsers } from "~/graphql/user";
-import { Card, CardContent, CardHeader, CardTitle, Input } from "@kepto/ui";
+import { Input } from "@kepto/ui";
 import { ThreadCard } from "~/ui/thread-card";
 
 export const FeedPage: React.FC = () => {
@@ -23,7 +23,7 @@ export const FeedPage: React.FC = () => {
           <div className="flex flex-col gap-4 mt-7">
             {data?.users.map((u) => (
               <ThreadCard
-                id="wiohrwiohio"
+                id={u.id}
                 topic="reactjs"
                 key={u.id}
                 description={u.bio!}

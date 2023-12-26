@@ -1,10 +1,14 @@
 import { GraphQLError } from "graphql";
 import { GQLContext } from "../lib/types";
-import { and, conversation, conversationMember, db, eq, user } from "@kepto/db";
+import { and, conversation, db, eq, or } from "@kepto/db";
 
 export const typeDefs = /* GraphQL */ `
+  type Conversation {
+    id: ID!
+  }
+
   type Mutation {
-    createConv(username: String!): Boolean
+    createConv(id: ID!): Conversation!
   }
 `;
 
@@ -12,58 +16,42 @@ export const resolvers = {
   Mutation: {
     createConv: async (
       _parent: unknown,
-      { username }: { username: string },
+      { id }: { id: string },
       ctx: GQLContext
     ) => {
       if (!ctx.user) {
         throw new GraphQLError("not authenticated");
       }
 
-      const user1 = await db
-        .select()
-        .from(user)
-        .where(eq(user.username, username));
+      let match;
 
-      if (!user1[0]) {
-        return false;
-      }
-
-      const conv = await db
+      match = await db
         .select()
         .from(conversation)
-        .where(eq(conversation.creatorId, ctx.user.id));
-
-      const convM = await db
-        .select()
-        .from(conversationMember)
         .where(
           and(
-            eq(conversationMember.conversationId, conv[0].id),
-            eq(conversationMember.userId, user1[0].id)
+            or(
+              eq(conversation.userId1, ctx.user.id),
+              eq(conversation.userId1, id)
+            ),
+            or(
+              eq(conversation.userId2, ctx.user.id),
+              eq(conversation.userId2, id)
+            )
           )
         );
 
-      if (!convM) {
-        return true;
+      if (match[0]) {
+        console.log(match);
+        return match[0];
       }
 
-      await db.transaction(async (tx) => {
-        const conv = await tx
-          .insert(conversation)
-          .values({ creatorId: ctx.user.id })
-          .returning();
+      match = await db
+        .insert(conversation)
+        .values({ userId1: ctx.user.id, userId2: id })
+        .returning();
 
-        await tx.insert(conversationMember).values({
-          conversationId: conv[0].id,
-          userId: user1[0].id,
-        });
-
-        await tx.insert(conversationMember).values({
-          conversationId: conv[0].id,
-          userId: ctx.user.id,
-        });
-      });
-      return true;
+      return match[0];
     },
   },
 };

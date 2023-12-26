@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "pg",
-  "id": "641d4ea8-0e14-452d-aaf5-d0c644019458",
+  "id": "11847c1c-2c5e-48b5-bcbd-f4db2dd87e16",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "users": {
@@ -76,15 +76,15 @@
           "primaryKey": false,
           "notNull": false
         },
-        "numFollowing": {
-          "name": "numFollowing",
+        "numConnections": {
+          "name": "numConnections",
           "type": "integer",
           "primaryKey": false,
           "notNull": false,
           "default": 0
         },
-        "numFollowers": {
-          "name": "numFollowers",
+        "numConnectors": {
+          "name": "numConnectors",
           "type": "integer",
           "primaryKey": false,
           "notNull": false,
@@ -329,11 +329,31 @@
           "notNull": true,
           "default": "gen_random_uuid()"
         },
-        "connectionId": {
-          "name": "connectionId",
+        "userId1": {
+          "name": "userId1",
           "type": "uuid",
           "primaryKey": false,
           "notNull": true
+        },
+        "userId2": {
+          "name": "userId2",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "read1": {
+          "name": "read1",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": false
+        },
+        "read2": {
+          "name": "read2",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": false
         },
         "createdAt": {
           "name": "createdAt",
@@ -352,12 +372,118 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "conversations_connectionId_connections_id_fk": {
-          "name": "conversations_connectionId_connections_id_fk",
+        "conversations_userId1_users_id_fk": {
+          "name": "conversations_userId1_users_id_fk",
           "tableFrom": "conversations",
-          "tableTo": "connections",
+          "tableTo": "users",
           "columnsFrom": [
-            "connectionId"
+            "userId1"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "conversations_userId2_users_id_fk": {
+          "name": "conversations_userId2_users_id_fk",
+          "tableFrom": "conversations",
+          "tableTo": "users",
+          "columnsFrom": [
+            "userId2"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "circles": {
+      "name": "circles",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "githubOrganisationUrl": {
+          "name": "githubOrganisationUrl",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "website": {
+          "name": "website",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ownerId": {
+          "name": "ownerId",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "slug": {
+          "name": "slug",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "coverPhoto": {
+          "name": "coverPhoto",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "profilePhoto": {
+          "name": "profilePhoto",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "circles_ownerId_users_id_fk": {
+          "name": "circles_ownerId_users_id_fk",
+          "tableFrom": "circles",
+          "tableTo": "users",
+          "columnsFrom": [
+            "ownerId"
           ],
           "columnsTo": [
             "id"
@@ -369,8 +495,8 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "conversation_members": {
-      "name": "conversation_members",
+    "circle_members": {
+      "name": "circle_members",
       "schema": "",
       "columns": {
         "id": {
@@ -380,14 +506,213 @@
           "notNull": true,
           "default": "gen_random_uuid()"
         },
-        "userId1": {
-          "name": "userId1",
+        "circleId": {
+          "name": "circleId",
           "type": "uuid",
           "primaryKey": false,
           "notNull": true
         },
-        "conversationId": {
-          "name": "conversationId",
+        "userId": {
+          "name": "userId",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "admin": {
+          "name": "admin",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": false
+        },
+        "moderator": {
+          "name": "moderator",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "circle_members_circleId_circles_id_fk": {
+          "name": "circle_members_circleId_circles_id_fk",
+          "tableFrom": "circle_members",
+          "tableTo": "circles",
+          "columnsFrom": [
+            "circleId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "circle_members_userId_users_id_fk": {
+          "name": "circle_members_userId_users_id_fk",
+          "tableFrom": "circle_members",
+          "tableTo": "users",
+          "columnsFrom": [
+            "userId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "thread": {
+      "name": "thread",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "body": {
+          "name": "body",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "title": {
+          "name": "title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "circleId": {
+          "name": "circleId",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "userId": {
+          "name": "userId",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "messageCount": {
+          "name": "messageCount",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "default": 0
+        },
+        "reactionCount": {
+          "name": "reactionCount",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "default": 0
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "thread_circleId_circles_id_fk": {
+          "name": "thread_circleId_circles_id_fk",
+          "tableFrom": "thread",
+          "tableTo": "circles",
+          "columnsFrom": [
+            "circleId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "thread_circleId_topics_id_fk": {
+          "name": "thread_circleId_topics_id_fk",
+          "tableFrom": "thread",
+          "tableTo": "topics",
+          "columnsFrom": [
+            "circleId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "thread_userId_users_id_fk": {
+          "name": "thread_userId_users_id_fk",
+          "tableFrom": "thread",
+          "tableTo": "users",
+          "columnsFrom": [
+            "userId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "thread_messages": {
+      "name": "thread_messages",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "text": {
+          "name": "text",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "senderId": {
+          "name": "senderId",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "threadId": {
+          "name": "threadId",
           "type": "uuid",
           "primaryKey": false,
           "notNull": true
@@ -409,25 +734,254 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "conversation_members_userId1_users_id_fk": {
-          "name": "conversation_members_userId1_users_id_fk",
-          "tableFrom": "conversation_members",
+        "thread_messages_senderId_users_id_fk": {
+          "name": "thread_messages_senderId_users_id_fk",
+          "tableFrom": "thread_messages",
           "tableTo": "users",
           "columnsFrom": [
-            "userId1"
+            "senderId"
           ],
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
+          "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "conversation_members_conversationId_conversations_id_fk": {
-          "name": "conversation_members_conversationId_conversations_id_fk",
-          "tableFrom": "conversation_members",
-          "tableTo": "conversations",
+        "thread_messages_threadId_thread_id_fk": {
+          "name": "thread_messages_threadId_thread_id_fk",
+          "tableFrom": "thread_messages",
+          "tableTo": "thread",
           "columnsFrom": [
-            "conversationId"
+            "threadId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "thread_reactions": {
+      "name": "thread_reactions",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "type": {
+          "name": "type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "score": {
+          "name": "score",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "default": 0
+        },
+        "userId": {
+          "name": "userId",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "thread_reactions_userId_users_id_fk": {
+          "name": "thread_reactions_userId_users_id_fk",
+          "tableFrom": "thread_reactions",
+          "tableTo": "users",
+          "columnsFrom": [
+            "userId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "topics": {
+      "name": "topics",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "circleId": {
+          "name": "circleId",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "creatorId": {
+          "name": "creatorId",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "isPrivate": {
+          "name": "isPrivate",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": false
+        },
+        "slug": {
+          "name": "slug",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "topics_circleId_circles_id_fk": {
+          "name": "topics_circleId_circles_id_fk",
+          "tableFrom": "topics",
+          "tableTo": "circles",
+          "columnsFrom": [
+            "circleId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "topics_creatorId_users_id_fk": {
+          "name": "topics_creatorId_users_id_fk",
+          "tableFrom": "topics",
+          "tableTo": "users",
+          "columnsFrom": [
+            "creatorId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "topic_members": {
+      "name": "topic_members",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "topicId": {
+          "name": "topicId",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "userId": {
+          "name": "userId",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "topic_members_topicId_topics_id_fk": {
+          "name": "topic_members_topicId_topics_id_fk",
+          "tableFrom": "topic_members",
+          "tableTo": "topics",
+          "columnsFrom": [
+            "topicId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "topic_members_userId_users_id_fk": {
+          "name": "topic_members_userId_users_id_fk",
+          "tableFrom": "topic_members",
+          "tableTo": "users",
+          "columnsFrom": [
+            "userId"
           ],
           "columnsTo": [
             "id"

@@ -1,12 +1,11 @@
 "use client";
 
 import { useContext } from "react";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { getUserProfile } from "~/graphql/user";
 import {
   Card,
   CardFooter,
-  Location,
   ThreeDots,
   Avatar,
   CardHeader,
@@ -14,18 +13,26 @@ import {
   TabsList,
   TabsTrigger,
   TabsContent,
+  Button,
 } from "@kepto/ui";
 import { ConnectButton } from "./Button";
 import AuthContext from "~/contexts/AuthContext";
+import { createConv } from "~/graphql/conversation";
+import { useRouter } from "next/navigation";
 
 interface Props {
   userId: string;
 }
 
 export const UserProfileController: React.FC<Props> = ({ userId }) => {
+  const router = useRouter();
   const { user } = useContext(AuthContext);
   const { data, isLoading } = useQuery("getUserProfile", () =>
     getUserProfile(userId)
+  );
+  const { mutateAsync: createConvMutate } = useMutation(
+    "createConv",
+    createConv
   );
 
   if (isLoading) {
@@ -61,7 +68,19 @@ export const UserProfileController: React.FC<Props> = ({ userId }) => {
                   userId={data?.id!}
                 />
               )}
-              <Location />
+              <Button
+                onClick={async () => {
+                  const res = await createConvMutate(userId);
+
+                  if (!res) {
+                    console.log(res);
+                  }
+
+                  router.push(`/chat/${res.createConv.id}`);
+                }}
+              >
+                Message
+              </Button>
               <ThreeDots />
             </div>
           </div>

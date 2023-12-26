@@ -2,17 +2,19 @@ import { gql } from "graphql-request";
 import { gqlClient } from "./gqlClient";
 
 export const CREATE_CONV_MUTATION = gql`
-  mutation CreateConv($username: String!) {
-    createConv(username: $username)
+  mutation CreateConv($id: ID!) {
+    createConv(id: $id) {
+      id
+    }
   }
 `;
 
 export const createConv = async (
-  username: string
-): Promise<{ createConv: boolean }> => {
-  const res = await gqlClient.rawRequest<{ createConv: boolean }>(
+  id: string
+): Promise<{ createConv: { id: string } }> => {
+  const res = await gqlClient.rawRequest<{ createConv: { id: string } }>(
     CREATE_CONV_MUTATION,
-    { username }
+    { id }
   );
 
   return res.data;

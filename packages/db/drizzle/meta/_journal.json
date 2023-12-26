@@ -5,29 +5,8 @@
     {
       "idx": 0,
       "version": "5",
-      "when": 1702917111442,
-      "tag": "0000_chemical_ares",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1702917655984,
-      "tag": "0001_lethal_maestro",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "5",
-      "when": 1703232408140,
-      "tag": "0002_wandering_ghost_rider",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "5",
-      "when": 1703349751804,
-      "tag": "0003_violet_goblin_queen",
+      "when": 1703596599803,
+      "tag": "0000_exotic_daimon_hellstrom",
       "breakpoints": true
     }
   ]

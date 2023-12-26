@@ -49,16 +49,11 @@ export const ConnectButton: React.FC<ConnectButtonProps> = ({
   return (
     <>
       {!connected ? (
-        <Button
-          size="small"
-          loading={connectLoading}
-          onClick={() => connectMutate(userId)}
-        >
+        <Button loading={connectLoading} onClick={() => connectMutate(userId)}>
           Connect
         </Button>
       ) : (
         <Button
-          size="small"
           color="secondary"
           loading={unconnectLoading}
           onClick={() => unconnectMutate(userId)}
