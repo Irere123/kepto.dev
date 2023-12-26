@@ -8,6 +8,13 @@
       "when": 1703596599803,
       "tag": "0000_exotic_daimon_hellstrom",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1703598675495,
+      "tag": "0001_flimsy_loki",
+      "breakpoints": true
     }
   ]
 }
