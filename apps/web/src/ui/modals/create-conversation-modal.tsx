@@ -12,10 +12,10 @@ import Downshift from "downshift";
 
 import { Input } from "@kepto/ui";
 import { useDebounce } from "use-debounce";
-import { useMutation, useQuery } from "react-query";
+import { useQuery } from "react-query";
 import { searchUser } from "~/graphql/user";
 import usePageVisibility from "~/hooks/usePageVisibility";
-import { createConv } from "~/graphql/conversation";
+// import { createConv } from "~/graphql/conversation";
 
 function CreateConvModalHelper({
   setShowCreateConvModal,
@@ -42,10 +42,10 @@ function CreateConvModalHelper({
   const { data } = useQuery("searchUser", () => searchUser(text), {
     enabled,
   });
-  const { mutateAsync: createConvMutate } = useMutation(
-    "createConv",
-    createConv
-  );
+  // const { mutateAsync: createConvMutate } = useMutation(
+  //   "createConv",
+  //   createConv
+  // );
 
   const results = data ? [...data] : [];
 
@@ -148,10 +148,6 @@ function CreateConvModalHelper({
           onClick={() => {
             setShowCreateConvModal(!showCreateConvModal);
           }}
-        />
-        <Button
-          text="Create"
-          onClick={() => createConvMutate(selectedItem.username)}
         />
       </div>
     </Modal>
