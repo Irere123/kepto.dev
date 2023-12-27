@@ -34,4 +34,6 @@ RUN adduser --system --uid 1001 expressjs
 USER expressjs
 COPY --from=builder /app .
 
+ENV NODE_ENV=production
+
 CMD node api/build/index.js
