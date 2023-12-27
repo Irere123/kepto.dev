@@ -32,11 +32,9 @@ RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 expressjs
 USER expressjs
 
-# COPY --from=builder /app/full/next.config.js .
-COPY --from=builder /app/api/package.json .
 
-COPY --from=builder --chown=expressjs:nodejs /app/api/build .
+COPY --from=builder --chown=expressjs:nodejs /app/api .
 # COPY --from=builder --chown=nextjs:nodejs /app/full/.next/static ./standalone/.next/static
 # COPY --from=builder --chown=nextjs:nodejs /app/full/public ./standalone/public
 
-CMD node index.js
+CMD node build/ndex.js
