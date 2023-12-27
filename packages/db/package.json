@@ -2,8 +2,8 @@
   "name": "@kepto/db",
   "version": "0.0.1",
   "description": "",
-  "main": "build/src/index.js",
-  "types": "build/src/index.d.ts",
+  "main": "./build/src/index.js",
+  "types": "./build/src/index.d.ts",
   "scripts": {
     "build": "tsc",
     "generate": "drizzle-kit generate:pg",
