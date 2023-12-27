@@ -15,6 +15,7 @@
     "@kepto/ui": "workspace:*",
     "@radix-ui/react-avatar": "^1.0.4",
     "@radix-ui/react-toast": "^1.1.5",
+    "date-fns": "^3.0.6",
     "downshift": "^8.2.3",
     "formik": "^2.4.5",
     "graphql": "^16.8.1",

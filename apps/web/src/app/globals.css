@@ -24,7 +24,7 @@
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
     --ring: 240 4.9% 83.9%;
-    --radius: 0rem;
+    --radius: 0.5rem;
     --screen-height-reduction: 0px;
   }
 }

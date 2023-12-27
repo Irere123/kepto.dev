@@ -1,15 +1,22 @@
 "use client";
 
+import { Avatar } from "@kepto/ui";
+import { Conversation } from "~/graphql/conversation";
+
 interface ConversationHeaderProps {
-  conversationId: string;
+  conversation: Conversation;
 }
 
 export const ConversationHeader: React.FC<ConversationHeaderProps> = ({
-  conversationId,
+  conversation,
 }) => {
   return (
     <div>
-      <p>Conv ID: {conversationId}</p>
+      <Avatar
+        src={conversation.avatarUrl}
+        username={conversation.displayName}
+      />
+      <p>{conversation.displayName}</p>
     </div>
   );
 };
