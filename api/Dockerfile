@@ -22,7 +22,7 @@ RUN pnpm install --no-frozen-lockfile
 COPY --from=pruner /app/out/full/ .
 COPY turbo.json turbo.json
 
-RUN yarn turbo run build --filter=api...
+RUN pnpm turbo run build --filter=api...
  
 
 FROM base AS runner
@@ -33,9 +33,9 @@ RUN adduser --system --uid 1001 expressjs
 USER expressjs
 
 # COPY --from=builder /app/full/next.config.js .
-COPY --from=builder /app/full/package.json .
+COPY --from=builder /app/api/package.json .
 
-COPY --from=builder --chown=expressjs:nodejs /app/full/build .
+COPY --from=builder --chown=expressjs:nodejs /app/api/build .
 # COPY --from=builder --chown=nextjs:nodejs /app/full/.next/static ./standalone/.next/static
 # COPY --from=builder --chown=nextjs:nodejs /app/full/public ./standalone/public
 
