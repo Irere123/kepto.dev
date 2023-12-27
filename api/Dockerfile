@@ -24,7 +24,6 @@ COPY turbo.json turbo.json
 
 RUN pnpm --filter api --prod deploy full
 WORKDIR /app/full
-RUN pnpm run build
 
 FROM base AS runner
 WORKDIR /app
