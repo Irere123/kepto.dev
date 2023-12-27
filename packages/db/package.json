@@ -5,9 +5,9 @@
   "main": "./build/src/index.js",
   "types": "./build/src/index.d.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && pnpm migrate",
     "generate": "drizzle-kit generate:pg",
-    "migrate": "node src/migrate.mjs"
+    "migrate": "node build/src/migrate.js"
   },
   "keywords": [],
   "dependencies": {
