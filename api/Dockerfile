@@ -22,7 +22,7 @@ RUN pnpm install
 COPY --from=pruner /app/out/full/ .
 COPY turbo.json turbo.json
 
-RUN pnpm --filter api --prod deploy full
+RUN pnpm --filter api --no-optional deploy full
 WORKDIR /app/full
 RUN pnpm run build
 
