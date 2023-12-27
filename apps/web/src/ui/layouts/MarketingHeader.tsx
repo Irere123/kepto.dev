@@ -30,7 +30,7 @@ export function MarketingHeader({ className }: Props) {
         </Button>
       </div>
       <div className="flex items-center justify-end gap-3 sm:col-span-1">
-        <Button asChild className="rounded-full text-primary-bg">
+        <Button asChild className="rounded-full">
           <Link href="/auth/login">Sign Up</Link>
         </Button>
       </div>
