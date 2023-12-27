@@ -48,4 +48,4 @@ USER expressjs
 COPY --from=installer /app .
 
 
-CMD ["npm", "start"]
+CMD ["node", "api/build/src/index.js"]
