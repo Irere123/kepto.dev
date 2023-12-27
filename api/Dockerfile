@@ -22,7 +22,7 @@ RUN pnpm install  --frozen-lockfile
 COPY --from=pruner /app/out/full/ .
 COPY turbo.json turbo.json
 
-RUN pnpm --filter api 
+RUN pnpm --filter api --prod deploy full
 WORKDIR /app/full
 RUN pnpm run build
 RUN rm -rf ./.next/cache
