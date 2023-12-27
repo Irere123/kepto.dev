@@ -1,5 +1,4 @@
-import { At, Plus } from "../icons";
-import { Badge } from "../ui/badge";
+import { Badge } from "@kepto/ui";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {
@@ -36,7 +35,6 @@ export const Gray: Story = {
     children: "typescript",
     size: "small",
     variant: "gray",
-    suffix: <Plus />,
   },
 };
 
@@ -44,6 +42,5 @@ export const BadgeWithPrefix: Story = {
   args: {
     children: "hello",
     size: "medium",
-    preffix: <Plus />,
   },
 };

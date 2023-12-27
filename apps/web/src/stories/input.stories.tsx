@@ -1,5 +1,5 @@
+import { Input } from "@kepto/ui";
 import type { Meta, StoryObj } from "@storybook/react";
-import { Input } from "../ui/input";
 
 const meta = {
   title: "Components/Input",

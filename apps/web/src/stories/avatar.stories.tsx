@@ -1,5 +1,4 @@
-import { At, Plus } from "../icons";
-import { Avatar } from "../ui/avatar";
+import { Avatar } from "@kepto/ui";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

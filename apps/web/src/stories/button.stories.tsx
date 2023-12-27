@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { Button } from "@kepto/ui";
-import { Pin, Plus } from "../icons";
 
 const meta = {
   title: "Components/Button",
