@@ -1,51 +1,44 @@
-FROM node:20-alpine AS base
-
-FROM base AS builder
-RUN npm install -g pnpm
+FROM node:18-alpine AS base
 RUN apk add --no-cache libc6-compat
-RUN apk update
+RUN npm install -g pnpm
+RUN npm install -g turbo
 
-ENV PNPM_HOME=/app/.pnpm
-ENV PATH=$PNPM_HOME:$PATH
-
+FROM base AS pruner
 WORKDIR /app
 
-RUN pnpm install turbo --global
 COPY . .
-RUN turbo prune api --docker 
 
+RUN turbo prune api --docker
 
+FROM base as builder
+WORKDIR /app
 
-# Add lockfile and package.json's of isolated subworkspace
-FROM base AS installer
-RUN npm install -g pnpm
-RUN apk add --no-cache libc6-compat
-RUN apk update
-
-ENV PNPM_HOME=/app/.pnpm
-ENV PATH=$PNPM_HOME:$PATH
-
-
-# First install the dependencies (as they change less often)
 COPY .gitignore .gitignore
-COPY --from=builder /app/out/json/ .
-COPY --from=builder /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
-COPY --from=builder /app/out/pnpm-workspace.yaml ./pnpm-workspace.yaml
-RUN pnpm install
+COPY --from=pruner /app/out/json/ .
+COPY --from=pruner /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
 
+RUN pnpm install  --frozen-lockfile
 
-# Build the project
-COPY --from=builder /app/out/full/ .
+COPY --from=pruner /app/out/full/ .
+COPY turbo.json turbo.json
+
+RUN pnpm --filter api 
+WORKDIR /app/full
+RUN pnpm run build
+RUN rm -rf ./.next/cache
 
 FROM base AS runner
 WORKDIR /app
- 
 
-# Don't run production as root
-RUN addgroup --system --gid 1001 expressjs
+RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 expressjs
 USER expressjs
-COPY --from=installer /app .
 
+# COPY --from=builder /app/full/next.config.js .
+COPY --from=builder /app/full/package.json .
 
-CMD ["node", "api/build/src/index.js"]
+COPY --from=builder --chown=expressjs:nodejs /app/full/build .
+# COPY --from=builder --chown=nextjs:nodejs /app/full/.next/static ./standalone/.next/static
+# COPY --from=builder --chown=nextjs:nodejs /app/full/public ./standalone/public
+
+CMD node ./build/src/index.js
