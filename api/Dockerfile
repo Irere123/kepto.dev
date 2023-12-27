@@ -47,6 +47,5 @@ RUN adduser --system --uid 1001 expressjs
 USER expressjs
 COPY --from=installer /app .
 
-RUN ls -alR
 
-CMD ["ls", "node", "build/src/index.js"]
+CMD ["npm", "start"]
