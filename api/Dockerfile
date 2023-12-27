@@ -17,12 +17,12 @@ COPY .gitignore .gitignore
 COPY --from=pruner /app/out/json/ .
 COPY --from=pruner /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
 
-RUN pnpm install 
+RUN pnpm install --no-frozen-lockfile
 
 COPY --from=pruner /app/out/full/ .
 COPY turbo.json turbo.json
 
-RUN pnpm --filter api --no-optional deploy full
+RUN pnpm --filter=api deploy full
 WORKDIR /app/full
 RUN pnpm run build
 
