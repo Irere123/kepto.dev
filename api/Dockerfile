@@ -39,4 +39,4 @@ COPY --from=builder --chown=expressjs:nodejs /app/api/build .
 # COPY --from=builder --chown=nextjs:nodejs /app/full/.next/static ./standalone/.next/static
 # COPY --from=builder --chown=nextjs:nodejs /app/full/public ./standalone/public
 
-CMD node ./build/index.js
+CMD node ./index.js
