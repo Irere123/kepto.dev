@@ -28,13 +28,10 @@ RUN pnpm turbo run build --filter=api...
 FROM base AS runner
 WORKDIR /app
 
-RUN addgroup --system --gid 1001 nodejs
+# Don't run production as root
+RUN addgroup --system --gid 1001 expressjs
 RUN adduser --system --uid 1001 expressjs
 USER expressjs
+COPY --from=builder /app .
 
-
-COPY --from=builder --chown=expressjs:nodejs /app/api .
-# COPY --from=builder --chown=nextjs:nodejs /app/full/.next/static ./standalone/.next/static
-# COPY --from=builder --chown=nextjs:nodejs /app/full/public ./standalone/public
-
-CMD node build/ndex.js
+CMD node api/build/index.js
