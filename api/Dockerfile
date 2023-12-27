@@ -22,9 +22,8 @@ RUN pnpm install --no-frozen-lockfile
 COPY --from=pruner /app/out/full/ .
 COPY turbo.json turbo.json
 
-RUN pnpm --filter=api deploy full
-WORKDIR /app/full
-RUN pnpm run build
+RUN yarn turbo run build --filter=api...
+ 
 
 FROM base AS runner
 WORKDIR /app
