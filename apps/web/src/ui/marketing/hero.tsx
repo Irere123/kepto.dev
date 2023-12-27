@@ -1,4 +1,4 @@
-import { Badge, Button, cn } from "@kepto/ui";
+import { Badge, Button } from "@kepto/ui";
 import Link from "next/link";
 import { Suspense } from "react";
 import { getGitHubStars } from "~/lib/github";
