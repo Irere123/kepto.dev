@@ -13,7 +13,7 @@ coverage
 out/
 build
 dist/
-
+full/
 # misc
 .DS_Store
 *.pem

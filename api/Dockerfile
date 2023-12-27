@@ -25,7 +25,6 @@ COPY turbo.json turbo.json
 RUN pnpm --filter api --prod deploy full
 WORKDIR /app/full
 RUN pnpm run build
-RUN rm -rf ./.next/cache
 
 FROM base AS runner
 WORKDIR /app
