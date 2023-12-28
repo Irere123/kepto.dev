@@ -1,3 +1,4 @@
+import { MarketingFooter } from "./MarketingFooter";
 import { MarketingHeader } from "./MarketingHeader";
 
 export function MarketingLayout({ children }: { children: React.ReactNode }) {
@@ -6,6 +7,7 @@ export function MarketingLayout({ children }: { children: React.ReactNode }) {
       <MarketingHeader className="mx-auto w-full max-w-4xl" />
       <div className="mx-auto flex w-full max-w-4xl flex-1 flex-col items-start justify-center">
         {children}
+        <MarketingFooter />
       </div>
     </main>
   );
