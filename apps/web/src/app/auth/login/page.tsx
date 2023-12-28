@@ -3,26 +3,11 @@
 import { Clock, Github, Button } from "@kepto/ui";
 import { apiUrl, isProd, webUrl } from "@kepto/shared";
 
-import { useSaveTokensFromQueryParams } from "~/hooks/useSaveTokenFromParams";
 import { useTokenStore } from "~/stores/useTokenStore";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
 
 export default function Home() {
-  useSaveTokensFromQueryParams();
   const { push } = useRouter();
-  const hasTokens = useTokenStore((t) => !!t.accessToken);
-  const [tokenChecked, setTokenChecked] = useState(false);
-
-  useEffect(() => {
-    if (hasTokens) {
-      push("/feed");
-    } else {
-      setTokenChecked(true);
-    }
-  }, [push, hasTokens]);
-
-  if (!tokenChecked) return null;
 
   return (
     <main className="flex w-96 justify-center m-auto items-center flex-col gap-3">

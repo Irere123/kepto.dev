@@ -1,19 +1,20 @@
 "use client";
 
-import { useTokenStore } from "~/stores/useTokenStore";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
+
+import AuthContext from "~/contexts/AuthContext";
 
 export const useVerifyLoggedIn = () => {
-  const hasTokens = useTokenStore((x) => !!x.accessToken);
   const path = usePathname();
+  const { user } = useContext(AuthContext);
   const { replace } = useRouter();
 
   useEffect(() => {
-    if (!hasTokens) {
+    if (!user) {
       replace(`/?next=${path}`);
     }
-  }, [hasTokens, path, replace]);
+  }, [user, path, replace]);
 
-  return hasTokens;
+  return true;
 };

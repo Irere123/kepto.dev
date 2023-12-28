@@ -30,25 +30,24 @@ export type SubscriptionContextProviderProps = {
 export const SubscriptionContextProvider = ({
   children,
 }: SubscriptionContextProviderProps): ReactElement => {
-  const { accessToken } = useTokenStore();
   const [connected, setConnected] = useState(false);
   const [subscriptionClient, setSubscriptionClient] = useState<Client | null>(
     null
   );
 
   useEffect(() => {
-    if (!subscriptionClient && accessToken) {
+    if (!subscriptionClient) {
       requestIdleCallback(() => {
         import(
           /* webpackChunkName: "subscriptions" */ "../graphql/subscriptions"
         ).then(({ createSubscriptionClient }) => {
-          const client = createSubscriptionClient(accessToken);
+          const client = createSubscriptionClient();
           setSubscriptionClient(client);
           client.on("connected", () => setConnected(true));
         });
       });
     }
-  }, [subscriptionClient, accessToken]);
+  }, [subscriptionClient]);
 
   const contextData = useMemo<SubscriptionContextData>(
     () => ({
