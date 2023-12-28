@@ -1,10 +1,10 @@
 "use client";
 
+import { Clock, Github, Button } from "@kepto/ui";
+import { apiUrl, isProd } from "@kepto/shared";
+
 import { useSaveTokensFromQueryParams } from "~/hooks/useSaveTokenFromParams";
-import { Clock, Github } from "@kepto/ui";
-import { apiUrl, prod } from "~/lib/constants";
 import { useTokenStore } from "~/stores/useTokenStore";
-import { Button } from "@kepto/ui";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -34,7 +34,7 @@ export default function Home() {
         <Github width={16} height={16} className="mr-2" />
         Login with Github
       </Button>
-      {!prod ? (
+      {!isProd ? (
         <Button
           variant="secondary"
           onClick={async () => {

@@ -169,6 +169,9 @@ importers:
 
   apps/web:
     dependencies:
+      '@kepto/shared':
+        specifier: workspace:*
+        version: link:../../packages/shared
       '@kepto/ui':
         specifier: workspace:*
         version: link:../../packages/ui
@@ -349,7 +352,7 @@ importers:
         specifier: ^4.5.3
         version: 4.9.5
 
-  packages/graphql:
+  packages/shared:
     dependencies:
       graphql:
         specifier: ^16.8.1
@@ -358,6 +361,9 @@ importers:
         specifier: ^6.1.0
         version: 6.1.0(graphql@16.8.1)
     devDependencies:
+      '@kepto/tsconfig':
+        specifier: workspace:*
+        version: link:../tsconfig
       typescript:
         specifier: ^5.3.3
         version: 5.3.3
