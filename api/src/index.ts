@@ -69,8 +69,6 @@ const main = async () => {
 
   app.use(
     "/graphql",
-    cors(),
-    json(),
     expressMiddleware(server, {
       context: async ({ req }) => {
         let currentUser = req.user ? req.user : null;

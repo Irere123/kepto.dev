@@ -1,6 +1,5 @@
 import { Router, Request, json } from "express";
-
-import { webUrl } from "@kepto/shared";
+import { isProd, webUrl } from "@kepto/shared";
 
 const middlewares = Router();
 const ONE_WEEK = 604800000;
@@ -8,12 +7,10 @@ const ONE_WEEK = 604800000;
 // Cross origin request support
 import cors from "cors";
 
-middlewares.use(cors({ credentials: true, origin: "*" }));
-middlewares.options(
-  "*",
+middlewares.use(
   cors({
-    credentials: true,
     origin: webUrl,
+    credentials: true,
   })
 );
 
@@ -26,21 +23,33 @@ if (!process.env.SESSION_SECRET && !process.env.TEST_DB) {
   );
 }
 
-import session from "express-session";
+import session from "cookie-session";
 middlewares.use(
   session({
     name: "session",
     secret: process.env.SESSION_SECRET!,
-    resave: false,
-    saveUninitialized: true,
-    cookie: {
-      secure: false,
-      maxAge: ONE_WEEK,
-      signed: process.env.TEST_DB ? false : true,
-      sameSite: "lax",
-    },
+    sameSite: "lax",
+    secure: isProd,
+    signed: true,
+    maxAge: ONE_WEEK,
   })
 );
+
+middlewares.use((req: any, _res: any, next) => {
+  if (req.session && !req.session.regenerate) {
+    req.session.regenerate = (cb: any) => {
+      cb();
+    };
+  }
+
+  if (req.session && !req.session.save) {
+    req.session.save = (cb: any) => {
+      cb();
+    };
+  }
+
+  next();
+});
 
 middlewares.use(json());
 
@@ -55,24 +64,5 @@ middlewares.use((req: Request, _res, next) => {
   }
   next();
 });
-
-// const isSerializedJSON = (str: string) => str[0] === "{";
-
-// middlewares.use((req: any, res, next) => {
-//   if (
-//     req.session &&
-//     req.session.passport &&
-//     typeof req.session.passport.user === "string" &&
-//     !isSerializedJSON(req.session.passport.user[0]) &&
-//     req.user
-//   ) {
-//     req.login(req.user, () => {
-//       next();
-//     });
-//     return;
-//   }
-
-//   next();
-// });
 
 export default middlewares;
