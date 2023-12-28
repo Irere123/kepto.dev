@@ -1,41 +1,54 @@
-# Kepto
+<p align="center">
+   <h1 align="center">Kepto</h1>
+   <h3 align="center">
+     A better way to connect with developers
+   </h3>
+</p>
 
-Designed for developers
+## About Kepto
 
-## What's inside?
+Kepto is open-source connection platform for software developers. We believe that there is a gap in way we us developers around the world connect to know each other and communicate. So are filling that gap by building this connection platform...
 
-This Turborepo includes the following packages/apps:
+## Built with 🛠️
 
-### Apps and Packages
+- [Next.js](https://nextjs.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [drizzle](https://orm.drizzle.team/)
+- [Apollo Server](https://www.apollographql.com/docs/apollo-server/)
+- [postgresql](https://www.postgresql.org/)
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `ui`: a stub React component library shared by both `web` and `docs` applications
-- `eslint-config-custom`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `tsconfig`: `tsconfig.json`s used throughout the monorepo
+## Getting Started 🚀
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+### Requirements
 
-### Utilities
+- [Node.js](https://nodejs.org/en/) >= 18.0.0
+- [pnpm](https://pnpm.io/) >= 8.6.2
 
-This Turborepo has some additional tools already setup for you:
+### Setup
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+1. Clone the repository
 
-### Build
+   ```sh
+   git clone https://github.com/Irere123/kepto.dev.git
+   ```
 
-To build all apps and packages, run the following command:
+2. Install dependencies
 
-```
-pnpm build
-```
+   ```sh
+   pnpm install
+   ```
 
-### Develop
+3. Set up your .env file
 
-To develop all apps and packages, run the following command:
+   from `api` and `packages/db` you will find .env.example create your own.
 
-```
-pnpm dev
-```
+4. Start the development server
+
+   ```sh
+    pnpm dev
+   ```
+
+5. Open [http://localhost:3000](http://localhost:3000) with your browser to see
+   the result.
+
+6. API server will be running [http://localhost:4000/graphql](http://localhost:4000/graphql) where you will be able to interact with the API using Apollo Sandbox
