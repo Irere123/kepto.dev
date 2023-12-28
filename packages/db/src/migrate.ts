@@ -8,7 +8,7 @@ const pool = new pg.Pool({
   connectionString: process.env.DATABASE_URL,
 });
 
-async function main() {
+async function migrator() {
   const db = drizzle(pool);
 
   console.log("Running migrations");
@@ -20,7 +20,7 @@ async function main() {
   process.exit(0);
 }
 
-main().catch((e) => {
+migrator().catch((e) => {
   console.log("Migration failed");
   console.log(e);
   process.exit(1);
