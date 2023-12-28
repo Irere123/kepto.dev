@@ -1,73 +1,36 @@
 import "dotenv/config";
-import express, { json } from "express";
+import express, { json, Request, Response } from "express";
 import cors from "cors";
-import passport from "passport";
-import session from "express-session";
-import jwt, { JwtPayload } from "jsonwebtoken";
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
-import { Strategy as GithubStrategy } from "passport-github";
 import { createServer } from "http";
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
 import { WebSocketServer } from "ws";
 import { useServer } from "graphql-ws/lib/use/ws";
 
 import { schema } from "./schema";
-import { baseUrl, webUrl } from "./lib/constants";
-import { db, eq, user as users } from "@kepto/db";
-import { GithubProfile } from "./lib/types";
 import user from "./routes/user";
 import dev from "./routes/dev";
+import { init as initPassport } from "./authentication";
+import authRoutes from "./routes/auth";
+import middlewares from "./routes/middlewares";
 
 const main = async () => {
+  initPassport();
+
   const app = express();
 
+  // Trust the now proxy
+  app.set("trust proxy", true);
+
+  // All other middlewares
+  app.use(middlewares);
+
+  app.use("/user", user);
+  app.use("/dev", dev);
+  app.use("/auth", authRoutes);
+
   const httpServer = createServer(app);
-
-  app.use(cors());
-  app.use(express.json());
-  app.use(passport.initialize());
-  app.use(
-    session({
-      secret: process.env.SESSION_SECRET!,
-      saveUninitialized: false,
-      resave: false,
-    })
-  );
-
-  passport.use(
-    new GithubStrategy(
-      {
-        clientID: process.env.GITHUB_CLIENT_ID!,
-        clientSecret: process.env.GITHUB_CLIENT_SECRET!,
-        callbackURL: `${baseUrl}/auth/github/callback`,
-        scope: "user,email",
-      },
-      async (accessToken, _refreshToken, userProfile, done) => {
-        const profile = userProfile as unknown as GithubProfile;
-
-        let user: any = await db.query.user.findFirst({
-          where: eq(users.githubId, profile.id),
-        });
-
-        if (!user) {
-          user = await db
-            .insert(users)
-            .values({
-              avatarUrl: profile._json.avatar_url,
-              displayName: profile.displayName,
-              githubAccessToken: accessToken,
-              email: profile._json.email,
-              location: profile._json.location,
-              username: profile.username!,
-              bio: profile._json.bio,
-            })
-            .returning();
-        }
-        done(null, user);
-      }
-    )
-  );
 
   // Creating the WebSocket server
   const wsServer = new WebSocketServer({
@@ -110,46 +73,61 @@ const main = async () => {
     json(),
     expressMiddleware(server, {
       context: async ({ req }) => {
-        const token = req.headers["authorization"]!.split(" ")[1] || "";
-        let userId;
+        let currentUser = req.user ? req.user : null;
 
-        try {
-          const jwtToken = jwt.verify(
-            token,
-            process.env.ACCESS_TOKEN_SECRET!
-          ) as JwtPayload;
-          userId = jwtToken.userId;
-        } catch (error) {}
-
-        const user = await db.select().from(users).where(eq(users.id, userId));
-        // add the user to the context
-        return { user: user[0] };
+        return {
+          user: currentUser,
+        };
       },
     })
   );
 
-  app.get(
-    "/auth/github",
-    passport.authenticate("github", { session: false, scope: ["user:email"] })
-  );
+  //   context: async ({ req }) => {
+  //     const token = req.headers["authorization"]!.split(" ")[1] || "";
+  //     let userId;
 
-  app.get(
-    "/auth/github/callback",
-    passport.authenticate("github", {
-      failureRedirect: "/failed",
-      session: false,
-    }),
-    (req: any, res) => {
-      const token = jwt.sign(
-        { userId: req.user[0].id },
-        process.env.ACCESS_TOKEN_SECRET!
-      );
-      res.redirect(`${webUrl}/auth/login?token=${token}`);
-    }
-  );
+  //     try {
+  //       const jwtToken = jwt.verify(
+  //         token,
+  //         process.env.ACCESS_TOKEN_SECRET!
+  //       ) as JwtPayload;
+  //       userId = jwtToken.userId;
+  //     } catch (error) {}
 
-  app.use("/user", user);
-  app.use("/dev", dev);
+  //     const user = await db.select().from(users).where(eq(users.id, userId));
+  //     // add the user to the context
+  //     return { user: user[0] };
+  //   },
+  // })
+
+  // app.get(
+  //   "/auth/github",
+  //   passport.authenticate("github", { session: false, scope: ["user:email"] })
+  // );
+
+  // app.get(
+  //   "/auth/github/callback",
+  //   passport.authenticate("github", {
+  //     failureRedirect: "/failed",
+  //     session: false,
+  //   }),
+  //   (req: any, res) => {
+  //     const token = jwt.sign(
+  //       { userId: req.user[0].id },
+  //       process.env.ACCESS_TOKEN_SECRET!
+  //     );
+  //     res.redirect(`${webUrl}/auth/login?token=${token}`);
+  //   }
+  // );
+
+  // Redirect a request to the root path to the main app
+  app.use("/", (_req: Request, res: Response) => {
+    res.redirect(
+      process.env.NODE_ENV === "production"
+        ? "https://kepto.vercel.app"
+        : "http://localhost:3000"
+    );
+  });
 
   // start the Express server
   httpServer.listen(4000 || process.env.PORT, () => {

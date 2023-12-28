@@ -1,4 +1,3 @@
-import { PubSub } from "graphql-subscriptions";
 import { Profile } from "passport-github";
 import { User } from "@kepto/db";
 
@@ -10,5 +9,4 @@ export interface GithubProfile extends Profile {
 
 export type GQLContext = {
   user: User;
-  pubsub: PubSub;
 };

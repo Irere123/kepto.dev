@@ -1,7 +1,7 @@
 "use client";
 
 import { Clock, Github, Button } from "@kepto/ui";
-import { apiUrl, isProd } from "@kepto/shared";
+import { apiUrl, isProd, webUrl } from "@kepto/shared";
 
 import { useSaveTokensFromQueryParams } from "~/hooks/useSaveTokenFromParams";
 import { useTokenStore } from "~/stores/useTokenStore";
@@ -28,7 +28,7 @@ export default function Home() {
     <main className="flex w-96 justify-center m-auto items-center flex-col gap-3">
       <Button
         onClick={() => {
-          window.location.href = `${apiUrl}/auth/github`;
+          window.location.href = `${apiUrl}/auth/github?r=${webUrl}/feed`;
         }}
       >
         <Github width={16} height={16} className="mr-2" />
