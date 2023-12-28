@@ -3,6 +3,7 @@ import { cn } from "./utils/cn";
 import * as Dialog from "@radix-ui/react-dialog";
 import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction } from "react";
+import { Close } from "./icons";
 
 export interface ModalProps {
   children: React.ReactNode;
@@ -51,17 +52,21 @@ export function Modal({
       <Dialog.Portal>
         <Dialog.Overlay
           id="modal-backdrop"
-          className="animate-fade-in fixed inset-0 z-40 backdrop-blur-md"
+          className="data-[state=open]:animate-fade-in data-[state=closed]:animate-fade-in fixed inset-0 z-40 backdrop-blur-md"
         >
           <Dialog.Content
             onOpenAutoFocus={(e) => e.preventDefault()}
             onCloseAutoFocus={(e) => e.preventDefault()}
             className={cn(
-              "animate-scale-in fixed inset-0 z-40 m-auto max-h-fit w-full max-w-md overflow-hidden border border-primary-accents-3 bg-primary-bg p-0 shadow-xl md:rounded-2xl",
+              "animate-scale-in fixed inset-0 z-40 m-auto max-h-fit w-full max-w-md overflow-hidden border bg-background p-0 shadow-xl md:rounded-2xl",
               className
             )}
           >
             {children}
+            <Dialog.Close className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
+              <Close className="h-6 w-6" />
+              <span className="sr-only">Close</span>
+            </Dialog.Close>
           </Dialog.Content>
         </Dialog.Overlay>
       </Dialog.Portal>

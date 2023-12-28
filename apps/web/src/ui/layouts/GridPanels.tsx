@@ -16,7 +16,9 @@ import {
 } from "@kepto/ui";
 import { Avatar } from "@kepto/ui";
 import Link from "next/link";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
+import { ModalContext } from "../modals/provider";
+import { useCreateCircleModal } from "../modals/create-circle-modal";
 
 interface Props {
   children: React.ReactNode;
@@ -54,6 +56,8 @@ export const GridPanel: React.FC<Props> = ({ children }) => {
 export const MiddlePanel: React.FC<Props> = ({ children }) => {
   const screenSize = useScreenSize();
   const { user } = useContext(AuthContext);
+  const { CreateCircleModal } = useCreateCircleModal();
+  const { setShowCreateCircleModal } = useContext(ModalContext);
 
   return (
     <GridPanel>
@@ -87,7 +91,10 @@ export const MiddlePanel: React.FC<Props> = ({ children }) => {
               <Link href={`/user/${user?.id}`}>
                 <DropdownMenuItem>Profile</DropdownMenuItem>
               </Link>
-              <DropdownMenuItem>Create community</DropdownMenuItem>
+
+              <DropdownMenuItem onClick={() => setShowCreateCircleModal(true)}>
+                Create circle
+              </DropdownMenuItem>
               <DropdownMenuItem>Settings</DropdownMenuItem>
               <DropdownMenuItem>API</DropdownMenuItem>
               <DropdownMenuSeparator />
@@ -99,6 +106,9 @@ export const MiddlePanel: React.FC<Props> = ({ children }) => {
         </div>
       </div>
       {children}
+
+      {/* Modal */}
+      <CreateCircleModal />
     </GridPanel>
   );
 };

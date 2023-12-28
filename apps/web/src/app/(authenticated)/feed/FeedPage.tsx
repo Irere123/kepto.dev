@@ -2,12 +2,10 @@
 
 import { useQuery } from "react-query";
 
-import { MiddlePanel } from "~/ui/layouts/GridPanels";
-import { MainLayout } from "~/ui/layouts/MainLayout";
-import { ProtectedPage } from "~/ui/layouts/ProtectedPage";
 import { getUsers } from "~/graphql/user";
 import { Input } from "@kepto/ui";
 import { ThreadCard } from "~/ui/thread-card";
+import DefaultLayout from "~/ui/layouts/DefaultLayout";
 
 export const FeedPage: React.FC = () => {
   const { data, isLoading } = useQuery("users", getUsers);
@@ -17,24 +15,20 @@ export const FeedPage: React.FC = () => {
   }
 
   return (
-    <ProtectedPage>
-      <MainLayout>
-        <MiddlePanel>
-          <div className="flex flex-col gap-4 mt-7">
-            {data?.users.map((u) => (
-              <ThreadCard
-                id={u.id}
-                topic="reactjs"
-                key={u.id}
-                description={u.bio!}
-                title={u.displayName}
-                messagesCount={1133}
-              />
-            ))}
-            <Input placeholder="Send message" />
-          </div>
-        </MiddlePanel>
-      </MainLayout>
-    </ProtectedPage>
+    <DefaultLayout>
+      <div className="flex flex-col gap-4 mt-7">
+        {data?.users.map((u) => (
+          <ThreadCard
+            id={u.id}
+            topic="reactjs"
+            key={u.id}
+            description={u.bio!}
+            title={u.displayName}
+            messagesCount={1133}
+          />
+        ))}
+        <Input placeholder="Send message" />
+      </div>
+    </DefaultLayout>
   );
 };
