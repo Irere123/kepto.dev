@@ -1,0 +1,21 @@
+{
+  "name": "@kepto/graphql",
+  "version": "1.0.0",
+  "description": "",
+  "main": "build/index.js",
+  "scripts": {
+    "watch": "tsc -w",
+    "build": "tsc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "graphql": "^16.8.1",
+    "graphql-request": "^6.1.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3",
+    "@kepto/tsconfig": "workspace:*"
+  }
+}

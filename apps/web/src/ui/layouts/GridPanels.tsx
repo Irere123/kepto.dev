@@ -16,7 +16,7 @@ import {
 } from "@kepto/ui";
 import { Avatar } from "@kepto/ui";
 import Link from "next/link";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { ModalContext } from "../modals/provider";
 import { useCreateCircleModal } from "../modals/create-circle-modal";
 

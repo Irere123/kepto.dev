@@ -1,5 +1,6 @@
 "use client";
 import { Button, Input, Label, Modal, Textarea } from "@kepto/ui";
+import { Formik } from "formik";
 import {
   Dispatch,
   SetStateAction,
@@ -29,25 +30,44 @@ export function CreateCircleModalHelper({
           discuss about topics.
         </p>
       </div>
-      <div className="flex flex-col space-y-3 px-4 py-4">
-        <Label>Name</Label>
-        <Input
-          placeholder="Cirle's name"
-          maxLength={60}
-          autoComplete="off"
-          autoFocus
-        />
-        <Label>Description</Label>
-        <Textarea
-          placeholder="About"
-          rows={6}
-          maxLength={500}
-          autoComplete="off"
-        />
-      </div>
-      <div className="px-4 py-4">
-        <Button>Create</Button>
-      </div>
+      <Formik<{ name: ""; description: "" }>
+        initialValues={{ name: "", description: "" }}
+        onSubmit={(values) => {
+          console.log(values);
+        }}
+      >
+        {({ handleSubmit, handleChange, isSubmitting, values }) => (
+          <>
+            <div className="flex flex-col space-y-3 px-4 py-4">
+              <Label>Name</Label>
+              <Input
+                placeholder="Cirle's name"
+                maxLength={60}
+                autoComplete="off"
+                name="name"
+                value={values.name}
+                onChange={handleChange}
+                autoFocus
+              />
+              <Label>Description</Label>
+              <Textarea
+                placeholder="About"
+                value={values.description}
+                onChange={handleChange}
+                rows={6}
+                name="description"
+                maxLength={500}
+                autoComplete="off"
+              />
+            </div>
+            <div className="px-4 py-4">
+              <Button disabled={isSubmitting} onClick={() => handleSubmit()}>
+                Create
+              </Button>
+            </div>
+          </>
+        )}
+      </Formik>
     </Modal>
   );
 }
