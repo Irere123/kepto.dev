@@ -144,7 +144,7 @@ const main = async () => {
         { userId: req.user[0].id },
         process.env.ACCESS_TOKEN_SECRET!
       );
-      res.redirect(`${webUrl}/?token=${token}`);
+      res.redirect(`${webUrl}/auth/login?token=${token}`);
     }
   );
 
