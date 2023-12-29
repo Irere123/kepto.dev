@@ -38,8 +38,12 @@ export function CreateCircleModalHelper({
       </div>
       <Formik<{ name: ""; description: "" }>
         initialValues={{ name: "", description: "" }}
-        onSubmit={async (values) => {
-          const { circle } = await mutateAsync(values);
+        onSubmit={async (values, { setFieldError }) => {
+          const { circle, errors } = await mutateAsync(values);
+
+          if (errors) {
+            setFieldError(errors[0].field, errors[0].message);
+          }
 
           if (circle) {
             push(`/circle/${circle.slug}`);
@@ -47,7 +51,7 @@ export function CreateCircleModalHelper({
           }
         }}
       >
-        {({ handleSubmit, handleChange, isSubmitting, values }) => (
+        {({ handleSubmit, handleChange, isSubmitting, values, errors }) => (
           <>
             <div className="flex flex-col space-y-3 px-4 py-4">
               <Label>Name</Label>
@@ -60,6 +64,10 @@ export function CreateCircleModalHelper({
                 onChange={handleChange}
                 autoFocus
               />
+              {errors.name ? (
+                <p className="text-destructive text-sm">{errors.name}</p>
+              ) : null}
+
               <Label>Description</Label>
               <Textarea
                 placeholder="About"
