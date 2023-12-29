@@ -27,8 +27,6 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
     return <div className="text-primary-fg">loading...</div>;
   }
 
-  console.log(data);
-
   return (
     <AuthContext.Provider value={{ user: data?.me!, updateUser(u) {} }}>
       {children}

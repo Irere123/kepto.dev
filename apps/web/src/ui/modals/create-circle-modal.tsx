@@ -1,6 +1,8 @@
 "use client";
+import { createCircle } from "@kepto/shared";
 import { Button, Input, Label, Modal, Textarea } from "@kepto/ui";
 import { Formik } from "formik";
+import { useRouter } from "next/navigation";
 import {
   Dispatch,
   SetStateAction,
@@ -8,6 +10,7 @@ import {
   useMemo,
   useState,
 } from "react";
+import { useMutation } from "react-query";
 
 interface HelperProps {
   setShowCreateCircleModal: Dispatch<SetStateAction<boolean>>;
@@ -18,6 +21,9 @@ export function CreateCircleModalHelper({
   setShowCreateCircleModal,
   showCreateCircleModal,
 }: HelperProps) {
+  const { mutateAsync } = useMutation("createCircle", createCircle);
+  const { push } = useRouter();
+
   return (
     <Modal
       setShowModal={setShowCreateCircleModal}
@@ -32,8 +38,13 @@ export function CreateCircleModalHelper({
       </div>
       <Formik<{ name: ""; description: "" }>
         initialValues={{ name: "", description: "" }}
-        onSubmit={(values) => {
-          console.log(values);
+        onSubmit={async (values) => {
+          const { circle } = await mutateAsync(values);
+
+          if (circle) {
+            push(`/circle/${circle.slug}`);
+            setShowCreateCircleModal(false);
+          }
         }}
       >
         {({ handleSubmit, handleChange, isSubmitting, values }) => (
@@ -61,7 +72,11 @@ export function CreateCircleModalHelper({
               />
             </div>
             <div className="px-4 py-4">
-              <Button disabled={isSubmitting} onClick={() => handleSubmit()}>
+              <Button
+                type="submit"
+                disabled={isSubmitting}
+                onClick={() => handleSubmit()}
+              >
                 Create
               </Button>
             </div>

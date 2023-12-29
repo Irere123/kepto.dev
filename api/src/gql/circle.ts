@@ -17,7 +17,12 @@ export const typeDefs = /* GraphQL */ `
 
   type Query {
     circles: [Circle]!
-    circle(id: ID!): Circle
+    circle(slug: String!): Circle
+  }
+
+  type CreateCircleResponse {
+    circle: Circle
+    errors: [FieldError]
   }
 
   input CreateCircleInput {
@@ -26,7 +31,7 @@ export const typeDefs = /* GraphQL */ `
   }
 
   type Mutation {
-    createCircle(data: CreateCircleInput!): Circle!
+    createCircle(input: CreateCircleInput!): CreateCircleResponse!
   }
 `;
 
@@ -34,34 +39,53 @@ export const resolvers = {
   Mutation: {
     createCircle: async (
       _parent: unknown,
-      { data }: { data: { name: string; description: string } },
+      { input }: { input: { name: string; description: string } },
       ctx: GQLContext
     ) => {
       if (!ctx.user) {
         throw new GraphQLError("Not authenticated");
       }
 
+      const slug = input.name.split(" ").join("_").toLowerCase();
+
+      let circ = await db.select().from(circle).where(eq(circle.slug, slug));
+
+      console.log(circ);
+      if (circ[0]) {
+        return {
+          errors: [
+            {
+              message: "Circle with that name already exists",
+              field: "name",
+            },
+          ],
+        };
+      }
+
       const cir = await db
         .insert(circle)
         .values({
-          description: data.description,
-          name: data.name,
+          description: input.description,
+          name: input.name,
           ownerId: ctx.user.id,
-          slug: data.name.split(" ").join("_").toLowerCase(),
+          slug,
         })
         .returning();
 
-      return cir[0];
+      return {
+        circle: cir[0],
+        errors: null,
+      };
     },
   },
   Query: {
     circles: async () => await db.select().from(circle),
     circle: async (
       _parent: unknown,
-      { id }: { id: string },
+      { slug }: { slug: string },
       _ctx: GQLContext
     ) => {
-      const circ = await db.select().from(circle).where(eq(circle.id, id));
+      const circ = await db.select().from(circle).where(eq(circle.slug, slug));
 
       return circ[0];
     },

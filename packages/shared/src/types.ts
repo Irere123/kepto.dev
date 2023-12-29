@@ -27,3 +27,13 @@ export type Circle = {
   createdAt: string;
   updatedAt: string;
 };
+
+export interface FieldError {
+  message: string;
+  field: string;
+}
+
+export type CreateCircleResponse = {
+  circle: Circle | null;
+  errors: [FieldError] | null;
+};

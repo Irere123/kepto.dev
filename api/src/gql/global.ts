@@ -1,8 +1,8 @@
 export const typeDefs = /* GraphQL */ `
   scalar DateTime
 
-  type Error {
+  type FieldError {
     message: String
-    code: String
+    field: String
   }
 `;
