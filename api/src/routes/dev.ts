@@ -1,11 +1,10 @@
 import { Router } from "express";
 import { db, eq, user } from "@kepto/db";
-import jwt from "jsonwebtoken";
 import { faker } from "@faker-js/faker";
 
 const router = Router();
 
-router.get("/test-user", async (req, res) => {
+router.get("/test-user", async (req: any, res, next) => {
   const username = req.query.username as string;
   let users = await db.select().from(user).where(eq(user.username, username));
 
@@ -26,12 +25,7 @@ router.get("/test-user", async (req, res) => {
       .returning();
   }
 
-  const token = jwt.sign(
-    { userId: users[0].id },
-    process.env.ACCESS_TOKEN_SECRET!
-  );
-
-  res.send({ token });
+  res.json({ done: true });
 });
 
 export default router;

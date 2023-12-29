@@ -18,7 +18,7 @@ export const typeDefs = /* GraphQL */ `
 
   type Query {
     conversations: [Conversation!]
-    conversation(id: ID!): Conversation
+    conversation(id: ID!): Conversation!
   }
 `;
 
@@ -86,6 +86,8 @@ export const resolvers = {
       where (co."userId1" = ${ctx.user.id} or co."userId2" = ${ctx.user.id}) and co.id = ${id}
       limit 1
       `);
+
+      console.log(convs);
 
       return convs.rows[0];
     },

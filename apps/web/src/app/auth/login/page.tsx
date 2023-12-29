@@ -5,9 +5,16 @@ import { apiUrl, isProd, webUrl } from "@kepto/shared";
 
 import { useTokenStore } from "~/stores/useTokenStore";
 import { useRouter } from "next/navigation";
+import { useContext } from "react";
+import AuthContext from "~/contexts/AuthContext";
 
 export default function Home() {
   const { push } = useRouter();
+  const { user } = useContext(AuthContext);
+
+  if (user) {
+    push("/feed");
+  }
 
   return (
     <main className="flex w-96 justify-center m-auto items-center flex-col gap-3">
@@ -27,12 +34,12 @@ export default function Home() {
             if (!name) {
               return;
             }
-            const r = await fetch(`${apiUrl}/dev/test-user?username=` + name);
-            const d = await r.json();
-            useTokenStore.getState().setTokens({
-              accessToken: d.token,
+
+            await fetch(`${apiUrl}/dev/test-user?username=` + name, {
+              method: "POST",
+              mode: "no-cors",
+              credentials: "include",
             });
-            push("/feed");
           }}
         >
           <Clock />

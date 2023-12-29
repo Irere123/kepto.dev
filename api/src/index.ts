@@ -1,6 +1,5 @@
 import "dotenv/config";
-import express, { json, Request, Response } from "express";
-import cors from "cors";
+import express, { Request, Response } from "express";
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
 import { createServer } from "http";
@@ -70,53 +69,16 @@ const main = async () => {
   app.use(
     "/graphql",
     expressMiddleware(server, {
-      context: async ({ req }) => {
+      context: async ({ req, res }) => {
         let currentUser = req.user ? req.user : null;
 
         return {
           user: currentUser,
+          res,
         };
       },
     })
   );
-
-  //   context: async ({ req }) => {
-  //     const token = req.headers["authorization"]!.split(" ")[1] || "";
-  //     let userId;
-
-  //     try {
-  //       const jwtToken = jwt.verify(
-  //         token,
-  //         process.env.ACCESS_TOKEN_SECRET!
-  //       ) as JwtPayload;
-  //       userId = jwtToken.userId;
-  //     } catch (error) {}
-
-  //     const user = await db.select().from(users).where(eq(users.id, userId));
-  //     // add the user to the context
-  //     return { user: user[0] };
-  //   },
-  // })
-
-  // app.get(
-  //   "/auth/github",
-  //   passport.authenticate("github", { session: false, scope: ["user:email"] })
-  // );
-
-  // app.get(
-  //   "/auth/github/callback",
-  //   passport.authenticate("github", {
-  //     failureRedirect: "/failed",
-  //     session: false,
-  //   }),
-  //   (req: any, res) => {
-  //     const token = jwt.sign(
-  //       { userId: req.user[0].id },
-  //       process.env.ACCESS_TOKEN_SECRET!
-  //     );
-  //     res.redirect(`${webUrl}/auth/login?token=${token}`);
-  //   }
-  // );
 
   // Redirect a request to the root path to the main app
   app.use("/", (_req: Request, res: Response) => {

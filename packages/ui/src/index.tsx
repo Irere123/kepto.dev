@@ -13,6 +13,7 @@ export * from "./avatar-group";
 export * from "./tabs";
 export * from "./dropdown-menu";
 export * from "./text-area";
+export * from "./tooltip";
 
 // icons
 export * from "./icons";

@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { FeedPage } from "./FeedPage";
 
 export const metadata: Metadata = {
-  title: "Feed",
+  title: "Everything",
 };
 
 export default FeedPage;

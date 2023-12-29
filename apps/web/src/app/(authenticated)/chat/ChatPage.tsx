@@ -42,12 +42,14 @@ export const ChatPage: React.FC<Props> = () => {
                         ? c.message.text
                         : `Say Hi to ${c.displayName}`}
                     </p>
-                    <p className="text-accent-foreground">
-                      {formatDistanceStrict(
-                        new Date(c.message.createdAt),
-                        new Date()
-                      )}
-                    </p>
+                    {c.message ? (
+                      <p className="text-accent-foreground">
+                        {formatDistanceStrict(
+                          new Date(c.message.createdAt),
+                          new Date()
+                        )}
+                      </p>
+                    ) : null}
                   </div>
                 </div>
               </Link>

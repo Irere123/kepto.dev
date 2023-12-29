@@ -1,5 +1,6 @@
 "use client";
 
+import { TooltipProvider } from "@kepto/ui";
 import React from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 
@@ -18,7 +19,9 @@ export const Providers: React.FC<ProvidersProps> = ({ children }) => {
     <QueryClientProvider client={client}>
       <AuthContextProvider>
         <SubscriptionContextProvider>
-          <ModalProvider>{children}</ModalProvider>
+          <TooltipProvider>
+            <ModalProvider>{children}</ModalProvider>
+          </TooltipProvider>
         </SubscriptionContextProvider>
       </AuthContextProvider>
     </QueryClientProvider>

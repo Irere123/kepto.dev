@@ -19,6 +19,7 @@ import Link from "next/link";
 import React, { useContext } from "react";
 import { ModalContext } from "../modals/provider";
 import { useCreateCircleModal } from "../modals/create-circle-modal";
+import { apiUrl } from "@kepto/shared";
 
 interface Props {
   children: React.ReactNode;
@@ -98,7 +99,7 @@ export const MiddlePanel: React.FC<Props> = ({ children }) => {
               <DropdownMenuItem>Settings</DropdownMenuItem>
               <DropdownMenuItem>API</DropdownMenuItem>
               <DropdownMenuSeparator />
-              <Link href={`/auth/logout`}>
+              <Link href={`${apiUrl}/auth/logout`}>
                 <DropdownMenuItem>Logout</DropdownMenuItem>
               </Link>
             </DropdownMenuContent>

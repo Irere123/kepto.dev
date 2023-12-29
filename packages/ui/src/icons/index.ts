@@ -33,3 +33,4 @@ export { default as TelescopeFilled } from "./TelescopeFilled";
 export { default as Telescope } from "./Telescope";
 export { default as ThreeDots } from "./ThreeDots";
 export { default as WarningFilled } from "./WarningFilled";
+export { default as InfinityIcon } from "./Infinity";
