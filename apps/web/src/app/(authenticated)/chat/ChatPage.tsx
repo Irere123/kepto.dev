@@ -11,7 +11,7 @@ import { useCreateConvModal } from "~/ui/modals/create-conversation-modal";
 import { MainLayout } from "~/ui/layouts/MainLayout";
 import { ProtectedPage } from "~/ui/layouts/ProtectedPage";
 import { ModalContext } from "~/ui/modals/provider";
-import { getConversations } from "~/graphql/conversation";
+import { getConversations } from "@kepto/shared";
 
 interface Props {}
 

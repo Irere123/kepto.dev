@@ -37,3 +37,29 @@ export type CreateCircleResponse = {
   circle: Circle | null;
   errors: [FieldError] | null;
 };
+
+export interface DirectMessage {
+  id: string;
+  text: string;
+  createdAt: string;
+  updatedAt: string;
+  user: {
+    id: string;
+    username: string;
+    displayName: string;
+  };
+}
+export interface Conversation {
+  id: string;
+  avatarUrl: string;
+  displayName: string;
+  createdAt: string;
+  message: {
+    text: string;
+    createdAt: string;
+  };
+}
+
+export interface ConnectionDB {
+  id: string;
+}

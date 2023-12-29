@@ -13,8 +13,8 @@ import Downshift from "downshift";
 import { Input } from "@kepto/ui";
 import { useDebounce } from "use-debounce";
 import { useQuery } from "react-query";
-import { searchUser } from "~/graphql/user";
 import usePageVisibility from "~/hooks/usePageVisibility";
+import { searchUser } from "@kepto/shared";
 // import { createConv } from "~/graphql/conversation";
 
 function CreateConvModalHelper({

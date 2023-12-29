@@ -2,8 +2,8 @@
 
 import { useMutation, useQueryClient } from "react-query";
 
-import { connect, unconnect } from "~/graphql/connect";
 import { Button } from "@kepto/ui";
+import { connect, unconnect } from "@kepto/shared";
 
 interface ConnectButtonProps {
   connected: boolean;

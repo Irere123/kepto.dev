@@ -39,7 +39,7 @@ export const SubscriptionContextProvider = ({
     if (!subscriptionClient) {
       requestIdleCallback(() => {
         import(
-          /* webpackChunkName: "subscriptions" */ "../graphql/subscriptions"
+          /* webpackChunkName: "subscriptions" */ "../lib/subscriptionClient"
         ).then(({ createSubscriptionClient }) => {
           const client = createSubscriptionClient();
           setSubscriptionClient(client);

@@ -3,7 +3,6 @@
 import { Clock, Github, Button } from "@kepto/ui";
 import { apiUrl, isProd, webUrl } from "@kepto/shared";
 
-import { useTokenStore } from "~/stores/useTokenStore";
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
 import AuthContext from "~/contexts/AuthContext";

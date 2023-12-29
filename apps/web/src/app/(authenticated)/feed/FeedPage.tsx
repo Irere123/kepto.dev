@@ -1,9 +1,9 @@
 "use client";
 
 import { useQuery } from "react-query";
-
-import { getUsers } from "~/graphql/user";
 import { Input } from "@kepto/ui";
+import { getUsers } from "@kepto/shared";
+
 import { ThreadCard } from "~/ui/thread-card";
 import DefaultLayout from "~/ui/layouts/DefaultLayout";
 

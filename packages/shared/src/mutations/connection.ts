@@ -1,9 +1,6 @@
 import { gql } from "graphql-request";
-import { gqlClient } from "./gqlClient";
 
-export interface Connection {
-  id: string;
-}
+import { gqlClient } from "../gqlClient";
 
 export const UNCONNECT_MUTATION = gql`
   mutation Unconnect($userId: ID!) {

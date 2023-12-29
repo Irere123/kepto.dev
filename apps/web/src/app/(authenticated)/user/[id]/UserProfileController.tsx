@@ -1,8 +1,10 @@
 "use client";
 
 import { useContext } from "react";
+import { useRouter } from "next/navigation";
+import { createConv, getUserProfile } from "@kepto/shared";
+
 import { useMutation, useQuery } from "react-query";
-import { getUserProfile } from "~/graphql/user";
 import {
   Card,
   CardFooter,
@@ -17,8 +19,6 @@ import {
 } from "@kepto/ui";
 import { ConnectButton } from "./Button";
 import AuthContext from "~/contexts/AuthContext";
-import { createConv } from "~/graphql/conversation";
-import { useRouter } from "next/navigation";
 
 interface Props {
   userId: string;

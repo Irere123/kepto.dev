@@ -1,10 +1,10 @@
-import { UserProfile, getMe } from "~/graphql/user";
+import { User, getMe } from "@kepto/shared";
 import React, { createContext } from "react";
 import { useQuery } from "react-query";
 
 export type AuthContextType = {
-  user: UserProfile | null | undefined;
-  updateUser: (u: UserProfile) => void;
+  user: User | null | undefined;
+  updateUser: (u: User) => void;
 };
 
 export type AuthContextProviderProps = {
