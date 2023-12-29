@@ -32,8 +32,8 @@ export function CreateCircleModalHelper({
       <div className="flex flex-col space-y-3 border-b px-4 py-3 pt-6 sm:px-16 justify-center items-center">
         <h3 className="text-lg">Create a dev circle</h3>
         <p className="text-center text-sm text-muted-foreground">
-          Create a circle for your your community to talk to each other and
-          discuss about topics.
+          Create a circle for your community to talk to each other and discuss
+          about topics.
         </p>
       </div>
       <Formik<{ name: ""; description: "" }>
