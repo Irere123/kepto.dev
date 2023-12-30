@@ -1,9 +1,9 @@
 "use client";
 
+import { createDirectMessage } from "@kepto/shared";
 import { Input } from "@kepto/ui";
 import React, { useState } from "react";
 import { useMutation } from "react-query";
-import { createDirectMessage } from "~/graphql/dm";
 
 interface ConversationInputProps {
   conversationId: string;

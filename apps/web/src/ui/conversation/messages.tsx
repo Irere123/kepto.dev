@@ -1,10 +1,10 @@
 "use client";
 
+import { DirectMessage, NEW_DIRECT_MESSAGE_SUBSCRIPTION } from "@kepto/shared";
 import { useContext } from "react";
 import { useQueryClient } from "react-query";
 
 import AuthContext from "~/contexts/AuthContext";
-import { DirectMessage, NEW_DM_SUBSCRIPTION_QUERY } from "~/graphql/dm";
 import useSubscription from "~/hooks/useSubscription";
 
 export const Messages: React.FC<{
@@ -14,7 +14,10 @@ export const Messages: React.FC<{
   const client = useQueryClient();
   const { user } = useContext(AuthContext);
   useSubscription(
-    () => ({ query: NEW_DM_SUBSCRIPTION_QUERY, variables: { conversationId } }),
+    () => ({
+      query: NEW_DIRECT_MESSAGE_SUBSCRIPTION,
+      variables: { conversationId },
+    }),
     {
       next: (value: any) => {
         console.log(value);

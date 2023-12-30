@@ -1,5 +1,8 @@
 import { GET_CIRCLE_QUERY, apiUrl } from "@kepto/shared";
 import { Metadata, ResolvingMetadata } from "next";
+import DefaultLayout from "~/ui/layouts/DefaultLayout";
+import { MiddlePanel } from "~/ui/layouts/GridPanels";
+import { MainLayout } from "~/ui/layouts/MainLayout";
 
 type Props = {
   params: { slug: string };
@@ -38,9 +41,19 @@ export async function generateMetadata(
     data: { circle },
   } = await getData(slug);
 
-  return {
+  const ogData = {
     title: circle.name,
     description: circle.description,
+  };
+
+  return {
+    ...ogData,
+    openGraph: {
+      ...ogData,
+    },
+    twitter: {
+      ...ogData,
+    },
   };
 }
 export default async function CirclePage({ params }: Props) {
@@ -49,8 +62,10 @@ export default async function CirclePage({ params }: Props) {
   } = await getData(params.slug);
 
   return (
-    <div>
-      <p>{circle.description}</p>
-    </div>
+    <MainLayout>
+      <MiddlePanel>
+        <p>{circle.description}</p>
+      </MiddlePanel>
+    </MainLayout>
   );
 }

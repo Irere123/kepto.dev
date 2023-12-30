@@ -46,7 +46,7 @@ export function CreateCircleModalHelper({
           }
 
           if (circle) {
-            push(`/circle/${circle.slug}`);
+            push(`/circles/${circle.slug}`);
             setShowCreateCircleModal(false);
           }
         }}

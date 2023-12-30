@@ -1,7 +1,8 @@
 "use client";
 
 import { useQuery } from "react-query";
-import { getDirectMessages } from "~/graphql/dm";
+import { getDirectMessages } from "@kepto/shared";
+
 import { Messages } from "./messages";
 
 interface ConversationMessagesProps {

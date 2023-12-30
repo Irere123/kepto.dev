@@ -1,7 +1,7 @@
 "use client";
 
+import { Conversation } from "@kepto/shared";
 import { Avatar } from "@kepto/ui";
-import { Conversation } from "~/graphql/conversation";
 
 interface ConversationHeaderProps {
   conversation: Conversation;

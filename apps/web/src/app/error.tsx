@@ -17,7 +17,7 @@ export default function Error({
   return (
     <div>
       <h2 className="text-primary-fg">Something went wrong!</h2>
-      <Button text="Try again" onClick={() => reset()} />
+      <Button onClick={() => reset()}>Try again</Button>
     </div>
   );
 }

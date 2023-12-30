@@ -2,7 +2,8 @@
 
 import React from "react";
 import { useQuery } from "react-query";
-import { getConversation } from "~/graphql/conversation";
+import { getConversation } from "@kepto/shared";
+
 import { ConversationHeader } from "~/ui/conversation/conversation-header";
 import { ConversationInput } from "~/ui/conversation/conversation-input";
 import { ConversationMessages } from "~/ui/conversation/conversation-messages";

@@ -82,28 +82,32 @@ export const MiddlePanel: React.FC<Props> = ({ children }) => {
             </Link>
           </div>
 
-          <DropdownMenu>
-            <DropdownMenuTrigger>
-              <Avatar src={user?.avatarUrl} size="48" username="irere" />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-[200px]">
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <Link href={`/user/${user?.id}`}>
-                <DropdownMenuItem>Profile</DropdownMenuItem>
-              </Link>
+          {user ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <Avatar src={user?.avatarUrl} size="48" username="irere" />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-[200px]">
+                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <Link href={`/user/${user?.id}`}>
+                  <DropdownMenuItem>Profile</DropdownMenuItem>
+                </Link>
 
-              <DropdownMenuItem onClick={() => setShowCreateCircleModal(true)}>
-                Create circle
-              </DropdownMenuItem>
-              <DropdownMenuItem>Settings</DropdownMenuItem>
-              <DropdownMenuItem>API</DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <Link href={`${apiUrl}/auth/logout`}>
-                <DropdownMenuItem>Logout</DropdownMenuItem>
-              </Link>
-            </DropdownMenuContent>
-          </DropdownMenu>
+                <DropdownMenuItem
+                  onClick={() => setShowCreateCircleModal(true)}
+                >
+                  Create circle
+                </DropdownMenuItem>
+                <DropdownMenuItem>Settings</DropdownMenuItem>
+                <DropdownMenuItem>API</DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <Link href={`${apiUrl}/auth/logout`}>
+                  <DropdownMenuItem>Logout</DropdownMenuItem>
+                </Link>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : null}
         </div>
       </div>
       {children}

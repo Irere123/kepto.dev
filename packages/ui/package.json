@@ -40,6 +40,7 @@
     "@radix-ui/react-tooltip": "^1.0.7",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
+    "cmdk": "^0.2.0",
     "tailwind-merge": "^2.1.0",
     "vaul": "^0.7.9"
   }
