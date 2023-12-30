@@ -1,6 +1,6 @@
 import { gql } from "graphql-request";
 
-import { USER_INFO_FRAGMENT } from "../fragments/user";
+import { USER_INFO_FRAGMENT } from "../fragments";
 import { gqlClient } from "../gqlClient";
 import { User } from "../types";
 

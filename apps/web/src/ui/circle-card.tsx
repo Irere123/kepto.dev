@@ -2,13 +2,16 @@
 
 import { numberFormatter } from "~/lib/utils";
 import { BoxedIcon } from "./boxed-icon";
-import { Button } from "@kepto/ui";
+import { AvatarGroup, Button } from "@kepto/ui";
+import { CircleMember } from "@kepto/shared";
+import Image from "next/image";
 
 interface CircleCardProps {
   id: string;
   name: string;
   description: string;
-  topicsCount: number;
+  membersCount: number;
+  members: CircleMember[];
   onJoinClick: () => void;
 }
 
@@ -16,26 +19,38 @@ export const CircleCard: React.FC<CircleCardProps> = ({
   description,
   id,
   name,
-  topicsCount,
+  membersCount,
+  members,
   onJoinClick,
 }) => {
+  const memberAvatars = members.map((m) => m.avatarUrl);
+
   return (
     <div>
       <div className="flex flex-col space-y-2 border bg-transparent px-3">
         <div className="flex items-center gap-4 mt-3">
-          <BoxedIcon>{name.charAt(0)}</BoxedIcon>
+          <BoxedIcon>
+            <Image
+              alt={name}
+              width={40}
+              height={40}
+              src={`https://avatar.vercel.sh/rauchg.svg?text=GR`}
+            />
+          </BoxedIcon>
           <div>
             <p>{name}</p>
             <p className="text-muted-foreground">
-              {numberFormatter(topicsCount)} topics
+              {numberFormatter(membersCount)}{" "}
+              {membersCount > 1 ? "members" : "member"}
             </p>
           </div>
         </div>
         <div>
           <p>{description}</p>
         </div>
-        <div className="pb-3">
+        <div className="flex justify-between items-center pb-3">
           <Button onClick={onJoinClick}>Join</Button>
+          <AvatarGroup srcArray={memberAvatars} />
         </div>
       </div>
     </div>

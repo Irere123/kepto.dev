@@ -5,6 +5,7 @@ import React from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 
 import { AuthContextProvider } from "~/contexts/AuthContext";
+import { SharedDataContextProvider } from "~/contexts/SharedDataContext";
 import { SubscriptionContextProvider } from "~/contexts/SubscriptionContext";
 import ModalProvider from "~/ui/modals/provider";
 
@@ -19,9 +20,11 @@ export const Providers: React.FC<ProvidersProps> = ({ children }) => {
     <QueryClientProvider client={client}>
       <AuthContextProvider>
         <SubscriptionContextProvider>
-          <TooltipProvider>
-            <ModalProvider>{children}</ModalProvider>
-          </TooltipProvider>
+          <SharedDataContextProvider>
+            <TooltipProvider>
+              <ModalProvider>{children}</ModalProvider>
+            </TooltipProvider>
+          </SharedDataContextProvider>
         </SubscriptionContextProvider>
       </AuthContextProvider>
     </QueryClientProvider>

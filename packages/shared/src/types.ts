@@ -19,13 +19,28 @@ export type User = {
 export type Circle = {
   id: string;
   name: string;
-  decription: string;
+  description: string;
   website?: string;
   slug: string;
   coverPhoto?: string;
+  membersCount: number;
+  topicsCount: number;
+  members: CircleMember[];
   photoUrl?: string;
   createdAt: string;
   updatedAt: string;
+};
+
+export type CircleMember = {
+  id: string;
+  avatarUrl: string;
+  displayName: string;
+  username: string;
+  circleId: string;
+  createdAt: string;
+  bio: string;
+  admin: boolean;
+  moderator: boolean;
 };
 
 export interface FieldError {
