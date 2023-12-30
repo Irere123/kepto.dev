@@ -1,8 +1,19 @@
 import { GraphQLError } from "graphql";
 import { GQLContext } from "../lib/types";
-import { circle, circleMember, db, eq, sql } from "@kepto/db";
+import {
+  circle,
+  circleMember,
+  db,
+  eq,
+  sql,
+  topic,
+  topicMember,
+} from "@kepto/db";
 
 export const typeDefs = /* GraphQL */ `
+  """
+  Circle object that represents the DB model
+  """
   type Circle {
     id: ID!
     name: String!
@@ -13,6 +24,7 @@ export const typeDefs = /* GraphQL */ `
     membersCount: Int!
     website: String
     members: [CircleMember!]!
+    topics: [Topic!]!
     createdAt: DateTime!
     updatedAt: DateTime!
   }
@@ -76,6 +88,15 @@ export const resolvers = {
        `);
       return members.rows;
     },
+    topics: async ({ id }: { id: string }) => {
+      const members = await db.execute(sql`
+        select cm."circleId", cm."admin", cm."moderator", u."id", u."avatarUrl", 
+        u."displayName", u."bio", u."username", cm."createdAt", cm."updatedAt"
+        from circle_members as cm inner join users as u on u."id" = cm."userId"
+        where cm."circleId" =  ${id} order by cm."createdAt" desc
+       `);
+      return members.rows;
+    },
   },
   Mutation: {
     createCircle: async (
@@ -113,11 +134,28 @@ export const resolvers = {
         })
         .returning();
 
-      await db.insert(circleMember).values({
-        circleId: cir[0].id,
-        userId: ctx.user.id,
-        admin: true,
-        moderator: true,
+      await db.transaction(async (tx) => {
+        await tx.insert(circleMember).values({
+          circleId: cir[0].id,
+          userId: ctx.user.id,
+          admin: true,
+          moderator: true,
+        });
+
+        const topicDb = await tx
+          .insert(topic)
+          .values({
+            circleId: cir[0].id,
+            creatorId: ctx.user.id,
+            slug: "general",
+            name: "general",
+            description: "All things related to this circle are here",
+          })
+          .returning();
+
+        await tx
+          .insert(topicMember)
+          .values({ topicId: topicDb[0].id, userId: ctx.user.id });
       });
 
       return {

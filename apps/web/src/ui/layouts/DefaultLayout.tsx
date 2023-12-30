@@ -1,7 +1,6 @@
 "use client";
 
 import { LeftPanel } from "../panels";
-import { MiddlePanel } from "./GridPanels";
 import { MainLayout } from "./MainLayout";
 import { ProtectedPage } from "./ProtectedPage";
 
@@ -10,9 +9,7 @@ const DefaultLayout: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   return (
     <ProtectedPage>
-      <MainLayout leftPanel={<LeftPanel />}>
-        <MiddlePanel>{children}</MiddlePanel>
-      </MainLayout>
+      <MainLayout leftPanel={<LeftPanel />}>{children}</MainLayout>
     </ProtectedPage>
   );
 };

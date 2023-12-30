@@ -12,7 +12,7 @@ export const circle = pgTable("circles", {
   website: text("website"),
   ownerId: uuid("ownerId")
     .notNull()
-    .references(() => user.id),
+    .references(() => user.id, { onDelete: "cascade" }),
   slug: text("slug").notNull(),
   coverPhoto: text("coverPhoto"),
   profilePhoto: text("profilePhoto"),
@@ -26,7 +26,7 @@ export const circleMember = pgTable("circle_members", {
     .default(sql`gen_random_uuid()`),
   circleId: uuid("circleId")
     .notNull()
-    .references(() => circle.id),
+    .references(() => circle.id, { onDelete: "cascade" }),
   userId: uuid("userId")
     .notNull()
     .references(() => user.id),

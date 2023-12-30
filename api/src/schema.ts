@@ -8,6 +8,8 @@ import * as message from "./gql/message";
 import * as conversation from "./gql/conversation";
 import * as dm from "./gql/dm";
 import * as circle from "./gql/circle";
+import * as topic from "./gql/topic";
+import * as thread from "./gql/thread";
 
 export const schema = makeExecutableSchema({
   typeDefs: [
@@ -18,6 +20,8 @@ export const schema = makeExecutableSchema({
     conversation.typeDefs,
     dm.typeDefs,
     circle.typeDefs,
+    topic.typeDefs,
+    thread.typeDefs,
   ],
   resolvers: merge(
     user.resolvers,
@@ -25,6 +29,8 @@ export const schema = makeExecutableSchema({
     message.resolvers,
     conversation.resolvers,
     dm.resolvers,
-    circle.resolvers
+    circle.resolvers,
+    topic.resolvers,
+    thread.resolvers
   ),
 });

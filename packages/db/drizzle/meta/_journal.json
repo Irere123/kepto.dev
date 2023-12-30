@@ -15,6 +15,13 @@
       "when": 1703598675495,
       "tag": "0001_flimsy_loki",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1703938592502,
+      "tag": "0002_tiresome_paladin",
+      "breakpoints": true
     }
   ]
 }

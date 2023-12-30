@@ -1,6 +1,5 @@
 "use client";
 
-import { tree } from "next/dist/build/templates/app-page";
 import { usePathname, useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 
@@ -14,7 +13,7 @@ export const useVerifyLoggedIn = () => {
 
   useEffect(() => {
     if (!user) {
-      replace(`/?next=${path}`);
+      replace(`/auth/login?next=${path}`);
     } else {
       setUserChecked(true);
     }
