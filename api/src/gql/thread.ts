@@ -1,6 +1,6 @@
 import { GraphQLError } from "graphql";
 import { GQLContext } from "../lib/types";
-import { db } from "@kepto/db";
+import { db, thread } from "@kepto/db";
 
 export const typeDefs = /* GraphQL */ `
   type Thread {
@@ -8,8 +8,6 @@ export const typeDefs = /* GraphQL */ `
     title: String!
     messageCount: String!
     reactionCount: String!
-    topic: Topic
-    topicId: String!
     circleId: String!
     createdAt: String!
     updatedAt: String!
@@ -22,7 +20,6 @@ export const typeDefs = /* GraphQL */ `
 
   input CreateThreadInput {
     title: String!
-    topicId: String!
     circleId: String!
   }
 
@@ -46,12 +43,29 @@ export const resolvers = {
   Mutation: {
     createThread: async (
       _parent: unknown,
-      {}: { data: { title: string; topicId: string; circleId: string } },
+      { data }: { data: { title: string; circleId: string } },
       ctx: GQLContext
     ) => {
       if (!ctx.user.id) {
         throw new GraphQLError("Not authenticated");
       }
+
+      if (data.title.length < 3) {
+        return {
+          errors: [{ field: "title", message: "Your title is too short" }],
+        };
+      }
+
+      const threadArr = await db
+        .insert(thread)
+        .values({
+          circleId: data.circleId,
+          title: data.title,
+          userId: ctx.user.id,
+        })
+        .returning();
+
+      return threadArr[0];
     },
   },
 };

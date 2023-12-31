@@ -24,7 +24,6 @@ export type Circle = {
   slug: string;
   coverPhoto?: string;
   membersCount: number;
-  topicsCount: number;
   members: CircleMember[];
   photoUrl?: string;
   createdAt: string;

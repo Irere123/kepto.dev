@@ -9,6 +9,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "@kepto/ui";
+import { CircleThreads } from "./CircleThreads";
 
 const CircleMembers: React.FC<{ members: CircleMember[] }> = ({ members }) => {
   return (
@@ -37,7 +38,9 @@ export const CircleInfo: React.FC<{ circle: Circle }> = ({ circle }) => {
         <TabsTrigger value="topics">Topics</TabsTrigger>
         <TabsTrigger value="members">Members</TabsTrigger>
       </TabsList>
-      <TabsContent value="threads">Circle Threads</TabsContent>
+      <TabsContent value="threads">
+        <CircleThreads circle={circle} />
+      </TabsContent>
       <TabsContent value="topics">Circle Topics</TabsContent>
       <TabsContent value="members">
         <CircleMembers members={circle.members} />

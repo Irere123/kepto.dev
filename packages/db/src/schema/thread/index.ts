@@ -1,7 +1,6 @@
 import { sql } from "drizzle-orm";
 import { integer, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
 import { circle } from "../circle";
-import { topic } from "../topic";
 import { user } from "../user";
 
 export const thread = pgTable("thread", {
@@ -13,9 +12,6 @@ export const thread = pgTable("thread", {
   circleId: uuid("circleId")
     .notNull()
     .references(() => circle.id),
-  topicId: uuid("circleId")
-    .notNull()
-    .references(() => topic.id),
   userId: uuid("userId")
     .notNull()
     .references(() => user.id),

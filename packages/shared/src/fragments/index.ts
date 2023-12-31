@@ -28,7 +28,6 @@ export const CIRCLE_INFO_FRAGMENT = gql`
     website
     creatorId
     membersCount
-    topicsCount
     members {
       id
       avatarUrl

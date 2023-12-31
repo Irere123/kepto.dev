@@ -1,14 +1,6 @@
 import { GraphQLError } from "graphql";
 import { GQLContext } from "../lib/types";
-import {
-  circle,
-  circleMember,
-  db,
-  eq,
-  sql,
-  topic,
-  topicMember,
-} from "@kepto/db";
+import { circle, circleMember, db, eq, sql } from "@kepto/db";
 
 export const typeDefs = /* GraphQL */ `
   """
@@ -20,11 +12,9 @@ export const typeDefs = /* GraphQL */ `
     description: String!
     slug: String!
     creatorId: ID
-    topicsCount: Int!
     membersCount: Int!
     website: String
     members: [CircleMember!]!
-    topics: [Topic!]!
     createdAt: DateTime!
     updatedAt: DateTime!
   }
@@ -65,13 +55,6 @@ export const typeDefs = /* GraphQL */ `
 
 export const resolvers = {
   Circle: {
-    topicsCount: async ({ id }: { id: string }) => {
-      let topics = await db.execute(
-        sql`select id from topics as t where t."circleId" = ${id}`
-      );
-
-      return topics.rowCount;
-    },
     membersCount: async ({ id }: { id: string }) => {
       let members = await db.execute(
         sql`select id from circle_members as m where m."circleId" = ${id}`
@@ -80,15 +63,6 @@ export const resolvers = {
       return members.rowCount;
     },
     members: async ({ id }: { id: string }) => {
-      const members = await db.execute(sql`
-        select cm."circleId", cm."admin", cm."moderator", u."id", u."avatarUrl", 
-        u."displayName", u."bio", u."username", cm."createdAt", cm."updatedAt"
-        from circle_members as cm inner join users as u on u."id" = cm."userId"
-        where cm."circleId" =  ${id} order by cm."createdAt" desc
-       `);
-      return members.rows;
-    },
-    topics: async ({ id }: { id: string }) => {
       const members = await db.execute(sql`
         select cm."circleId", cm."admin", cm."moderator", u."id", u."avatarUrl", 
         u."displayName", u."bio", u."username", cm."createdAt", cm."updatedAt"
@@ -112,7 +86,6 @@ export const resolvers = {
 
       let circ = await db.select().from(circle).where(eq(circle.slug, slug));
 
-      console.log(circ);
       if (circ[0]) {
         return {
           errors: [
@@ -124,42 +97,29 @@ export const resolvers = {
         };
       }
 
-      const cir = await db
-        .insert(circle)
-        .values({
-          description: input.description,
-          name: input.name,
-          ownerId: ctx.user.id,
-          slug,
-        })
-        .returning();
+      let cir;
 
       await db.transaction(async (tx) => {
+        cir = await tx
+          .insert(circle)
+          .values({
+            description: input.description,
+            name: input.name,
+            ownerId: ctx.user.id,
+            slug,
+          })
+          .returning();
+
         await tx.insert(circleMember).values({
           circleId: cir[0].id,
           userId: ctx.user.id,
           admin: true,
           moderator: true,
         });
-
-        const topicDb = await tx
-          .insert(topic)
-          .values({
-            circleId: cir[0].id,
-            creatorId: ctx.user.id,
-            slug: "general",
-            name: "general",
-            description: "All things related to this circle are here",
-          })
-          .returning();
-
-        await tx
-          .insert(topicMember)
-          .values({ topicId: topicDb[0].id, userId: ctx.user.id });
       });
 
       return {
-        circle: cir[0],
+        circle: cir![0],
         errors: null,
       };
     },

@@ -5,22 +5,8 @@
     {
       "idx": 0,
       "version": "5",
-      "when": 1703596599803,
-      "tag": "0000_exotic_daimon_hellstrom",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1703598675495,
-      "tag": "0001_flimsy_loki",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "5",
-      "when": 1703938592502,
-      "tag": "0002_tiresome_paladin",
+      "when": 1703956264052,
+      "tag": "0000_salty_hellfire_club",
       "breakpoints": true
     }
   ]

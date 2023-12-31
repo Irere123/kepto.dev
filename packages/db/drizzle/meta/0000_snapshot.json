@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "pg",
-  "id": "11847c1c-2c5e-48b5-bcbd-f4db2dd87e16",
+  "id": "333d252e-ef54-4fc1-aec7-b8c61164c975",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "users": {
@@ -318,6 +318,82 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
+    "direct_messages": {
+      "name": "direct_messages",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "text": {
+          "name": "text",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "userId": {
+          "name": "userId",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "conversationId": {
+          "name": "conversationId",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "direct_messages_userId_users_id_fk": {
+          "name": "direct_messages_userId_users_id_fk",
+          "tableFrom": "direct_messages",
+          "tableTo": "users",
+          "columnsFrom": [
+            "userId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "direct_messages_conversationId_conversations_id_fk": {
+          "name": "direct_messages_conversationId_conversations_id_fk",
+          "tableFrom": "direct_messages",
+          "tableTo": "conversations",
+          "columnsFrom": [
+            "conversationId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
     "conversations": {
       "name": "conversations",
       "schema": "",
@@ -488,7 +564,7 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
+          "onDelete": "cascade",
           "onUpdate": "no action"
         }
       },
@@ -559,7 +635,7 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
+          "onDelete": "cascade",
           "onUpdate": "no action"
         },
         "circle_members_userId_users_id_fk": {
@@ -649,19 +725,6 @@
           "name": "thread_circleId_circles_id_fk",
           "tableFrom": "thread",
           "tableTo": "circles",
-          "columnsFrom": [
-            "circleId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        },
-        "thread_circleId_topics_id_fk": {
-          "name": "thread_circleId_topics_id_fk",
-          "tableFrom": "thread",
-          "tableTo": "topics",
           "columnsFrom": [
             "circleId"
           ],
@@ -814,171 +877,6 @@
         "thread_reactions_userId_users_id_fk": {
           "name": "thread_reactions_userId_users_id_fk",
           "tableFrom": "thread_reactions",
-          "tableTo": "users",
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "topics": {
-      "name": "topics",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true,
-          "default": "gen_random_uuid()"
-        },
-        "name": {
-          "name": "name",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "description": {
-          "name": "description",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "circleId": {
-          "name": "circleId",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "creatorId": {
-          "name": "creatorId",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "isPrivate": {
-          "name": "isPrivate",
-          "type": "boolean",
-          "primaryKey": false,
-          "notNull": false,
-          "default": false
-        },
-        "slug": {
-          "name": "slug",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "createdAt": {
-          "name": "createdAt",
-          "type": "timestamp with time zone",
-          "primaryKey": false,
-          "notNull": false,
-          "default": "now()"
-        },
-        "updatedAt": {
-          "name": "updatedAt",
-          "type": "timestamp with time zone",
-          "primaryKey": false,
-          "notNull": false,
-          "default": "now()"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "topics_circleId_circles_id_fk": {
-          "name": "topics_circleId_circles_id_fk",
-          "tableFrom": "topics",
-          "tableTo": "circles",
-          "columnsFrom": [
-            "circleId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        },
-        "topics_creatorId_users_id_fk": {
-          "name": "topics_creatorId_users_id_fk",
-          "tableFrom": "topics",
-          "tableTo": "users",
-          "columnsFrom": [
-            "creatorId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "topic_members": {
-      "name": "topic_members",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true,
-          "default": "gen_random_uuid()"
-        },
-        "topicId": {
-          "name": "topicId",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "userId": {
-          "name": "userId",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "createdAt": {
-          "name": "createdAt",
-          "type": "timestamp with time zone",
-          "primaryKey": false,
-          "notNull": false,
-          "default": "now()"
-        },
-        "updatedAt": {
-          "name": "updatedAt",
-          "type": "timestamp with time zone",
-          "primaryKey": false,
-          "notNull": false,
-          "default": "now()"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "topic_members_topicId_topics_id_fk": {
-          "name": "topic_members_topicId_topics_id_fk",
-          "tableFrom": "topic_members",
-          "tableTo": "topics",
-          "columnsFrom": [
-            "topicId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        },
-        "topic_members_userId_users_id_fk": {
-          "name": "topic_members_userId_users_id_fk",
-          "tableFrom": "topic_members",
           "tableTo": "users",
           "columnsFrom": [
             "userId"
