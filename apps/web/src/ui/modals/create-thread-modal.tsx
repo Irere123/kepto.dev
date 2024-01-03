@@ -1,4 +1,4 @@
-import { Input, Label, Modal } from "@kepto/ui";
+import { Input, Modal } from "@kepto/ui";
 import {
   Dispatch,
   SetStateAction,

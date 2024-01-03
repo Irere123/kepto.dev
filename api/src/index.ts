@@ -73,6 +73,7 @@ const main = async () => {
         let currentUser = req.user ? req.user : null;
 
         return {
+          req,
           user: currentUser,
           res,
         };

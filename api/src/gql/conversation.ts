@@ -87,8 +87,6 @@ export const resolvers = {
       limit 1
       `);
 
-      console.log(convs);
-
       return convs.rows[0];
     },
   },

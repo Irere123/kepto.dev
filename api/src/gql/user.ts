@@ -13,6 +13,7 @@ export const typeDefs = /* GraphQL */ `
     email: String
     online: String!
     staff: String
+    lastOnline: DateTime!
     contributions: Int!
     numConnections: Int!
     numConnectors: Int!
@@ -35,6 +36,9 @@ export const typeDefs = /* GraphQL */ `
 
 export const resolvers = {
   User: {
+    lastOnline: (_parent: unknown, _args: {}, ctx: GQLContext) => {
+      return ctx.req.session.lastRequest;
+    },
     youAreConnected: async (
       { id }: { id: string },
       _args: {},

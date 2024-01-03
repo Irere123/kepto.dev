@@ -77,7 +77,7 @@ middlewares.use(passport.session());
 
 middlewares.use((req: Request, _res, next) => {
   if (req.session && req.user) {
-    (req as any).session.lastrequest = Date.now();
+    (req as any).session.lastRequest = Date.now();
   }
   next();
 });

@@ -11,7 +11,7 @@ export const ConversationHeader: React.FC<ConversationHeaderProps> = ({
   conversation,
 }) => {
   return (
-    <div>
+    <div className="flex gap-4 py-3 border-b border-border">
       <Avatar
         src={conversation.avatarUrl}
         username={conversation.displayName}
