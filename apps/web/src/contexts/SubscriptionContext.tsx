@@ -9,7 +9,6 @@ import React, {
 } from "react";
 import type { Client } from "graphql-ws";
 import { requestIdleCallback } from "next/dist/client/request-idle-callback";
-import { useTokenStore } from "~/stores/useTokenStore";
 
 export interface SubscriptionContextData {
   subscriptionClient: Client | null;
