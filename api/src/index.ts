@@ -26,6 +26,19 @@ const main = async () => {
   app.use(middlewares);
 
   app.use("/user", user);
+  app.get("/", (req, res) => {
+    res.send(`
+      <html>
+       <head>
+        <title>Document </title>
+       </head>
+       <body>
+        <h1> Hello Rust </h1>
+        <p> hi from rust </p>
+       </body>
+      </html>
+    `);
+  });
   app.use("/dev", dev);
   app.use("/auth", authRoutes);
 
@@ -82,13 +95,13 @@ const main = async () => {
   );
 
   // Redirect a request to the root path to the main app
-  app.use("/", (_req: Request, res: Response) => {
-    res.redirect(
-      process.env.NODE_ENV === "production"
-        ? "https://kepto.vercel.app"
-        : "http://localhost:3000"
-    );
-  });
+  // app.use("/", (_req: Request, res: Response) => {
+  //   res.redirect(
+  //     process.env.NODE_ENV === "production"
+  //       ? "https://kepto.vercel.app"
+  //       : "http://localhost:3000"
+  //   );
+  // });
 
   // start the Express server
   httpServer.listen(4000 || process.env.PORT, () => {

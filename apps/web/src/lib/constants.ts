@@ -6,4 +6,4 @@ export const apiUrl = prod
 export const graphqlUrl = `${apiUrl}/graphql`;
 export const wsUrl = !prod
   ? `ws://localhost:4000/graphql`
-  : `ws://kepto.onrender.com/graphql`;
+  : `wss://kepto.onrender.com/graphql`;
